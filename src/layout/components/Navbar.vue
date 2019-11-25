@@ -7,16 +7,11 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img src="../../icons/hudei.jpg" class="user-avatar">
+          <img src="@/assets/default_avatar.png" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided>
+          <el-dropdown-item>
             <span style="display:block;" @click="logout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -27,6 +22,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getUserImg } from '@/utils/auth'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
@@ -35,11 +31,18 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      avatar: ''
+    }
+  },
   computed: {
     ...mapGetters([
-      'sidebar',
-      'avatar'
+      'sidebar'
     ])
+  },
+  mounted() {
+    this.avatar = getUserImg()
   },
   methods: {
     toggleSideBar() {

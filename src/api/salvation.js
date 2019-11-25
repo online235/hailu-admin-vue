@@ -1,22 +1,23 @@
+import * as config from './config'
 import request from '@/utils/request'
 
 export function getList(data) { // 审核列表
   return request({
-    url: '/pc/xinAnBackstage/rescueList',
+    url: config.xinan_rescue_list,
     method: 'post',
     data
   })
 }
 export function particulars(data) { // 详情信息
   return request({
-    url: '/pc/xinAnBackstage/rescueDetails',
+    url: config.xinan_rescue_detail,
     method: 'post',
     data
   })
 }
 export function status(data) { // 审核状态
   return request({
-    url: '/pc/xinAnBackstage/changeState',
+    url: config.xinan_rescue_change_state,
     method: 'post',
     data
   })

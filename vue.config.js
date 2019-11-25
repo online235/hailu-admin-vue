@@ -32,20 +32,18 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
-    open: true,
+    open: false,
     overlay: {
       warnings: false,
       errors: true
     },
     proxy: {
-      // change xxx-api/login => mock/login
-      // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
-        target: `http://192.168.10.165:8082/api/v1`,
+      "/api/v1": {
+        target: 'http://192.168.10.179:30000', //对应自己的接口
         changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
+        // pathRewrite: {
+        //   ['^/api/v1']: ''
+        // }
       }
     }
     // after: require('./mock/mock-server.js')

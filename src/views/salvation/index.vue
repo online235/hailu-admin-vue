@@ -3,8 +3,7 @@
     <div class="treeHead">
       <div><h2>救助列表</h2></div>
       <div>
-        <el-input placeholder="可根据名称查询" v-model="search" clearable>
-        </el-input>
+        <el-input v-model="search" placeholder="可根据名称查询" clearable />
       </div>
     </div>
     <el-table
@@ -19,7 +18,7 @@
     >
       <el-table-column label="日期" width="320">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.updatedat }}</span>
         </template>
       </el-table-column>
@@ -42,8 +41,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >审核</el-button
-          >
+          >审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -76,14 +74,13 @@
           <div>{{ form.instructions }}</div>
         </el-form-item>
         <el-form-item label="详情图片">
-          <div class="demo-image__preview" v-for="item in url" :key="item">
+          <div v-for="item in url" :key="item" class="demo-image__preview">
             <el-image
               style="width: 100px; height: 100px"
               :src="item"
-              @click="srcListimg(item)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="srcListimg(item)"
+            />
           </div>
         </el-form-item>
         <el-form-item label="日期：">
@@ -103,114 +100,114 @@
 </template>
 
 <script>
-import { getList } from "@/api/salvation";
-import { particulars } from "@/api/salvation";
-import { status } from "@/api/salvation";
+import { getList } from '@/api/salvation'
+import { particulars } from '@/api/salvation'
+import { status } from '@/api/salvation'
 export default {
   data() {
     return {
-      form: "",
-      currentPage: 1, //页数
-      pageSize: 10, //每页数据量
-      tableData: [], //列表数据
-      search: "", //搜索框
-      checkModle: false, //模态框
-      examine: "", //审核(2-审核通过、3-审核不通过)
-      numberId: "",
+      form: '',
+      currentPage: 1, // 页数
+      pageSize: 10, // 每页数据量
+      tableData: [], // 列表数据
+      search: '', // 搜索框
+      checkModle: false, // 模态框
+      examine: '', // 审核(2-审核通过、3-审核不通过)
+      numberId: '',
       url: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
-        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
       ],
       srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
       ]
-    };
+    }
   },
   created() {
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
-    //列表数据加载
+    // 列表数据加载
     //*
     //*
     fetchData() {
-      let params = new URLSearchParams();
-      params.append("page", this.currentPage);
-      params.append("size", this.pageSize);
+      const params = new URLSearchParams()
+      params.append('page', this.currentPage)
+      params.append('size', this.pageSize)
       getList(params).then(res => {
-        console.log(res);
-        if (res.code == 0) {
-          this.tableData = res.data.data;
+        console.log(res)
+        if (res.code === 0) {
+          this.tableData = res.data.data
         }
-      });
+      })
     },
     //*
     //*
-    //列表数据加载
-    //审核按钮
+    // 列表数据加载
+    // 审核按钮
     //*
     //*
     handleEdit(index, row) {
-      console.log(index, row);
-      this.numberId = row.numberId;
-      let params = new URLSearchParams();
-      params.append("numberId", this.numberId);
+      console.log(index, row)
+      this.numberId = row.numberId
+      const params = new URLSearchParams()
+      params.append('numberId', this.numberId)
       particulars(params).then(res => {
-        console.log(res);
-        if (res.code == 0) {
-          this.form = res.data[0];
-          console.log(this.form);
+        console.log(res)
+        if (res.code === 0) {
+          this.form = res.data[0]
+          console.log(this.form)
         }
-      });
-      this.checkModle = true;
+      })
+      this.checkModle = true
     },
     handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
+      // 关闭模态框按钮
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     confirm() {
-      //详情审核通过按钮
-      this.checkModle = false;
-      this.examine = "2";
-      this.audit();
-      this.fetchData();
+      // 详情审核通过按钮
+      this.checkModle = false
+      this.examine = '2'
+      this.audit()
+      this.fetchData()
     },
     failure() {
-      //详情审核不通过按钮
-      this.examine = "3";
-      this.checkModle = false;
-      this.audit();
-      this.fetchData();
+      // 详情审核不通过按钮
+      this.examine = '3'
+      this.checkModle = false
+      this.audit()
+      this.fetchData()
     },
     audit() {
-      //审核
-      let params = new URLSearchParams();
-      params.append("examine", this.examine);
-      params.append("numberId", this.numberId);
+      // 审核
+      const params = new URLSearchParams()
+      params.append('examine', this.examine)
+      params.append('numberId', this.numberId)
       status(params).then(res => {
-        console.log(res);
-        if (res.code == 0) {
+        console.log(res)
+        if (res.code === 0) {
           this.$message({
-            message: "审核操作成功",
-            type: "success"
-          });
+            message: '审核操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
     //*
     //*
-    //审核按钮
+    // 审核按钮
     srcListimg(item) {
-      //console.log(item);
-      this.srcList[0] = item;
+      // console.log(item);
+      this.srcList[0] = item
     }
   }
-};
+}
 </script>
 <style scoped>
 .guarantee {

@@ -2,23 +2,25 @@
   <div class="app-container">
     <div>
       <el-input
-        placeholder="请输入店铺名称"
         v-model="membername"
+        placeholder="请输入店铺名称"
         style="width:20%;min-width:150px;"
       >
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <i slot="prefix" class="el-input__icon el-icon-search" />
       </el-input>
       <el-input
-        placeholder="请输入手机号码"
         v-model="membermobile"
+        placeholder="请输入手机号码"
         style="width:20%;min-width:150px;"
       >
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <i slot="prefix" class="el-input__icon el-icon-search" />
       </el-input>
-      <el-button type="primary" icon="el-icon-search" @click="sreach"
-        >搜索</el-button
-      >
-      <el-button @click="cancel" v-if="sreachs">重置</el-button>
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="sreach"
+      >搜索</el-button>
+      <el-button v-if="sreachs" @click="cancel">重置</el-button>
     </div>
     <!-- 表格 -->
     <template>
@@ -54,7 +56,7 @@
         </el-table-column>
         <el-table-column label="创建时间" width="150">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.createdat | formatDate}}</span>
+            <span style="margin-left: 10px">{{ scope.row.createdat | formatDate }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -67,8 +69,7 @@
               size="mini"
               type="primary"
               @click="handleExamine(scope.row)"
-              >编辑审核</el-button
-            >
+            >编辑审核</el-button>
             <!-- <el-button
               size="mini"
               type="danger"
@@ -83,18 +84,17 @@
     <!-- 分页 -->
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
-    <div class="box" v-show="box">
+    <div v-show="box" class="box">
       <div class="modelbox">
         <p style="margin: 0;text-align: right;">
-          <i class="el-icon-close" @click="comback"></i>
+          <i class="el-icon-close" @click="comback" />
         </p>
         <h3 style="text-align: center;margin: 0">审核编辑</h3>
         <div class="auto">
@@ -130,8 +130,7 @@
             <div class="rows">
               <p>身份证是否为长期</p>
               <div>
-                <span v-show="xiangqing.longTermCertificate == false">否</span
-                ><span v-show="xiangqing.longTermCertificate == true">是</span>
+                <span v-show="xiangqing.longTermCertificate === false">否</span><span v-show="xiangqing.longTermCertificate === true">是</span>
               </div>
             </div>
             <div class="rows">
@@ -149,8 +148,7 @@
             <div class="rows">
               <p>营业执照是否为长期</p>
               <div>
-                <span v-show="xiangqing.longTermLicense == false">否</span
-                ><span v-show="xiangqing.longTermLicense == true">是</span>
+                <span v-show="xiangqing.longTermLicense === false">否</span><span v-show="xiangqing.longTermLicense === true">是</span>
               </div>
             </div>
             <div class="rows">
@@ -175,7 +173,7 @@
                 <img
                   :src="url + xiangqing.idcardImgx"
                   @click="fangda(url + xiangqing.idcardImgx, '1')"
-                />
+                >
               </div>
             </div>
             <div class="rows">
@@ -184,7 +182,7 @@
                 <img
                   :src="url + xiangqing.idcardImgy"
                   @click="fangda(url + xiangqing.idcardImgy, '1')"
-                />
+                >
               </div>
             </div>
             <div class="rows">
@@ -193,23 +191,21 @@
                 <img
                   :src="url + xiangqing.licensePositive"
                   @click="fangda(url + xiangqing.licensePositive, '2')"
-                />
+                >
               </div>
             </div>
 
             <div class="buttonBottom">
               <el-button
-                @click="cancelModify(xiangqing.numberId)"
+                v-if="xiangqing.toExamine === '审核中'"
                 type="primary"
-                v-if="xiangqing.toExamine == '审核中'"
-                >审核通过</el-button
-              >
+                @click="cancelModify(xiangqing.numberId)"
+              >审核通过</el-button>
               <el-button
+                v-if="xiangqing.toExamine === '审核中'"
                 type="warning"
                 @click="nocancelModify(xiangqing.numberId)"
-                v-if="xiangqing.toExamine == '审核中'"
-                >审核不通过</el-button
-              >
+              >审核不通过</el-button>
               <el-button @click="comback">取消</el-button>
             </div>
           </div>
@@ -220,173 +216,165 @@
 </template>
 
 <script>
-import { getList } from '@/api/list'
-import { check } from '@/api/list'
-import { particulars } from '@/api/list'
-import {formatDate} from '@/utils/date'
+import { getList, check, particulars } from '@/api/list'
+import { formatDate } from '@/utils/date'
 export default {
+  filters: {
+    formatDate(time) {
+      time = time
+      const date = new Date(time)
+      // console.log(new Date(time))
+      return formatDate(date, 'yyyy-MM-dd hh:mm')
+    }
+  },
   data() {
     return {
-      membername: "",
-      membermobile: "",
+      membername: '',
+      membermobile: '',
       currentPage: 1,
       page: 15,
       tableData: [],
-      name: "1231231",
+      name: '1231231',
       sreachs: false,
       box: false,
       total: 0,
       xiangqing: [],
-      url:'http://192.168.10.165:8082/api/v1'
-    };
+      url: 'http://192.168.10.165:8082/api/v1'
+    }
   },
-  filters: {
-      formatDate(time) {
-        time = time
-        let date = new Date(time)
-        //console.log(new Date(time))
-        return formatDate(date, 'yyyy-MM-dd hh:mm')
-      }
-    },
   created() {
-    this.fangfa();
+    this.fangfa()
   },
   mounted() {},
   methods: {
     fangda(params, num) {
-      console.log(num);
-      if (num == 1) {
+      console.log(num)
+      if (num === 1) {
         this.$alert(
           `<img src="` + params + `" style="width: 500px;height:250px;">`,
           {
             dangerouslyUseHTMLString: true
           }
-        );
+        )
       } else {
         this.$alert(
           `<img src="` + params + `" style="width: 500px;height:650px;">`,
           {
             dangerouslyUseHTMLString: true
           }
-        );
+        )
       }
     },
     sreach() {
       if (
-        (this.membername.length == 0 || this.membername == "") &&
-        (this.membermobile.length == 0 || this.membermobile == "")
+        (this.membername.length === 0 || this.membername === '') &&
+        (this.membermobile.length === 0 || this.membermobile === '')
       ) {
         this.$message({
-          type: "warning",
-          message: "请输入搜索内容"
-        });
+          type: 'warning',
+          message: '请输入搜索内容'
+        })
       } else {
-        let params = new URLSearchParams();
-        params.append("limit", this.page);
-        params.append("phone", this.membermobile);
-        params.append("shopname", this.membername);
+        const params = new URLSearchParams()
+        params.append('limit', this.page)
+        params.append('phone', this.membermobile)
+        params.append('shopname', this.membername)
         getList(params).then(res => {
-       
-       console.log(res.data);
-          this.total = res.data.total;
-          this.tableData = res.data.data;
-      })
-        this.sreachs = true;
+          console.log(res.data)
+          this.total = res.data.total
+          this.tableData = res.data.data
+        })
+        this.sreachs = true
       }
     },
     comback() {
-      this.box = false;
+      this.box = false
     },
     // 取消搜索
     cancel() {
-      let params = new URLSearchParams();
-      params.append("limit", this.page);
-      params.append("page", this.currentPage);
-     getList(params).then(res => {
-       
-       console.log(res.data);
-          this.total = res.data.total;
-          this.tableData = res.data.data;
+      const params = new URLSearchParams()
+      params.append('limit', this.page)
+      params.append('page', this.currentPage)
+      getList(params).then(res => {
+        console.log(res.data)
+        this.total = res.data.total
+        this.tableData = res.data.data
       })
-      this.sreachs = false;
-      this.membername=''
-      this.membermobile=''
+      this.sreachs = false
+      this.membername = ''
+      this.membermobile = ''
     },
-    //审核通过
+    // 审核通过
     cancelModify(numid) {
-      let params = new URLSearchParams();
-      params.append("numberId", numid);
-      params.append("toExamine", "2");
+      const params = new URLSearchParams()
+      params.append('numberId', numid)
+      params.append('toExamine', '2')
       check(params).then(res => {
-       
-      if (res.data.code == 0) {
+        if (res.data.code === 0) {
           this.$message({
-            message: "审核通过成功",
-            type: "success"
-          });
-          this.fangfa();
+            message: '审核通过成功',
+            type: 'success'
+          })
+          this.fangfa()
         }
       })
-      this.box = false;
+      this.box = false
     },
-    //审核不通过
+    // 审核不通过
     nocancelModify(numid) {
-      let params = new URLSearchParams();
-      params.append("numberId", numid);
-      params.append("toExamine", "3");
+      const params = new URLSearchParams()
+      params.append('numberId', numid)
+      params.append('toExamine', '3')
       check(params).then(res => {
-       
-      if (res.data.code == 0) {
+        if (res.data.code === 0) {
           this.$message({
-            message: "审核不通过",
-            type: "error"
-          });
-          this.fangfa();
+            message: '审核不通过',
+            type: 'error'
+          })
+          this.fangfa()
         }
       })
-      this.box = false;
+      this.box = false
     },
     handleCurrentChange(val) {
-      console.log(val);
-      let params = new URLSearchParams();
-      params.append("limit", this.page);
-      params.append("page", val);
+      console.log(val)
+      const params = new URLSearchParams()
+      params.append('limit', this.page)
+      params.append('page', val)
       getList(params).then(res => {
-       
-       console.log(res.data);
-          this.total = res.data.total;
-          this.tableData = res.data.data;
+        console.log(res.data)
+        this.total = res.data.total
+        this.tableData = res.data.data
       })
     },
     handleExamine(row) {
-      console.log(row.numberId);
-      let params = new URLSearchParams();
-      params.append("numberId", row.numberId);
-       particulars(params).then(res => {
-       console.log(res)
-       this.xiangqing = res.data;
+      console.log(row.numberId)
+      const params = new URLSearchParams()
+      params.append('numberId', row.numberId)
+      particulars(params).then(res => {
+        console.log(res)
+        this.xiangqing = res.data
       })
-      this.box = true;
+      this.box = true
     },
     handleDelete(index, row) {
       this.$message({
-        message: "此功能暂未开放",
-        type: "error"
-      });
+        message: '此功能暂未开放',
+        type: 'error'
+      })
     },
     fangfa() {
-      let params = new URLSearchParams();
-      params.append("limit", this.page);
-      params.append("page", this.currentPage);
+      const params = new URLSearchParams()
+      params.append('limit', this.page)
+      params.append('page', this.currentPage)
       getList(params).then(res => {
-       
-       console.log(res.data);
-          this.total = res.data.total;
-          this.tableData = res.data.data;
+        console.log(res.data)
+        this.total = res.data.total
+        this.tableData = res.data.data
       })
     }
   }
-};
+}
 </script>
 <style scoped>
 [v-cloak] {

@@ -1,15 +1,37 @@
-import Cookies from 'js-cookie'
+const accessTokenKey = 'accessToken'
+const refreshTokenKey = 'refreshToken'
+const usernameKey = 'username'
+const userImgKey = 'userImg'
 
-const TokenKey = 'vue_admin_template_token'
-
-export function getToken() {
-  return Cookies.get(TokenKey)
+export function getAccessToken() {
+  return localStorage.getItem(accessTokenKey)
 }
 
-export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+export function getRefreshToken() {
+  return localStorage.getItem(refreshTokenKey)
+}
+
+export function getUsername() {
+  return localStorage.getItem(usernameKey)
+}
+
+export function getUserImg() {
+  return localStorage.getItem(userImgKey)
+}
+
+export function setUserInfo(userImg, username) {
+  localStorage.setItem(userImgKey, userImg)
+  localStorage.setItem(usernameKey, username)
+}
+
+export function setToken(accessToken, refreshToken) {
+  localStorage.setItem(accessTokenKey, accessToken)
+  if (refreshToken !== null) {
+    localStorage.setItem(refreshTokenKey, refreshToken)
+  }
 }
 
 export function removeToken() {
-  return Cookies.remove(TokenKey)
+  localStorage.removeItem(accessTokenKey)
+  localStorage.removeItem(refreshTokenKey)
 }

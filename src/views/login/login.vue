@@ -54,8 +54,7 @@
         type="primary"
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      >登录</el-button>
 
       <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -66,106 +65,67 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (value == "") {
-        callback(new Error("请输入正确的用户名"));
+      if (value === '') {
+        callback(new Error('请输入账号'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 4) {
-        callback(new Error("密码不能少于4位"));
+        callback(new Error('密码不能少于4位'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
-      // loginForm: {
-      //   username: "www123",
-      //   password: "123456"
-      // },
       loginForm: {
-        username: "admin",
-        password: "111111"
+        username: '13825693085',
+        password: '123456'
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername }
+          { required: true, trigger: 'blur', validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword }
+          { required: true, trigger: 'blur', validator: validatePassword }
         ]
       },
       loading: false,
-      passwordType: "password",
+      passwordType: 'password',
       redirect: undefined
-    };
+    }
   },
   watch: {
     $route: {
       handler: function(route) {
-        this.redirect = route.query && route.query.redirect;
+        this.redirect = route.query && route.query.redirect
       },
       immediate: true
     }
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
-      // console.log(valid)
-      var _this = this
-      // let params = new URLSearchParams();
-      // params.append("landingAccount", this.loginForm.username);
-      // params.append("landingPassword", this.loginForm.password);
-      // this.axios({
-      //   method: "post",
-      //   url: "http://192.168.10.165:8082/api/v1/pc/merchantlogin/land",
-      //   data: params
-      // }).then(res => {
-      //   console.log(res);
-      //   if (res.data.code == 0) {
-      //     localStorage.setItem('Access_token',res.data.data.Access_token)
-
-      //   }else{
-      //     this.$message({
-      //     message: res.data.msg,
-      //     type: 'warning'
-      //   });
-      //   }
-      // });
-      this.loading = false;
-      _this.$refs.loginForm.validate(valid => {
-        console.log(valid)
-        if (valid) {
-          _this.loading = true
-          _this.$store
-            .dispatch('user/login', _this.loginForm)
-            .then(() => {
-              _this.$router.push({ path: _this.redirect || '/' })
-              _this.loading = false
-            })
-            .catch(() => {
-              console.log(111)
-              _this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      this.loading = true
+      this.$store.dispatch('user/login', this.loginForm).then(() => {
+        this.$router.push({ path: this.redirect || '/' })
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
       })
     }
   }
