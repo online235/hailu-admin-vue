@@ -1,0 +1,233 @@
+<template>
+  <div class="app-container">
+    <div class="treeHead">
+      <div><h2>救助列表</h2></div>
+      <div>
+        <el-input placeholder="可根据名称查询" v-model="search" clearable>
+        </el-input>
+      </div>
+    </div>
+    <el-table
+      border
+      :data="
+        tableData.filter(
+          data =>
+            !search || data.name.toLowerCase().includes(search.toLowerCase())
+        )
+      "
+      style="width: 100%"
+    >
+      <el-table-column label="日期" width="320">
+        <template slot-scope="scope">
+          <i class="el-icon-time"></i>
+          <span style="margin-left: 10px">{{ scope.row.updatedat }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="标题" width="320">
+        <template slot-scope="scope">
+          <div slot="reference" class="name-wrapper">
+            <el-tag size="medium">{{ scope.row.title }}</el-tag>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" width="320">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.examine }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)"
+            >审核</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-dialog
+      title="详情审核"
+      :visible.sync="checkModle"
+      width="40%"
+      :before-close="handleClose"
+    >
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="标题：">
+          <div>{{ form.title }}</div>
+        </el-form-item>
+        <el-form-item label="救助类型：">
+          <div>{{ form.rescueType }}</div>
+        </el-form-item>
+        <el-form-item label="救助编号：">
+          <div>{{ form.numberId }}</div>
+        </el-form-item>
+        <el-form-item label="救助次数：">
+          <div>{{ form.helpTimes }}</div>
+        </el-form-item>
+        <el-form-item label="目标金额：">
+          <div>{{ form.targetAmount }}</div>
+        </el-form-item>
+        <el-form-item label="现金额：">
+          <div>{{ form.cash }}</div>
+        </el-form-item>
+        <el-form-item label="说明：">
+          <div>{{ form.instructions }}</div>
+        </el-form-item>
+        <el-form-item label="详情图片">
+          <div class="demo-image__preview" v-for="item in url" :key="item">
+            <el-image
+              style="width: 100px; height: 100px"
+              :src="item"
+              @click="srcListimg(item)"
+              :preview-src-list="srcList"
+            >
+            </el-image>
+          </div>
+        </el-form-item>
+        <el-form-item label="日期：">
+          <div>{{ form.createdat }}</div>
+        </el-form-item>
+        <el-form-item label="状态：">
+          <div>{{ form.examine }}</div>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="checkModle = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">审核通过</el-button>
+        <el-button type="danger" @click="failure">审核不通过</el-button>
+      </span>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { getList } from "@/api/salvation";
+import { particulars } from "@/api/salvation";
+import { status } from "@/api/salvation";
+export default {
+  data() {
+    return {
+      form: "",
+      currentPage: 1, //页数
+      pageSize: 10, //每页数据量
+      tableData: [], //列表数据
+      search: "", //搜索框
+      checkModle: false, //模态框
+      examine: "", //审核(2-审核通过、3-审核不通过)
+      numberId: "",
+      url: [
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
+        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
+      ],
+      srcList: [
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
+      ]
+    };
+  },
+  created() {
+    this.fetchData(); //列表数据加载
+  },
+
+  methods: {
+    //列表数据加载
+    //*
+    //*
+    fetchData() {
+      let params = new URLSearchParams();
+      params.append("page", this.currentPage);
+      params.append("size", this.pageSize);
+      getList(params).then(res => {
+        console.log(res);
+        if (res.code == 0) {
+          this.tableData = res.data.data;
+        }
+      });
+    },
+    //*
+    //*
+    //列表数据加载
+    //审核按钮
+    //*
+    //*
+    handleEdit(index, row) {
+      console.log(index, row);
+      this.numberId = row.numberId;
+      let params = new URLSearchParams();
+      params.append("numberId", this.numberId);
+      particulars(params).then(res => {
+        console.log(res);
+        if (res.code == 0) {
+          this.form = res.data[0];
+          console.log(this.form);
+        }
+      });
+      this.checkModle = true;
+    },
+    handleClose(done) {
+      //关闭模态框按钮
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    confirm() {
+      //详情审核通过按钮
+      this.checkModle = false;
+      this.examine = "2";
+      this.audit();
+      this.fetchData();
+    },
+    failure() {
+      //详情审核不通过按钮
+      this.examine = "3";
+      this.checkModle = false;
+      this.audit();
+      this.fetchData();
+    },
+    audit() {
+      //审核
+      let params = new URLSearchParams();
+      params.append("examine", this.examine);
+      params.append("numberId", this.numberId);
+      status(params).then(res => {
+        console.log(res);
+        if (res.code == 0) {
+          this.$message({
+            message: "审核操作成功",
+            type: "success"
+          });
+        }
+      });
+    },
+    //*
+    //*
+    //审核按钮
+    srcListimg(item) {
+      //console.log(item);
+      this.srcList[0] = item;
+    }
+  }
+};
+</script>
+<style scoped>
+.guarantee {
+  width: 60%;
+}
+.elInput {
+  width: 200px;
+}
+.treeHead {
+  display: flex;
+  align-items: center;
+}
+.treeHead > div {
+  margin-right: 20px;
+}
+.demo-image__preview{
+    display: inline-block;
+    margin-left: 10px;
+}
+</style>
