@@ -136,9 +136,8 @@ export default {
       params.append('page', this.currentPage)
       params.append('size', this.pageSize)
       getList(params).then(res => {
-        console.log(res)
-        if (res.code === 0) {
-          this.tableData = res.data.data
+        if (res.code === 200) {
+          this.tableData = res.data.datas
         }
       })
     },

@@ -281,8 +281,8 @@ export default {
         params.append('shopname', this.membername)
         getList(params).then(res => {
           console.log(res.data)
-          this.total = res.data.total
-          this.tableData = res.data.data
+          this.total = res.total
+          this.tableData = res.data.datas
         })
         this.sreachs = true
       }
@@ -344,7 +344,7 @@ export default {
       getList(params).then(res => {
         console.log(res.data)
         this.total = res.data.total
-        this.tableData = res.data.data
+        this.tableData = res.data.datas
       })
     },
     handleExamine(row) {
@@ -370,7 +370,7 @@ export default {
       getList(params).then(res => {
         console.log(res.data)
         this.total = res.data.total
-        this.tableData = res.data.data
+        this.tableData = res.data.datas
       })
     }
   }
