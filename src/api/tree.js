@@ -7,3 +7,17 @@ export function getList(data) {
     data
   })
 }
+export function particulars(data) {
+  return request({
+    url: '/xinan/platform/join/findInsured',
+    method: 'post',
+    data
+  })
+}
+export function check(data) {
+  return request({
+    url: '/xinan/platform/join/updMemberStatus',
+    method: 'post',
+    data
+  })
+}

@@ -18,11 +18,19 @@ export const entering_detail = entering_prefix + '/mcEntryInFormationDetails'
 
 // endregion
 
-// region 心安会员列表
+// region 心安救助审核列表
 
 export const xinan_prefix = admin_prefix + '/pc/xinAnBackstage'
 export const xinan_rescue_list = xinan_prefix + '/rescueList'
 export const xinan_rescue_detail = xinan_prefix + '/rescueDetails'
 export const xinan_rescue_change_state = xinan_prefix + '/changeState'
+
+// endregion
+
+// region 心安会员列表
+
+export const member_prefix = admin_prefix + '/pc/xinAnBackstage'
+export const member_rescue_list = member_prefix + '/shoplist'
+export const member_rescue_detail = member_prefix + '/shopdetails'
 
 // endregion

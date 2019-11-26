@@ -9,16 +9,22 @@ export function getList(data) { // 审核列表
   })
 }
 export function particulars(data) { // 详情信息
-  return request({
-    url: config.xinan_rescue_detail,
-    method: 'post',
-    data
+  // return request({
+  //   url: config.xinan_rescue_detail,
+  //   method: 'post',
+  //   data
+  // })
+  return request.post(config.xinan_rescue_detail, {
+    params: data
   })
 }
 export function status(data) { // 审核状态
-  return request({
-    url: config.xinan_rescue_change_state,
-    method: 'post',
-    data
+  // return request({
+  //   url: config.xinan_rescue_change_state,
+  //   method: 'post',
+  //   data
+  // })
+  return request.post(config.xinan_rescue_change_state, {
+    params: data
   })
 }

@@ -72,13 +72,13 @@ export const constantRoutes = [
         name: 'manage',
         component: () => import('@/views/list/manage'),
         meta: { title: '经营类型', icon: 'tree' }
-      },
-      {
-        path: 'cesi',
-        name: 'cesi',
-        component: () => import('@/views/list/cesi'),
-        meta: { title: '测试', icon: 'tree' }
       }
+      // {
+      //   path: 'cesi',
+      //   name: 'cesi',
+      //   component: () => import('@/views/list/cesi'),
+      //   meta: { title: '测试', icon: 'tree' }
+      // }
     ]
   },
   {

@@ -38,9 +38,9 @@ module.exports = {
       errors: true
     },
     proxy: {
-      "/api/v1": {
-        target: 'http://192.168.10.179:30000', //对应自己的接口
-        changeOrigin: true,
+      '/api/v1': {
+        target: 'http://192.168.10.179:30000', // 对应自己的接口
+        changeOrigin: true
         // pathRewrite: {
         //   ['^/api/v1']: ''
         // }

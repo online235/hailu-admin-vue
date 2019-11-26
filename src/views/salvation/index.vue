@@ -3,7 +3,8 @@
     <div class="treeHead">
       <div><h2>救助列表</h2></div>
       <div>
-        <el-input v-model="search" placeholder="可根据名称查询" clearable />
+        <el-input placeholder="可根据名称查询" v-model="search" clearable>
+        </el-input>
       </div>
     </div>
     <el-table
@@ -18,7 +19,7 @@
     >
       <el-table-column label="日期" width="320">
         <template slot-scope="scope">
-          <i class="el-icon-time" />
+          <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.updatedat }}</span>
         </template>
       </el-table-column>
@@ -41,10 +42,21 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-          >审核</el-button>
+            >审核</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+    <div class="block">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
+    </div>
     <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
@@ -74,13 +86,14 @@
           <div>{{ form.instructions }}</div>
         </el-form-item>
         <el-form-item label="详情图片">
-          <div v-for="item in url" :key="item" class="demo-image__preview">
+          <div class="demo-image__preview" v-for="item in url" :key="item">
             <el-image
               style="width: 100px; height: 100px"
               :src="item"
-              :preview-src-list="srcList"
               @click="srcListimg(item)"
-            />
+              :preview-src-list="srcList"
+            >
+            </el-image>
           </div>
         </el-form-item>
         <el-form-item label="日期：">
@@ -100,113 +113,131 @@
 </template>
 
 <script>
-import { getList } from '@/api/salvation'
-import { particulars } from '@/api/salvation'
-import { status } from '@/api/salvation'
+import { getList } from "@/api/salvation";
+import { particulars } from "@/api/salvation";
+import { status } from "@/api/salvation";
 export default {
   data() {
     return {
-      form: '',
-      currentPage: 1, // 页数
-      pageSize: 10, // 每页数据量
-      tableData: [], // 列表数据
-      search: '', // 搜索框
-      checkModle: false, // 模态框
-      examine: '', // 审核(2-审核通过、3-审核不通过)
-      numberId: '',
+      form: "",
+      currentPage: 1, //页数
+      pageSize: 10, //每页数据量
+      tableData: [], //列表数据
+      search: "", //搜索框
+      checkModle: false, //模态框
+      examine: "", //审核(2-审核通过、3-审核不通过)
+      numberId: "",
+      total: 0,//总数
       url: [
-        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
+        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
       ],
       srcList: [
-        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
       ]
-    }
+    };
   },
   created() {
-    this.fetchData() // 列表数据加载
+    this.fetchData(); //列表数据加载
   },
 
   methods: {
-    // 列表数据加载
+    //列表数据加载
     //*
     //*
     fetchData() {
-      const params = new URLSearchParams()
-      params.append('page', this.currentPage)
-      params.append('size', this.pageSize)
+      let params = new URLSearchParams();
+      params.append("page", this.currentPage);
+      params.append("size", this.pageSize);
       getList(params).then(res => {
-        if (res.code === 200) {
-          this.tableData = res.data.datas
+        console.log(res);
+        if (res.code == 200) {
+          this.tableData = res.data.datas;
+          this.total=res.data.total
         }
-      })
+      });
     },
     //*
     //*
-    // 列表数据加载
-    // 审核按钮
+    //列表数据加载
+    //审核按钮
     //*
     //*
     handleEdit(index, row) {
-      console.log(index, row)
-      this.numberId = row.numberId
-      const params = new URLSearchParams()
-      params.append('numberId', this.numberId)
-      particulars(params).then(res => {
-        console.log(res)
-        if (res.code === 0) {
-          this.form = res.data[0]
-          console.log(this.form)
+      console.log(index, row);
+      this.numberId = row.numberId;
+      // let params = new URLSearchParams();
+      // params.append("numberId", this.numberId);
+      particulars({
+        numberId: this.numberId
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.form = res.data[0];
+          console.log(this.form);
         }
-      })
-      this.checkModle = true
+      });
+      this.checkModle = true;
     },
     handleClose(done) {
-      // 关闭模态框按钮
-      this.$confirm('确认关闭？')
+      //关闭模态框按钮
+      this.$confirm("确认关闭？")
         .then(_ => {
-          done()
+          done();
         })
-        .catch(_ => {})
+        .catch(_ => {});
     },
     confirm() {
-      // 详情审核通过按钮
-      this.checkModle = false
-      this.examine = '2'
-      this.audit()
-      this.fetchData()
+      //详情审核通过按钮
+      this.checkModle = false;
+      this.examine = "2";
+
+      this.audit();
+      this.fetchData();
+      this.$message({
+          message: '操作成功',
+          type: 'success'
+        });
     },
     failure() {
-      // 详情审核不通过按钮
-      this.examine = '3'
-      this.checkModle = false
-      this.audit()
-      this.fetchData()
+      //详情审核不通过按钮
+      this.examine = "3";
+      this.checkModle = false;
+      this.audit();
     },
     audit() {
-      // 审核
-      const params = new URLSearchParams()
-      params.append('examine', this.examine)
-      params.append('numberId', this.numberId)
-      status(params).then(res => {
-        console.log(res)
-        if (res.code === 0) {
+      //审核
+      // let params = new URLSearchParams();
+      // params.append("examine", this.examine);
+      // params.append("numberId", this.numberId);
+      status({
+        numberId: this.numberId,
+        examine: this.examine
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
           this.$message({
-            message: '审核操作成功',
-            type: 'success'
-          })
+            message: "审核操作成功",
+            type: "success"
+          });
+          this.fetchData()
         }
-      })
+      });
     },
     //*
     //*
-    // 审核按钮
+    //审核按钮
     srcListimg(item) {
-      // console.log(item);
-      this.srcList[0] = item
+      //console.log(item);
+      this.srcList[0] = item;
+    },
+    handleCurrentChange(val) {
+      //分页
+      this.currentPage=val
+      this.fetchData()
     }
   }
-}
+};
 </script>
 <style scoped>
 .guarantee {
