@@ -216,7 +216,7 @@
 </template>
 
 <script>
-import { getList, check, particulars } from '@/api/list'
+import { merchantList, merchantcheck, merchantDetail } from '@/api/merchant'
 import { formatDate } from '@/utils/date'
 export default {
   filters: {
@@ -279,7 +279,7 @@ export default {
         params.append('limit', this.page)
         params.append('phone', this.membermobile)
         params.append('shopname', this.membername)
-        getList(params).then(res => {
+        merchantList(params).then(res => {
           console.log(res.data)
           this.total = res.total
           this.tableData = res.data.datas
@@ -295,7 +295,7 @@ export default {
       const params = new URLSearchParams()
       params.append('limit', this.page)
       params.append('page', this.currentPage)
-      getList(params).then(res => {
+      merchantList(params).then(res => {
         console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas
@@ -309,7 +309,7 @@ export default {
       const params = new URLSearchParams()
       params.append('numberId', numid)
       params.append('toExamine', '2')
-      check(params).then(res => {
+      merchantcheck(params).then(res => {
         if (res.data.code === 0) {
           this.$message({
             message: '审核通过成功',
@@ -325,7 +325,7 @@ export default {
       const params = new URLSearchParams()
       params.append('numberId', numid)
       params.append('toExamine', '3')
-      check(params).then(res => {
+      merchantcheck(params).then(res => {
         if (res.data.code === 0) {
           this.$message({
             message: '审核不通过',
@@ -341,7 +341,7 @@ export default {
       const params = new URLSearchParams()
       params.append('limit', this.page)
       params.append('page', val)
-      getList(params).then(res => {
+      merchantList(params).then(res => {
         console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas
@@ -351,7 +351,7 @@ export default {
       console.log(1,row.numberId)
       const params = new URLSearchParams()
       params.append('numberId', '592028905')
-      particulars(params).then(res => {
+      merchantDetail(params).then(res => {
         console.log(res)
         this.xiangqing = res.data
       })
@@ -367,7 +367,7 @@ export default {
       const params = new URLSearchParams()
       params.append('limit', this.page)
       params.append('page', this.currentPage)
-      getList(params).then(res => {
+      merchantList(params).then(res => {
         console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas

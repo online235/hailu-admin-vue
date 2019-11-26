@@ -1,7 +1,7 @@
 import * as config from './config'
 import request from '@/utils/request'
 // 商家列表
-export function getList(data) {
+export function merchantList(data) {
   return request({
     url: config.entering_list,
     method: 'post',
@@ -9,7 +9,7 @@ export function getList(data) {
   })
 }
 // 审核通过
-export function check(data) {
+export function merchantcheck(data) {
   return request({
     url: config.entering_list,
     method: 'post',
@@ -17,7 +17,7 @@ export function check(data) {
   })
 }
 // 审核详情
-export function particulars(data) {
+export function merchantDetail(data) {
   return request({
     url: config.entering_detail,
     method: 'post',

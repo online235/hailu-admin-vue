@@ -141,15 +141,14 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
-import { particulars } from '@/api/table'
+import { memberList,memberDetail } from '@/api/member'
 export default {
   data() {
     return {
       membername: "",
       membermobile: "",
       currentPage: 1,
-      page: 3,
+      page: 10,
       tableData: [],
       name: "1231231",
       sreachs: false,
@@ -201,13 +200,15 @@ export default {
           message: "请输入搜索内容"
         });
       } else {
-        let params = new URLSearchParams();
-        params.append("limit", this.page);
-        params.append("membermobile", this.membermobile);
-        params.append("membername", this.membername);
-        getList(params).then(res => {
-
-       console.log(res.data.data);
+        // let params = new URLSearchParams();
+        // params.append("limit", this.page);
+        // params.append("membermobile", this.membermobile);
+        // params.append("membername", this.membername);
+        memberList({
+          limit:this.page,
+          membermobile:this.membermobile,
+          membername:this.membername
+        }).then(res => {
           this.total = res.data.total;
           this.tableData = res.data.datas;
       })
@@ -219,7 +220,10 @@ export default {
       let params = new URLSearchParams();
       params.append("limit", this.page);
       params.append("page", this.currentPage);
-      getList(params).then(res => {
+      memberList({
+        limit:this.page,
+        page:this.currentPage
+      }).then(res => {
 
        console.log(res.data.data);
           this.total = res.data.total;
@@ -229,17 +233,14 @@ export default {
       this.membername=''
       this.membermobile=''
     },
-    //审核通过
-
-    //审核不通过
     handleCurrentChange(val) {//分页
-      console.log(val);
-      let params = new URLSearchParams();
-      params.append("limit", this.page);
-      params.append("page", val);
-      getList(params).then(res => {
+      //console.log(val);
+      memberList({
+        limit:this.page,
+        page:val
+      }).then(res => {
 
-       console.log(res.data.data);
+       //console.log(res.data.datas);
           this.total = res.data.total;
           this.tableData = res.data.datas;
       })
@@ -248,7 +249,7 @@ export default {
       //console.log(row);
       // let params = new URLSearchParams();
       // params.append("memberid", row.memberId);
-      particulars({memberid:row.memberId}).then(res => {
+      memberDetail({memberid:row.memberId}).then(res => {
        this.form=res.data
        console.log(res.data);
           this.checkModle = true;
@@ -259,7 +260,7 @@ export default {
       // let params = new URLSearchParams();
       // params.append("limit", this.page);
       // params.append("page", this.currentPage);
-      getList({
+      memberList({
         limit: this.page,
         page: this.currentPage
       }).then(res => {

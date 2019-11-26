@@ -104,9 +104,7 @@
 </template>
 
 <script>
-import { getList } from "@/api/tree";
-import { particulars } from "@/api/tree";
-import { check } from "@/api/tree";
+import { insuredList,insuredDetail,insuredCheck } from "@/api/insured";
 export default {
   data() {
     return {
@@ -138,12 +136,12 @@ export default {
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
-      getList({
+      insuredList({
         page:this.currentPage,
         size:this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 0) {
+        if (res.code == 200) {
           this.tableData = res.data.list;
           this.total = res.data.total;
           for (var i = 0; i < this.tableData.length; i++) {
@@ -163,9 +161,9 @@ export default {
       
       let params = new URLSearchParams();
       params.append("id", row.id);
-      particulars(params).then(res => {
+      insuredDetail(params).then(res => {
         console.log(res)
-        if(res.code==0){
+        if(res.code==200){
           this.form = res.data;
           this.checkModle = true;
 
@@ -196,9 +194,9 @@ export default {
       let params = new URLSearchParams();
       params.append("id", this.insuredId);
       params.append("memberStatus", this.region);
-      check(params).then(res => {
+      insuredCheck(params).then(res => {
         console.log(res)
-        if(res.code==0){
+        if(res.code==200){
           this.fetchData();
            this.$message({
           message: '操作成功',

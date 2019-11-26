@@ -62,9 +62,9 @@ export const constantRoutes = [
     meta: { title: '商家管理', icon: 'example' },
     children: [
       {
-        path: 'list',
-        name: 'list',
-        component: () => import('@/views/list/list'),
+        path: 'merchant',
+        name: 'merchant',
+        component: () => import('@/views/merchant/merchant'),
         meta: { title: '商户列表', icon: 'table' }
       },
       {
@@ -89,15 +89,15 @@ export const constantRoutes = [
     meta: { title: '会员管理', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
+        path: 'member',
+        name: 'member',
+        component: () => import('@/views/member/member'),
         meta: { title: '会员列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        path: 'insured',
+        name: 'insured',
+        component: () => import('@/views/insured/insured'),
         meta: { title: '参保人列表', icon: 'table' }
       }
     ]
