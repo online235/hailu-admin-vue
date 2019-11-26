@@ -149,7 +149,7 @@ export default {
       membername: "",
       membermobile: "",
       currentPage: 1,
-      page: 10,
+      page: 3,
       tableData: [],
       name: "1231231",
       sreachs: false,
@@ -246,9 +246,9 @@ export default {
     },
     handleExamine(row) {
       //console.log(row);
-      let params = new URLSearchParams();
-      params.append("memberid", row.memberId);
-      particulars(params).then(res => {
+      // let params = new URLSearchParams();
+      // params.append("memberid", row.memberId);
+      particulars({memberid:row.memberId}).then(res => {
        this.form=res.data
        console.log(res.data);
           this.checkModle = true;
@@ -256,12 +256,15 @@ export default {
       })
     },
     fangfa() {
-      let params = new URLSearchParams();
-      params.append("limit", this.page);
-      params.append("page", this.currentPage);
-      getList(params).then(res => {
+      // let params = new URLSearchParams();
+      // params.append("limit", this.page);
+      // params.append("page", this.currentPage);
+      getList({
+        limit: this.page,
+        page: this.currentPage
+      }).then(res => {
 
-       console.log(res.data.data);
+       console.log(res);
           this.total = res.data.total;
           this.tableData = res.data.datas;
       })

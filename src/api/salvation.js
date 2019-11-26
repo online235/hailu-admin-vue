@@ -5,8 +5,11 @@ export function getList(data) { // 审核列表
   return request({
     url: config.xinan_rescue_list,
     method: 'post',
-    data
+    params: data
   })
+  // return request.post(config.xinan_rescue_list, null, {
+  //   params: data
+  // })
 }
 export function particulars(data) { // 详情信息
   // return request({

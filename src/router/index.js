@@ -112,7 +112,7 @@ export const constantRoutes = [
       {
         path: 'salvation',
         name: 'salvation',
-        component: () => import('@/views/salvation/index'),
+        component: () => import('@/views/salvation/salvation'),
         meta: { title: '救助列表', icon: 'table' }
       }
     ]

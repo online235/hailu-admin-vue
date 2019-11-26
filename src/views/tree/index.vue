@@ -135,10 +135,13 @@ export default {
   methods: {
     fetchData() {
       //列表数据加载
-      let params = new URLSearchParams();
-      params.append("page ", this.currentPage);
-      params.append("size ", this.pageSize);
-      getList(params).then(res => {
+      // let params = new URLSearchParams();
+      // params.append("page", this.currentPage);
+      // params.append("size", this.pageSize);
+      getList({
+        page:this.currentPage,
+        size:this.pageSize
+      }).then(res => {
         console.log(res);
         if (res.code == 0) {
           this.tableData = res.data.list;

@@ -14,6 +14,8 @@ import router from './router'
 import axios from 'axios'
 import '@/icons' // icon
 import '@/permission' // permission control
+import Qs from 'qs'
+Vue.prototype.qs = Qs
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
