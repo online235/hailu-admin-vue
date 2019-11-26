@@ -77,7 +77,9 @@ service.interceptors.response.use(
   },
   error => {
     let msg;
-    if( error.response.data !== undefined ){
+    if( error.response == undefined ){
+      msg = "请求失败"
+    }else if( error.response.data !== undefined ){
       msg = error.response.data.message
     }else{
       msg = error.message

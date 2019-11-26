@@ -5,7 +5,7 @@ export const module_admin = '/admin'
 // region 登录接口
 export const auth_prefix = prefix + module_auth
 export const auth_login = auth_prefix + '/login/2'
-export const auth_logout = auth_prefix + '/auth/logout/'
+export const auth_logout = auth_prefix + '/logout/'
 
 // endregion
 

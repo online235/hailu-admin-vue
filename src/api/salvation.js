@@ -14,7 +14,7 @@ export function particulars(data) { // 详情信息
   //   method: 'post',
   //   data
   // })
-  return request.post(config.xinan_rescue_detail, {
+  return request.get(config.xinan_rescue_detail, {
     params: data
   })
 }

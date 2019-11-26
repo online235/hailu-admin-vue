@@ -136,7 +136,7 @@
       >
       </el-pagination>
     </div>
-   
+
   </div>
 </template>
 
@@ -206,10 +206,10 @@ export default {
         params.append("membermobile", this.membermobile);
         params.append("membername", this.membername);
         getList(params).then(res => {
-       
+
        console.log(res.data.data);
           this.total = res.data.total;
-          this.tableData = res.data.data;
+          this.tableData = res.data.datas;
       })
         this.sreachs = true;
       }
@@ -220,10 +220,10 @@ export default {
       params.append("limit", this.page);
       params.append("page", this.currentPage);
       getList(params).then(res => {
-       
+
        console.log(res.data.data);
           this.total = res.data.total;
-          this.tableData = res.data.data;
+          this.tableData = res.data.datas;
       })
       this.sreachs = false;
       this.membername=''
@@ -238,10 +238,10 @@ export default {
       params.append("limit", this.page);
       params.append("page", val);
       getList(params).then(res => {
-       
+
        console.log(res.data.data);
           this.total = res.data.total;
-          this.tableData = res.data.data;
+          this.tableData = res.data.datas;
       })
     },
     handleExamine(row) {
@@ -260,10 +260,10 @@ export default {
       params.append("limit", this.page);
       params.append("page", this.currentPage);
       getList(params).then(res => {
-       
+
        console.log(res.data.data);
           this.total = res.data.total;
-          this.tableData = res.data.data;
+          this.tableData = res.data.datas;
       })
     },
     handleClose(done) {
