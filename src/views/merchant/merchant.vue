@@ -197,12 +197,12 @@
 
             <div class="buttonBottom">
               <el-button
-                v-if="xiangqing.toExamine === '审核中'"
+                v-if="xiangqing.toExamine === 1"
                 type="primary"
                 @click="cancelModify(xiangqing.numberId)"
               >审核通过</el-button>
               <el-button
-                v-if="xiangqing.toExamine === '审核中'"
+                v-if="xiangqing.toExamine === 1"
                 type="warning"
                 @click="nocancelModify(xiangqing.numberId)"
               >审核不通过</el-button>
@@ -350,7 +350,7 @@ export default {
     handleExamine(row) {
       console.log(1,row.numberId)
       const params = new URLSearchParams()
-      params.append('numberId', '592028905')
+      params.append('numberId', row.numberId)
       merchantDetail(params).then(res => {
         console.log(res)
         this.xiangqing = res.data

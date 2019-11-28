@@ -55,6 +55,39 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/system',
+    name: 'system',
+    meta: { title: '系统管理', icon: 'example' },
+    children: [
+      {
+        path: 'AdminController',
+        name: 'AdminController',
+        component: () => import('@/views/system/AdminController'),
+        meta: { title: '管理员', icon: 'table' }
+      },
+      {
+        path: 'MenuController',
+        name: 'MenuController',
+        component: () => import('@/views/system/MenuController'),
+        meta: { title: '菜单', icon: 'tree' }
+      },
+      {
+        path: 'RoleController',
+        name: 'RoleController',
+        component: () => import('@/views/system/RoleController'),
+        meta: { title: '角色', icon: 'tree' }
+      }
+      // {
+      //   path: 'cesi',
+      //   name: 'cesi',
+      //   component: () => import('@/views/list/cesi'),
+      //   meta: { title: '测试', icon: 'tree' }
+      // }
+    ]
+  },
+  {
     path: '/examples',
     component: Layout,
     redirect: '/example/list',
@@ -68,9 +101,15 @@ export const constantRoutes = [
         meta: { title: '商户列表', icon: 'table' }
       },
       {
+        path: 'shopList',
+        name: 'shopList',
+        component: () => import('@/views/shopController/shopList'),
+        meta: { title: '店铺列表', icon: 'table' }
+      },
+      {
         path: 'manage',
         name: 'manage',
-        component: () => import('@/views/list/manage'),
+        component: () => import('@/views/merchant/manage'),
         meta: { title: '经营类型', icon: 'tree' }
       }
       // {

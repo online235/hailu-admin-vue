@@ -78,9 +78,6 @@
         <el-form-item label="value：">
           <div>{{ form.value }}</div>
         </el-form-item>
-        <el-form-item label="status：">
-          <div>{{ form.status }}</div>
-        </el-form-item>
         <el-form-item label="创建时间：">
           <div>{{ form.createDate }}</div>
         </el-form-item>
@@ -165,6 +162,7 @@ export default {
         console.log(res)
         if(res.code==200){
           this.form = res.data;
+          //console.log(this.form.createDate)
           this.checkModle = true;
 
             var dataee = new Date(this.form.createDate).toJSON();
@@ -173,7 +171,6 @@ export default {
               .replace(/T/g, " ")
               .replace(/\.[\d]{3}Z/, "");
             this.form.createDate = date;
-
               this.region=this.choose[this.form.memberStatus-1].id
               this.insuredId=row.id
           // console.log(res.data)

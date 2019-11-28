@@ -5,7 +5,7 @@ export function merchantList(data) {
   return request({
     url: config.entering_list,
     method: 'post',
-    data
+    params: data
   })
 }
 // 审核通过
@@ -13,7 +13,7 @@ export function merchantcheck(data) {
   return request({
     url: config.entering_list,
     method: 'post',
-    data
+    params: data
   })
 }
 // 审核详情
@@ -21,6 +21,6 @@ export function merchantDetail(data) {
   return request({
     url: config.entering_detail,
     method: 'post',
-    data
+    params: data
   })
 }

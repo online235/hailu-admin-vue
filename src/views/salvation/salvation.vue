@@ -12,7 +12,7 @@
       :data="
         tableData.filter(
           data =>
-            !search || data.name.toLowerCase().includes(search.toLowerCase())
+            !search || data.title.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
@@ -113,7 +113,11 @@
 </template>
 
 <script>
-import { salvationList,salvationDetail,salvationStatus } from "@/api/salvation";
+import {
+  salvationList,
+  salvationDetail,
+  salvationStatus
+} from "@/api/salvation";
 import qs from "qs";
 export default {
   data() {
@@ -149,13 +153,21 @@ export default {
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
       salvationList({
-        page:this.currentPage,
-        size:this.pageSize
+        page: this.currentPage,
+        size: this.pageSize
       }).then(res => {
         console.log(res);
         if (res.code == 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
+          for (var i = 0; i < this.tableData.length; i++) {
+            var dataee = new Date(this.tableData[i].updatedat).toJSON();
+            var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
+              .toISOString()
+              .replace(/T/g, " ")
+              .replace(/\.[\d]{3}Z/, "");
+            this.tableData[i].updatedat = date;
+          }
         }
       });
     },
@@ -176,7 +188,7 @@ export default {
         console.log(res);
         if (res.code == 200) {
           this.form = res.data[0];
-          console.log(this.form);
+          console.log(res.data);
         }
       });
       this.checkModle = true;

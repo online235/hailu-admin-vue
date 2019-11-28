@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+    <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
@@ -12,7 +12,7 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <el-dropdown-item>
-            <span style="display:block;" @click="alterPwd">????</span>
+            <span style="display:block;" @click="alterPwd">修改密码</span>
           </el-dropdown-item>
           <el-dropdown-item>
             <span style="display:block;" @click="logout">退出登录</span>
@@ -21,26 +21,40 @@
       </el-dropdown>
     </div>
     <el-dialog
-  title="??"
+  :title="judge==true? '修改密码' : '重置密码'"
   :visible.sync="models"
   width="30%"
   :before-close="handleClose"
   :modal='false'>
-  <span>??????</span>
+   <el-form ref="form" label-width="120px">
+        <el-form-item label="旧密码：" v-if="judge">
+          <el-input v-model="formerPwd" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码：">
+          <el-input v-model="newPwd" type="password"></el-input>
+        </el-form-item>
+      </el-form>
   <span slot="footer" class="dialog-footer">
-    <el-button @click="models = false">? ?</el-button>
-    <el-button type="primary" @click="models = false">? ?</el-button>
+    <el-button @click="models = false">取 消</el-button>
+    <el-button type="primary" @click="confirm">确 定</el-button>
   </span>
 </el-dialog>
   </div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
 import { getUserImg } from '@/utils/auth'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-
+import {
+  adminList,
+  adminDetail,
+  adminCheck,
+  adminAdd,
+  adminRoles,
+  adminModify,
+  adminReset
+} from "@/api/AdminController";
 export default {
   components: {
     Breadcrumb,
@@ -49,7 +63,10 @@ export default {
   data() {
     return {
       avatar: '',
-      models: false
+      models: false,
+      formerPwd:'',// 旧密码
+      newPwd:'',// 新密码
+      judge:true,
     }
   },
   computed: {
@@ -71,8 +88,20 @@ export default {
     alterPwd(){
       this.models=true
     },
+    confirm(){
+        
+        adminModify({
+        newPwd: this.newPwd,
+        oldPwd: this.formerPwd
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+         this.models=false
+        }
+      });
+    },
     handleClose(done) {
-        this.$confirm('?????')
+        this.$confirm('确认关闭？')
           .then(_ => {
             done();
           })
@@ -81,7 +110,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .navbar {
   height: 50px;

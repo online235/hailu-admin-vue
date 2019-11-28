@@ -156,7 +156,7 @@ export default {
       xiangqing: [],
       checkModle:false,
        form: "",
-       prefix:'http://192.168.10.165:8082/api/v1',
+       prefix:'http://192.168.10.179:8082/api/v1',
        url: [
         "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
         "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
@@ -251,9 +251,9 @@ export default {
       // params.append("memberid", row.memberId);
       memberDetail({memberid:row.memberId}).then(res => {
        this.form=res.data
-       console.log(res.data);
+       //console.log(res.data);
           this.checkModle = true;
-         console.log(Date(parseInt(res.data.registTime) * 1000).toLocaleString().replace(/:\d{1,2}$/,' '))
+          //console.log(res.data.registTime)
       })
     },
     fangfa() {
@@ -268,6 +268,14 @@ export default {
        console.log(res);
           this.total = res.data.total;
           this.tableData = res.data.datas;
+          for(var i=0;i<this.tableData.length;i++){
+            var a =this.tableData[i].registTime+''
+            this.tableData[i].registTime=a.substring(0, 8)
+            console.log(a.substring(0, 8))
+          }
+          // var a=''
+          // a=res.data.registTime+''
+          // var s = a.substring(0, 8);  //截取字符串从第0位开始截取4位
       })
     },
     handleClose(done) {
