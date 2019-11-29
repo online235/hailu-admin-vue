@@ -27,27 +27,27 @@
       "
       style="width: 100%"
     >
-      <el-table-column label="账号昵称" width="320">
+      <el-table-column label="账号昵称">
         <template slot-scope="scope">
           <!-- <i class="el-icon-time"></i> -->
           <span style="margin-left: 10px">{{ scope.row.nickName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号" width="320">
+      <el-table-column label="账号">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.account }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="手机号" width="320">
+      <el-table-column label="手机号">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.phone }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="状态" width="320">
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
             scope.row.enableStatusDisplay
@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="420">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -204,7 +204,7 @@ import {
   adminRoles,
   adminModify,
   adminReset
-} from "@/api/AdminController";
+} from "@/api/admin";
 export default {
   data() {
     return {

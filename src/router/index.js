@@ -57,75 +57,63 @@ export const constantRoutes = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/system',
+    redirect: '/system/admin',
     name: 'system',
     meta: { title: '系统管理', icon: 'example' },
     children: [
       {
-        path: 'AdminController',
-        name: 'AdminController',
-        component: () => import('@/views/system/AdminController'),
+        path: 'admin',
+        name: 'admin',
+        component: () => import('@/views/system/adminList'),
         meta: { title: '管理员', icon: 'table' }
       },
       {
-        path: 'MenuController',
-        name: 'MenuController',
-        component: () => import('@/views/system/MenuController'),
+        path: 'menu',
+        name: 'menu',
+        component: () => import('@/views/system/menuList'),
         meta: { title: '菜单', icon: 'tree' }
       },
       {
-        path: 'RoleController',
-        name: 'RoleController',
-        component: () => import('@/views/system/RoleController'),
+        path: 'role',
+        name: 'role',
+        component: () => import('@/views/system/roleList'),
         meta: { title: '角色', icon: 'tree' }
       }
-      // {
-      //   path: 'cesi',
-      //   name: 'cesi',
-      //   component: () => import('@/views/list/cesi'),
-      //   meta: { title: '测试', icon: 'tree' }
-      // }
     ]
   },
   {
-    path: '/examples',
+    path: '/merchant',
     component: Layout,
-    redirect: '/example/list',
-    name: 'Examples',
-    meta: { title: '商家管理', icon: 'example' },
+    redirect: '/merchant/list',
+    name: 'merchant',
+    meta: { title: '商户管理', icon: 'example' },
     children: [
       {
         path: 'merchant',
         name: 'merchant',
         component: () => import('@/views/merchant/merchant'),
-        meta: { title: '商户列表', icon: 'table' }
+        meta: { title: '百货商户', icon: 'table' }
       },
       {
-        path: 'shopList',
-        name: 'shopList',
-        component: () => import('@/views/shopController/shopList'),
-        meta: { title: '店铺列表', icon: 'table' }
+        path: 'life-circle',
+        name: 'life-circle',
+        component: () => import('@/views/lifeCircle/lifeCircleList'),
+        meta: { title: '生活圈店铺', icon: 'table' }
       },
       {
-        path: 'manage',
-        name: 'manage',
-        component: () => import('@/views/merchant/manage'),
+        path: 'merchant-type',
+        name: 'merchant-type',
+        component: () => import('@/views/merchant/manageType'),
         meta: { title: '经营类型', icon: 'tree' }
       }
-      // {
-      //   path: 'cesi',
-      //   name: 'cesi',
-      //   component: () => import('@/views/list/cesi'),
-      //   meta: { title: '测试', icon: 'tree' }
-      // }
     ]
   },
   {
-    path: '/example',
+    path: '/member',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '会员管理', icon: 'example' },
+    redirect: '/member/table',
+    name: 'member',
+    meta: { title: '心安&海露会员', icon: 'example' },
     children: [
       {
         path: 'member',
@@ -156,88 +144,6 @@ export const constantRoutes = [
       }
     ]
   },
-
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: '分类二',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'Menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: '测试一' },
-  //       children: [
-  //         {
-  //           path: 'Menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: '测试1-1' }
-  //         },
-  //         {
-  //           path: 'Menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: '测试1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: '测试1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: '测试1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: '测试1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       meta: { title: '测试二' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: 'external-link',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-  //       meta: { title: 'External Link', icon: 'link' }
-  //     }
-  //   ]
-  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

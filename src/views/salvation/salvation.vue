@@ -17,26 +17,26 @@
       "
       style="width: 100%"
     >
-      <el-table-column label="日期" width="320">
+      <el-table-column label="日期">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.updatedat }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="标题" width="320">
+      <el-table-column label="标题">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.title }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="状态" width="320">
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.examine }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"

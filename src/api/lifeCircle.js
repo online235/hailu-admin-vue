@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 import * as config from './config'
 // 列表查询
-export function shopList(data) {
+export function lifeCircleList(data) {
   return request({
-    url: config.shop_list,
+    url: config.life_circle_list,
     method: 'post',
     params: data
   })
@@ -13,36 +13,36 @@ export function shopList(data) {
 }
 
 // 店铺信息查询
-export function shopDetail(data) {
+export function lifeCircleDetail(data) {
   return request({
-    url: config.shop_Details,
+    url: config.life_circle_Details,
     method: 'post',
     params: data
   })
 }
 
 // 变更店铺商家信息
-export function shopCheck(data) {
+export function lifeCircleCheck(data) {
   return request({
-    url: config.shop_Entry,
+    url: config.life_circle_Entry,
     method: 'post',
     params: data
   })
 }
 
 // 更改店铺审核状态
-export function shopChange(data) {
+export function lifeCircleChange(data) {
   return request({
-    url: config.shop_change,
+    url: config.life_circle_change,
     method: 'post',
     params: data
   })
 }
 
 // 删除店铺
-export function shopDelete(data) {
+export function lifeCircleDelete(data) {
   return request({
-    url: config.shop_delete,
+    url: config.life_circle_delete,
     method: 'post',
     params: data
   })

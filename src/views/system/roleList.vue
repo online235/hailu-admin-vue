@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="treeHead">
-      <div><h2>菜单列表</h2></div>
+      <div><h2>角色列表</h2></div>
       <div>
-        <el-input placeholder="可根据名称查询" v-model="search" clearable>
+        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
         </el-input>
       </div>
       <div>
         <el-button size="medium" type="success" @click="addUser"
-          >添加菜单</el-button
+          >添加角色</el-button
         >
       </div>
     </div>
@@ -17,33 +17,23 @@
       :data="
         tableData.filter(
           data =>
-            !search || data.menuName.toLowerCase().includes(search.toLowerCase()) ||
-            data.menuTypeDisplay.toLowerCase().includes(search.toLowerCase())
+            !search || data.roleName.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
     >
-      <el-table-column label="菜单名称" width="320">
+      <el-table-column label="角色昵称">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.menuName }}</span>
+          <span style="margin-left: 10px">{{ scope.row.roleName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单类型" width="320">
+      <el-table-column label="状态">
         <template slot-scope="scope">
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.menuTypeDisplay }}</el-tag>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="状态" width="320">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{
-            scope.row.enableStatusDisplay
-          }}</span>
+          <span style="margin-left: 10px">{{scope.row.enableStatusDisplay}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -71,29 +61,13 @@
       :before-close="handleClose"
     >
       <el-form ref="form" label-width="150px">
-        <el-form-item label="菜单名称：">
-          <el-input v-model="menuName"></el-input>
+        <el-form-item label="角色名称：">
+          <el-input v-model="roleName"></el-input>
         </el-form-item>
-        <el-form-item label="菜单权限编码：">
-          <el-input v-model="permissionCode"></el-input>
-        </el-form-item>
-        <el-form-item label="菜单URL路径：">
-          <el-input v-model="url"></el-input>
-        </el-form-item>
-        <el-form-item label="菜单类型：">
-          <el-select v-model="region" placeholder="请选择菜单类型">
+        <el-form-item label="启用类型：">
+          <el-select v-model="region" placeholder="请选择启用类型">
             <el-option
               v-for="(item, index) in choose"
-              :key="index"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-         <el-form-item label="启用类型：">
-          <el-select v-model="regions" placeholder="请选择启用类型">
-            <el-option
-              v-for="(item, index) in chooses"
               :key="index"
               :label="item.name"
               :value="item.id"
@@ -110,17 +84,12 @@
 </template>
 
 <script>
-import { menuList, menuAdd, menuCheck } from "@/api/MenuController";
+import { roleList,roleAdd,roleCheck,roleMenus } from "@/api/role";
 export default {
   data() {
     return {
-      region:'0',
+       region:'1',
       choose:[
-        {id:'0',name:'菜单'},
-        {id:'1',name:'按钮'}
-      ],
-      regions:'1',
-      chooses:[
         {id:'0',name:'禁用'},
         {id:'1',name:'启用'}
       ],
@@ -130,9 +99,9 @@ export default {
       total: 0,
       tableData: [],
       search: "",
-      enableStatus: "",
-      id: "",
-      menuName:'',// 菜单名称
+      enableStatus:'',
+      id:'',
+      roleName:'',// 菜单名称
       permissionCode:'',// 菜单权限编码
       url:'',// 菜单URL路径
     };
@@ -147,9 +116,9 @@ export default {
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
-      menuList({
-        pageNum: this.currentPage,
-        pageSize: this.pageSize
+      roleList({
+        pageNum:this.currentPage,
+        pageSize:this.pageSize
       }).then(res => {
         console.log(res);
         if (res.code == 200) {
@@ -167,7 +136,7 @@ export default {
       });
     },
     modify(){
-      menuCheck({
+      roleCheck({
         id: this.id,
         enableStatus: this.enableStatus
       }).then(res => {
@@ -193,12 +162,9 @@ export default {
       this.dialogVisible = true;
     },
     affirm(){
-      menuAdd({
-        menuName:this.menuName,
-        permissionCode:this.permissionCode,
-        url:this.url,
-        menuType:this.region,
-        enableStatus:this.regions
+      roleAdd({
+        roleName:this.roleName,
+        enableStatus:this.region
       }).then(res => {
         console.log(res);
         if (res.code == 200) {

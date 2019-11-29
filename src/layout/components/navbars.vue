@@ -54,7 +54,7 @@ import {
   adminRoles,
   adminModify,
   adminReset
-} from "@/api/AdminController";
+} from "@/api/admin";
 export default {
   components: {
     Breadcrumb,
@@ -89,7 +89,7 @@ export default {
       this.models=true
     },
     confirm(){
-        
+
         adminModify({
         newPwd: this.newPwd,
         oldPwd: this.formerPwd

@@ -17,20 +17,20 @@
       "
       style="width: 100%"
     >
-      <el-table-column label="日期" width="320">
+      <el-table-column label="日期">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.createDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="姓名" width="320">
+      <el-table-column label="姓名">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.name }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="状态" width="320">
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
             scope.row.memberStatus == 1
@@ -44,7 +44,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -155,7 +155,7 @@ export default {
     handleEdit(index, row) {
       //审核按钮
       //console.log(index, row);
-      
+
       let params = new URLSearchParams();
       params.append("id", row.id);
       insuredDetail(params).then(res => {

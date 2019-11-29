@@ -25,41 +25,41 @@
     <!-- 表格 -->
     <template>
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column label="店铺名称" width="180">
+        <el-table-column label="店铺名称">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.shopName }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="真实姓名" width="180">
+        <el-table-column label="真实姓名">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.realName }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="手机号码" width="180">
+        <el-table-column label="手机号码">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.phone }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="法人姓名" width="180">
+        <el-table-column label="法人姓名">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{
               scope.row.nameOfLegalPerson
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="审核状态" width="180">
+        <el-table-column label="审核状态">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.toExamine }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" width="180">
+        <el-table-column label="创建时间">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.createdat | formatDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <!-- <el-button
                 size="mini"

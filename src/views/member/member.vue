@@ -23,31 +23,31 @@
     <!-- 表格 -->
     <template>
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column label="手机号码" width="250">
+        <el-table-column label="手机号码">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.memberMobile }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="会员名称" width="250">
+        <el-table-column label="会员名称">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.memberName }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="注册时间" width="250">
+        <el-table-column label="注册时间">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.registTime }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="商户类型" width="250">
+        <el-table-column label="商户类型">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.merchantType==0? '无':(scope.row.merchantType==1? '区域代理':'服务商') }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <!-- <el-button
                 size="mini"

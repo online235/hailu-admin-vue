@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="treeHead">
-      <div><h2>店铺列表</h2></div>
+      <div><h2>生活圈-店铺列表</h2></div>
       <div>
         <el-input placeholder="可根据关键字查询" v-model="search" clearable>
         </el-input>
@@ -17,34 +17,34 @@
       "
       style="width: 100%"
     >
-      <el-table-column label="创建日期" width="250">
+      <el-table-column label="创建日期">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.createdat }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="店铺名" width="220">
+      <el-table-column label="店铺名">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.shopName }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="店家号码" width="220">
+      <el-table-column label="店家号码">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.phone }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="店铺地址" width="220">
+      <el-table-column label="店铺地址">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.detailAddress }}</el-tag>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="状态" width="220">
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
             scope.row.toExamine == 1
@@ -56,7 +56,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="300">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -197,12 +197,12 @@
 
 <script>
 import {
-  shopList,
-  shopDetail,
-  shopCheck,
-  shopChange,
-  shopDelete
-} from "@/api/shopList";
+  lifeCircleList,
+  lifeCircleDetail,
+  lifeCircleCheck,
+  lifeCircleChange,
+  lifeCircleDelete
+} from "@/api/lifeCircle";
 export default {
   data() {
     return {
@@ -247,7 +247,7 @@ export default {
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
-      shopList({
+      lifeCircleList({
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
@@ -262,7 +262,7 @@ export default {
       this.id = row.id;
       this.toExamine = row.toExamine;
       this.region = row.toExamine + "";
-      shopDetail({
+      lifeCircleDetail({
         id: row.id
       }).then(res => {
         console.log(res);
@@ -282,7 +282,7 @@ export default {
     },
     confirm() {
       //详情审核确认按钮
-      shopChange({
+      lifeCircleChange({
         id: this.id,
         toExamine: this.region
       }).then(res => {
@@ -315,7 +315,7 @@ export default {
     },
     delShop(index, row) {
       // 删除店铺
-      shopDelete({
+      lifeCircleDelete({
         id: row.id
       }).then(res => {
         console.log(res);
@@ -329,7 +329,7 @@ export default {
       });
     },
     putin() {
-      shopCheck({
+      lifeCircleCheck({
         id: this.id,
         mcNumberId: this.mcNumberId,
         shopName: this.shopName,
