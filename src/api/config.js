@@ -17,6 +17,7 @@ export const auth_logout = module_auth_prefix + '/logout/'
 export const entering_prefix = module_admin_prefix + '/pc/merchantsettledin'
 export const entering_list = entering_prefix + '/entryInformationList'
 export const entering_detail = entering_prefix + '/mcEntryInFormationDetails'
+export const entering_change_state = entering_prefix + '/changeState'
 
 // endregion
 
@@ -75,7 +76,7 @@ export const Role_change_status = Role_prefix + '/change-status'// 变更角色�
 export const life_circle_prefix = module_admin_prefix + '/pc/mc-store'
 export const life_circle_list = life_circle_prefix + '/mcStoreInformationList'// 列表
 export const life_circle_Details = life_circle_prefix + '/mcStoreInformationDetails'// 店铺详情
-export const life_circle_Entry = life_circle_prefix + '/updLocalCircleEntry'// 更改店铺商家信息
+export const life_circle_Entry = life_circle_prefix + '/updateMcStoreInformation'// 更改店铺商家信息
 export const life_circle_change = life_circle_prefix + '/changeMcStoreInformationState'// 更改店铺审核状态
 export const life_circle_delete = life_circle_prefix + '/delMcEntryInformation'// 删除店铺信息
 // endregion

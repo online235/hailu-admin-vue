@@ -94,7 +94,7 @@
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
-              :src="prefix+form.idcardImgx"
+              :src="form.idcardImgx"
               @click="srcListimg(form)"
               :preview-src-list="srcList"
             >
@@ -103,7 +103,7 @@
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
-              :src="prefix+form.idcardImgy"
+              :src="form.idcardImgy"
               @click="srcListimgy"
               :preview-src-list="srcList"
             >
@@ -156,7 +156,6 @@ export default {
       xiangqing: [],
       checkModle:false,
        form: "",
-       prefix:'http://192.168.10.179:8082/api/v1',
        url: [
         "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
         "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",

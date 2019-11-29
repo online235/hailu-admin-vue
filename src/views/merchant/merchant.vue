@@ -27,36 +27,36 @@
       <el-table :data="tableData" style="width: 100%">
         <el-table-column label="店铺名称">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.shopName }}</span>
+            <span style="margin-left: 12px">{{ scope.row.shopName }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="真实姓名">
+        <el-table-column label="开户账号">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.realName }}</span>
+            <span style="margin-left: 12px">{{ scope.row.accountNumber }}</span>
           </template>
         </el-table-column>
 
         <el-table-column label="手机号码">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.phone }}</span>
+            <span style="margin-left: 12px">{{ scope.row.phone }}</span>
           </template>
         </el-table-column>
         <el-table-column label="法人姓名">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{
+            <span style="margin-left: 12px">{{
               scope.row.nameOfLegalPerson
             }}</span>
           </template>
         </el-table-column>
         <el-table-column label="审核状态">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.toExamine }}</span>
+            <span style="margin-left: 12px">{{ scope.row.toExamineDisPlay }}</span>
           </template>
         </el-table-column>
         <el-table-column label="创建时间">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.createdat | formatDate }}</span>
+            <span style="margin-left: 12px">{{ scope.row.createdat | formatDate }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
@@ -111,10 +111,10 @@
               <p>店铺名称</p>
               <div>{{ xiangqing.shopName }}</div>
             </div>
-            <div class="rows">
+            <!-- <div class="rows">
               <p>真实姓名</p>
               <div>{{ xiangqing.realName }}</div>
-            </div>
+            </div> -->
             <div class="rows">
               <p>手机号码</p>
               <div>{{ xiangqing.phone }}</div>
@@ -123,7 +123,7 @@
               <p>身份证号码</p>
               <div>{{ xiangqing.idCard }}</div>
             </div>
-            <div class="rows">
+            <!-- <div class="rows">
               <p>身份证有效期</p>
               <div>{{ xiangqing.idcardtermofValidity }}</div>
             </div>
@@ -132,16 +132,16 @@
               <div>
                 <span v-show="xiangqing.longTermCertificate === false">否</span><span v-show="xiangqing.longTermCertificate === true">是</span>
               </div>
-            </div>
-            <div class="rows">
+            </div> -->
+            <!-- <div class="rows">
               <p>执照名称</p>
               <div>{{ xiangqing.businessName }}</div>
-            </div>
+            </div> -->
             <div class="rows">
-              <p>法人姓名</p>
+              <p>经营者名称</p>
               <div>{{ xiangqing.nameOfLegalPerson }}</div>
             </div>
-            <div class="rows">
+            <!-- <div class="rows">
               <p>执照有效日期</p>
               <div>{{ xiangqing.licenseDate }}</div>
             </div>
@@ -150,10 +150,10 @@
               <div>
                 <span v-show="xiangqing.longTermLicense === false">否</span><span v-show="xiangqing.longTermLicense === true">是</span>
               </div>
-            </div>
+            </div> -->
             <div class="rows">
               <p>审核</p>
-              <div>{{ xiangqing.toExamine }}</div>
+              <div>{{ xiangqing.toExamineDisPlay }}</div>
             </div>
             <div class="rows">
               <p>创建时间</p>
@@ -171,8 +171,8 @@
               <p>身份证正面</p>
               <div>
                 <img
-                  :src="url + xiangqing.idcardImgx"
-                  @click="fangda(url + xiangqing.idcardImgx, '1')"
+                  :src="xiangqing.idcardImgx"
+                  @click="fangda(xiangqing.idcardImgx, '1')"
                 >
               </div>
             </div>
@@ -180,8 +180,8 @@
               <p>身份证背面</p>
               <div>
                 <img
-                  :src="url + xiangqing.idcardImgy"
-                  @click="fangda(url + xiangqing.idcardImgy, '1')"
+                  :src="xiangqing.idcardImgy"
+                  @click="fangda(xiangqing.idcardImgy, '1')"
                 >
               </div>
             </div>
@@ -189,8 +189,8 @@
               <p>营业执照</p>
               <div>
                 <img
-                  :src="url + xiangqing.licensePositive"
-                  @click="fangda(url + xiangqing.licensePositive, '2')"
+                  :src="xiangqing.licensePositive"
+                  @click="fangda(xiangqing.licensePositive, '2')"
                 >
               </div>
             </div>
@@ -239,7 +239,6 @@ export default {
       box: false,
       total: 0,
       xiangqing: [],
-      url: 'http://192.168.10.165:8082/api/v1'
     }
   },
   created() {
@@ -306,16 +305,18 @@ export default {
     },
     // 审核通过
     cancelModify(numid) {
+      let that = this;
       const params = new URLSearchParams()
       params.append('numberId', numid)
       params.append('toExamine', '2')
       merchantcheck(params).then(res => {
-        if (res.data.code === 0) {
-          this.$message({
+        debugger
+        if (res.code === 200) {
+          that.$message({
             message: '审核通过成功',
             type: 'success'
           })
-          this.fangfa()
+          that.fangfa()
         }
       })
       this.box = false
@@ -326,7 +327,7 @@ export default {
       params.append('numberId', numid)
       params.append('toExamine', '3')
       merchantcheck(params).then(res => {
-        if (res.data.code === 0) {
+        if (res.code === 200) {
           this.$message({
             message: '审核不通过',
             type: 'error'

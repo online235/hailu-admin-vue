@@ -11,7 +11,7 @@ export function merchantList(data) {
 // 审核通过
 export function merchantcheck(data) {
   return request({
-    url: config.entering_list,
+    url: config.entering_change_state,
     method: 'post',
     params: data
   })

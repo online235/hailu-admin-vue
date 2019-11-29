@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="treeHead">
-      <div><h2>生活圈-店铺列表</h2></div>
+      <div><h2>店铺-列表</h2></div>
       <div>
         <el-input placeholder="可根据关键字查询" v-model="search" clearable>
         </el-input>
@@ -64,18 +64,18 @@
             @click="handleEdit(scope.$index, scope.row)"
             >审核</el-button
           >
-          <el-button
+          <!-- <el-button
             size="mini"
             type="warning"
             @click="change(scope.$index, scope.row)"
             >更改店铺信息</el-button
-          >
-          <el-button
+          > -->
+          <!-- <el-button
             size="mini"
             type="danger"
             @click="delShop(scope.$index, scope.row)"
             >删除店铺</el-button
-          >
+          > -->
         </template>
       </el-table-column>
     </el-table>

@@ -95,11 +95,17 @@ export const constantRoutes = [
         meta: { title: '百货商户', icon: 'table' }
       },
       {
-        path: 'life-circle',
-        name: 'life-circle',
-        component: () => import('@/views/life-circle/life-circle-list'),
-        meta: { title: '生活圈店铺', icon: 'table' }
+        path: 'store',
+        name: 'store',
+        component: () => import('@/views/store/store-list'),
+        meta: { title: '店铺管理', icon: 'table' }
       },
+      // {
+      //   path: 'life-circle',
+      //   name: 'life-circle',
+      //   component: () => import('@/views/life-circle/life-circle-list'),
+      //   meta: { title: '本地生活圈', icon: 'table' }
+      // },
       {
         path: 'merchant-type',
         name: 'merchant-type',
