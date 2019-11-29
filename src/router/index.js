@@ -64,19 +64,19 @@ export const constantRoutes = [
       {
         path: 'admin',
         name: 'admin',
-        component: () => import('@/views/system/adminList'),
+        component: () => import('@/views/system/admin-list'),
         meta: { title: '管理员', icon: 'table' }
       },
       {
         path: 'menu',
         name: 'menu',
-        component: () => import('@/views/system/menuList'),
+        component: () => import('@/views/system/menu-list'),
         meta: { title: '菜单', icon: 'tree' }
       },
       {
         path: 'role',
         name: 'role',
-        component: () => import('@/views/system/roleList'),
+        component: () => import('@/views/system/role-list'),
         meta: { title: '角色', icon: 'tree' }
       }
     ]
@@ -97,13 +97,13 @@ export const constantRoutes = [
       {
         path: 'life-circle',
         name: 'life-circle',
-        component: () => import('@/views/lifeCircle/lifeCircleList'),
+        component: () => import('@/views/life-circle/life-circle-list'),
         meta: { title: '生活圈店铺', icon: 'table' }
       },
       {
         path: 'merchant-type',
         name: 'merchant-type',
-        component: () => import('@/views/merchant/manageType'),
+        component: () => import('@/views/merchant/manage-type'),
         meta: { title: '经营类型', icon: 'tree' }
       }
     ]

@@ -202,7 +202,7 @@ import {
   lifeCircleCheck,
   lifeCircleChange,
   lifeCircleDelete
-} from "@/api/lifeCircle";
+} from "@/api/life-circle";
 export default {
   data() {
     return {
