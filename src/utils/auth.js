@@ -26,7 +26,7 @@ export function setUserInfo(userImg, username) {
 
 export function setToken(accessToken, refreshToken) {
   localStorage.setItem(accessTokenKey, accessToken)
-  if (refreshToken !== null) {
+  if (refreshToken !== null && refreshToken !== undefined) {
     localStorage.setItem(refreshTokenKey, refreshToken)
   }
 }

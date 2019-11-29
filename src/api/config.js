@@ -9,6 +9,7 @@ export const module_xinan_prefix = prefix + module_xinan
 
 // region 登录接口
 export const auth_login = module_auth_prefix + '/login/2'
+export const auth_token_refresh = module_auth_prefix + '/token/refresh/'
 export const auth_logout = module_auth_prefix + '/logout/'
 
 // endregion
