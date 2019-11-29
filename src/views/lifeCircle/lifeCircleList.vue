@@ -314,19 +314,27 @@ export default {
       this.region = row.toExamine + "";
     },
     delShop(index, row) {
-      // 删除店铺
-      lifeCircleDelete({
-        id: row.id
-      }).then(res => {
-        console.log(res);
-        if (res.code == 200) {
-          this.fetchData();
-          this.$message({
-            message: "操作成功",
-            type: "success"
-          });
-        }
-      });
+      let that = this;
+      that.$confirm('是否删除该店铺?', '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 删除店铺
+        lifeCircleDelete({
+          id: row.id
+        }).then(res => {
+          console.log(res);
+          if (res.code == 200) {
+            that.fetchData();
+            that.$message({
+              message: "操作成功",
+              type: "success"
+            });
+          }
+        });
+      })
+
     },
     putin() {
       lifeCircleCheck({

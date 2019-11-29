@@ -1,11 +1,9 @@
 export const prefix = '/api/v1'
 export const module_auth = '/auth'
 export const module_admin = '/admin'
-export const module_xinan = '/xinan'
 
 export const module_auth_prefix = prefix + module_auth
 export const module_admin_prefix = prefix + module_admin
-export const module_xinan_prefix = prefix + module_xinan
 
 // region 登录接口
 export const auth_login = module_auth_prefix + '/login/2'
@@ -58,10 +56,10 @@ export const admin_reset_pwd = admin_prefix + '/reset-pwd'// 重置密码
 // endregion
 
 // region 系统管理-菜单列表
-export const Menu_prefix = module_admin_prefix + '/system/menu'
-export const Menu_list = Menu_prefix + '/list'// 列表
-export const Menu_change_status = Menu_prefix + '/change-status'// 变更菜单启用状态
-export const Menu_add_menu = Menu_prefix + '/add-menu'// 添加菜单
+export const menu_prefix = module_admin_prefix + '/system/menu'
+export const menu_list = menu_prefix + '/list'// 列表
+export const menu_change_status = menu_prefix + '/change-status'// 变更菜单启用状态
+export const menu_add_menu = menu_prefix + '/add-menu'// 添加菜单
 
 // endregion
 
@@ -73,7 +71,7 @@ export const Role_change_menus = Role_prefix + '/change-menus'// 变更菜单
 export const Role_change_status = Role_prefix + '/change-status'// 变更角色启用状态
 // endregion
 
-// region 店铺管理
+// region 生活圈店铺管理
 export const life_circle_prefix = module_admin_prefix + '/pc/mc-store'
 export const life_circle_list = life_circle_prefix + '/mcStoreInformationList'// 列表
 export const life_circle_Details = life_circle_prefix + '/mcStoreInformationDetails'// 店铺详情

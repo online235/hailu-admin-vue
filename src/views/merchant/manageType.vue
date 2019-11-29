@@ -209,24 +209,32 @@ export default {
       //console.log(index, row);
     },
     handleDelete(index, row) {
-      //console.log(index, row);
-      if (row.children) {
-        for (var i = 0; i < this.tableData.length; i++) {
-          if (this.tableData[i].id == row.id) {
-            this.tableData.splice(i, 1);
+      let that = this;
+      that.$confirm('是否删除该经营类型?', '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        //console.log(index, row);
+        if (row.children) {
+          for (var i = 0; i < this.tableData.length; i++) {
+            if (this.tableData[i].id == row.id) {
+              this.tableData.splice(i, 1);
+            }
           }
-        }
-      } else {
-        for (var i = 0; i < this.tableData.length; i++) {
-          for (var j = 0; j < this.tableData[i].children.length; j++) {
-            if (this.tableData[i].children[j].id == row.id) {
-              console.log(this.tableData[i].children[j]);
-              this.tableData[i].children.splice(j, 1);
-              console.log(this.tableData[i].children);
+        } else {
+          for (var i = 0; i < this.tableData.length; i++) {
+            for (var j = 0; j < this.tableData[i].children.length; j++) {
+              if (this.tableData[i].children[j].id == row.id) {
+                console.log(this.tableData[i].children[j]);
+                this.tableData[i].children.splice(j, 1);
+                console.log(this.tableData[i].children);
+              }
             }
           }
         }
-      }
+      })
+
     },
     handleAdd(index, row) {
       console.log(index, row);

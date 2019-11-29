@@ -3,7 +3,7 @@ import * as config from './config'
 // 列表查询
 export function menuList(data) {
   return request({
-    url: config.Menu_list,
+    url: config.menu_list,
     method: 'get',
     params: data
   })
@@ -15,7 +15,7 @@ export function menuList(data) {
 // 添加菜单
 export function menuAdd(data) {
   return request({
-    url: config.Menu_add_menu,
+    url: config.menu_add_menu,
     method: 'post',
     params: data
   })
@@ -24,7 +24,7 @@ export function menuAdd(data) {
 // 变更菜单启用状态
 export function menuCheck(data) {
   return request({
-    url: config.Menu_change_status,
+    url: config.menu_change_status,
     method: 'get',
     params: data
   })
