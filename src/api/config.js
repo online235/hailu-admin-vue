@@ -1,4 +1,4 @@
-export const prefix = '/api/v1'
+export const prefix = '/api/v2'
 export const module_auth = '/auth'
 export const module_admin = '/admin'
 
@@ -79,4 +79,21 @@ export const life_circle_Details = life_circle_prefix + '/mcStoreInformationDeta
 export const life_circle_Entry = life_circle_prefix + '/updateMcStoreInformation'// 更改店铺商家信息
 export const life_circle_change = life_circle_prefix + '/changeMcStoreInformationState'// 更改店铺审核状态
 export const life_circle_delete = life_circle_prefix + '/delMcEntryInformation'// 删除店铺信息
+// endregion
+
+// region 经营行业
+export const Management_prefix = module_admin_prefix + '/ManagementType/find'
+export const Management_list = Management_prefix + '/queryBusinessType'// 列表
+export const Management_add = Management_prefix + 'add/industry'// 添加经营行业
+export const Management_change = Management_prefix + '/upd/industry'// 更改行业标签内容
+export const Management_delete = Management_prefix + '/typeDetails'// 查询经营类型详细
+// endregion
+
+// region -商家入驻-生活圈后台
+export const McLocal_prefix = module_admin_prefix + '/pc/life-circle/'
+export const McLocal_list = McLocal_prefix + '/localCircleEntryList'// 列表
+export const McLocal_Details = McLocal_prefix + '/localCircleEntryDetails'// 详情
+export const McLocal_Entry = McLocal_prefix + '/updLocalCircleEntry'// 更改生活圈商家入驻信息
+export const McLocal_change = McLocal_prefix + '/changeLocalCircleState'// 更改生活圈商家入驻审核状态
+export const McLocal_delete = McLocal_prefix + '/delLocalCircleEntry'// 删除生活圈商家入驻信息
 // endregion

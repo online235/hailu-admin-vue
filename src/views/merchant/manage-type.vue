@@ -93,6 +93,12 @@
 </template>
 
 <script>
+import {
+  ManageList,
+  ManageAdd,
+  ManageCheck,
+  ManageMenus
+} from "@/api/management";
 export default {
   data() {
     return {
@@ -100,6 +106,7 @@ export default {
       dialogVisible: false,
       children: "",
       search: "",
+      cstableData: [],
       tableData: [
         {
           id: 1,
@@ -183,6 +190,18 @@ export default {
   created() {},
 
   methods: {
+    fetchData(){
+      ManageList({
+        pageNum: this.currentPage,
+        pageSize: this.pageSize
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.tableData = res.data.datas;
+          this.total = res.data.total;
+        }
+      });
+    },
     load(tree, treeNode, resolve) {
       //console.log(tree)
       resolve([]);
@@ -237,21 +256,21 @@ export default {
 
     },
     handleAdd(index, row) {
-      console.log(index, row);
+      console.log(index, row)
     },
     handAdd() {},
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     amend() {
-      this.dialogVisible = false;
+      this.dialogVisible = false
     }
   }
-};
+}
 </script>
 <style scoped>
 .manage {

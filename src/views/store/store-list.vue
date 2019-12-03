@@ -12,7 +12,10 @@
       :data="
         tableData.filter(
           data =>
-            !search || data.name.toLowerCase().includes(search.toLowerCase())
+            !search || data.shopName.toLowerCase().includes(search.toLowerCase()) ||
+            data.createdat.toLowerCase().includes(search.toLowerCase()) ||
+            data.phone.toLowerCase().includes(search.toLowerCase()) ||
+            data.detailAddress.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
@@ -64,12 +67,12 @@
             @click="handleEdit(scope.$index, scope.row)"
             >审核</el-button
           >
-          <!-- <el-button
+          <el-button
             size="mini"
             type="warning"
             @click="change(scope.$index, scope.row)"
             >更改店铺信息</el-button
-          > -->
+          >
           <!-- <el-button
             size="mini"
             type="danger"

@@ -180,7 +180,7 @@
         <el-form-item label="账号：">
           <div>{{ form.account }}</div>
         </el-form-item>
-        <el-form-item label="手机号">
+        <el-form-item label="手机号：">
           <div>{{ form.phone }}</div>
         </el-form-item>
         <el-form-item label="状态：">

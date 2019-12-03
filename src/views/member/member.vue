@@ -248,7 +248,7 @@ export default {
       //console.log(row);
       // let params = new URLSearchParams();
       // params.append("memberid", row.memberId);
-      memberDetail({memberid:row.memberId}).then(res => {
+      memberDetail({userId:row.userId}).then(res => {
        this.form=res.data
        //console.log(res.data);
           this.checkModle = true;

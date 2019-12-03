@@ -100,12 +100,12 @@ export const constantRoutes = [
         component: () => import('@/views/store/store-list'),
         meta: { title: '店铺管理', icon: 'table' }
       },
-      // {
-      //   path: 'life-circle',
-      //   name: 'life-circle',
-      //   component: () => import('@/views/life-circle/life-circle-list'),
-      //   meta: { title: '本地生活圈', icon: 'table' }
-      // },
+      {
+        path: 'McLocal',
+        name: 'McLocal',
+        component: () => import('@/views/McLocal/McLocal'),
+        meta: { title: '本地生活圈', icon: 'table' }
+      },
       {
         path: 'merchant-type',
         name: 'merchant-type',
