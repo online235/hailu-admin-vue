@@ -255,7 +255,7 @@ export default {
         pageSize: this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
         }
@@ -269,7 +269,7 @@ export default {
         id: row.id
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.form = res.data;
           this.checkModle = true;
         }
@@ -290,7 +290,7 @@ export default {
         toExamine: this.region
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.checkModle = false;
           this.fetchData();
           this.$message({
@@ -328,7 +328,7 @@ export default {
           id: row.id
         }).then(res => {
           console.log(res);
-          if (res.code == 200) {
+          if (res.code === 200) {
             that.fetchData();
             that.$message({
               message: "操作成功",
@@ -352,7 +352,7 @@ export default {
         region: this.region
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.dialogVisible = false;
           this.fetchData();
           this.$message({

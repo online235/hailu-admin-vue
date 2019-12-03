@@ -121,7 +121,7 @@ export default {
         pageSize:this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
           // for (var i = 0; i < this.tableData.length; i++) {
@@ -141,7 +141,7 @@ export default {
         enableStatus: this.enableStatus
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.fetchData();
         }
       });
@@ -167,7 +167,7 @@ export default {
         enableStatus:this.region
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.dialogVisible=false
           this.fetchData();
         }

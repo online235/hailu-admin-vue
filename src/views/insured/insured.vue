@@ -138,7 +138,7 @@ export default {
         size:this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.tableData = res.data.list;
           this.total = res.data.total;
           for (var i = 0; i < this.tableData.length; i++) {

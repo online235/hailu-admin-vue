@@ -250,7 +250,7 @@ export default {
         pageSize: this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
         }
@@ -267,7 +267,7 @@ export default {
         enableStatus: row.enableStatus
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.form = res.data;
           this.checkModle = true;
         }
@@ -291,7 +291,7 @@ export default {
         enableStatus: this.enableStatus
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message({
             message: "操作成功",
             type: "success"
@@ -339,7 +339,7 @@ export default {
           enableStatus: this.region // 启用状态
         }).then(res => {
           console.log(res);
-          if (res.code == 200) {
+          if (res.code === 200) {
             this.dialogVisible = false;
             this.$message({
               message: "操作成功",
@@ -374,7 +374,7 @@ export default {
         newPwd: this.resepwd
       }).then(res => {
         //console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message({
             message: "操作成功",
             type: "success"

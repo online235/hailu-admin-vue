@@ -7,15 +7,28 @@ export function menuList(data) {
     method: 'get',
     params: data
   })
-  // return request.post(config.insured_rescue_list, {
-  //   params: data
-  // })
+}
+
+export function menuTreeList(data) {
+  return request({
+    url: config.menu_tree_list,
+    method: 'get'
+  })
 }
 
 // 添加菜单
 export function menuAdd(data) {
   return request({
     url: config.menu_add_menu,
+    method: 'post',
+    params: data
+  })
+}
+
+// 编辑菜单
+export function menuUpdate(data) {
+  return request({
+    url: config.menu_update_menu,
     method: 'post',
     params: data
   })

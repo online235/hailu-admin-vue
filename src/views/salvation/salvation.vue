@@ -157,7 +157,7 @@ export default {
         size: this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
           for (var i = 0; i < this.tableData.length; i++) {
@@ -186,7 +186,7 @@ export default {
         numberId: this.numberId
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.form = res.data[0];
           console.log(res.data);
         }
@@ -234,7 +234,7 @@ export default {
         examine: this.examine
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message({
             message: "审核操作成功",
             type: "success"

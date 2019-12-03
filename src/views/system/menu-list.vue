@@ -1,69 +1,65 @@
 <template>
   <div class="app-container">
-    <div class="treeHead">
-      <div><h2>菜单列表</h2></div>
-      <div>
-        <el-input placeholder="可根据名称查询" v-model="search" clearable>
-        </el-input>
-      </div>
-      <div>
-        <el-button size="medium" type="success" @click="addUser"
-          >添加菜单</el-button
-        >
-      </div>
-    </div>
-    <el-table
-      border
-      :data="
-        tableData.filter(
-          data =>
-            !search || data.menuName.toLowerCase().includes(search.toLowerCase()) ||
-            data.menuTypeDisplay.toLowerCase().includes(search.toLowerCase())
-        )
-      "
-      style="width: 100%"
-    >
-      <el-table-column label="菜单名称">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.menuName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="菜单类型">
-        <template slot-scope="scope">
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.menuTypeDisplay }}</el-tag>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="状态">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{
-            scope.row.enableStatusDisplay
-          }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作"width="150">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)"
-            >更变状态</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="block">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10]"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
-    </div>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-tree
+        :data="menuTreeData"
+        show-checkbox
+        node-key="id"
+        :expand-on-click-node="false"
+        @node-click="treeItemClick"
+        default-expand-all>
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ data.menuName }}</span>
+            <span>
+              <el-button
+              type="text"
+              size="mini"
+              @click="() => appendTreeItem(data)"
+              >
+                添加下级
+              </el-button>
+            </span>
+          </span>
+        </el-tree>
+      </el-col>
+      <el-col :span="16">
+        <el-form ref="form" :model="form" label-width="80px" size="mini">
+          <el-form-item label="菜单名称">
+            <el-input v-model="form.menuName"></el-input>
+          </el-form-item>
+          <el-form-item label="权限编码">
+            <el-input v-model="form.permissionCode"></el-input>
+          </el-form-item>
+          <el-form-item label="URL">
+            <el-input v-model="form.url"></el-input>
+          </el-form-item>
+          <el-form-item label="菜单类型">
+            <el-select v-model="form.menuType" placeholder="请选择菜单类型">
+              <el-option
+                      v-for="(item, index) in choose"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="启用状态">
+            <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
+              <el-option
+                      v-for="(item, index) in chooses"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="save">保存</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
     <el-dialog
       title="添加菜单"
       :visible.sync="dialogVisible"
@@ -71,30 +67,30 @@
       :before-close="handleClose"
     >
       <el-form ref="form" label-width="150px">
-        <el-form-item label="菜单名称：">
-          <el-input v-model="menuName"></el-input>
+        <el-form-item label="菜单名称">
+          <el-input v-model="form.menuName"></el-input>
         </el-form-item>
-        <el-form-item label="菜单权限编码：">
-          <el-input v-model="permissionCode"></el-input>
+        <el-form-item label="权限编码">
+          <el-input v-model="form.permissionCode"></el-input>
         </el-form-item>
-        <el-form-item label="菜单URL路径：">
-          <el-input v-model="url"></el-input>
+        <el-form-item label="URL">
+          <el-input v-model="form.url"></el-input>
         </el-form-item>
-        <el-form-item label="菜单类型：">
-          <el-select v-model="region" placeholder="请选择菜单类型">
+        <el-form-item label="菜单类型">
+          <el-select v-model="form.menuType" placeholder="请选择菜单类型">
             <el-option
               v-for="(item, index) in choose"
-              :key="index"
+              :key="item.id"
               :label="item.name"
               :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
-         <el-form-item label="启用类型：">
-          <el-select v-model="regions" placeholder="请选择启用类型">
+         <el-form-item label="启用状态">
+          <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
             <el-option
               v-for="(item, index) in chooses"
-              :key="index"
+              :key="item.id"
               :label="item.name"
               :value="item.id"
             ></el-option>
@@ -110,16 +106,14 @@
 </template>
 
 <script>
-import { menuList, menuAdd, menuCheck } from "@/api/menu";
+import { menuList, menuAdd, menuCheck,menuTreeList, menuUpdate } from "@/api/menu";
 export default {
   data() {
     return {
-      region:'0',
       choose:[
         {id:'0',name:'菜单'},
         {id:'1',name:'按钮'}
       ],
-      regions:'1',
       chooses:[
         {id:'0',name:'禁用'},
         {id:'1',name:'启用'}
@@ -130,39 +124,55 @@ export default {
       total: 0,
       tableData: [],
       search: "",
-      enableStatus: "",
-      id: "",
-      menuName:'',// 菜单名称
-      permissionCode:'',// 菜单权限编码
-      url:'',// 菜单URL路径
+      // region 添加表单
+      form:{
+        id: "",
+        parentId: 0,
+        menuName:'',// 菜单名称
+        permissionCode:'',// 菜单权限编码
+        url:'',// 菜单URL路径
+        enableStatus: "1",
+        menuType:'0',
+      },
+      // endregion
+      menuTreeData: [],
+      menuTreeItemChoose: null
     };
   },
   created() {
     this.fetchData(); //列表数据加载
+    this.searchTreeList();
   },
 
   methods: {
+    searchTreeList(){
+      menuTreeList().then(res => {
+        if (res.code === 200) {
+          this.menuTreeData = res.data;
+        }
+      })
+    },
+    treeItemClick(data, node, target){
+      this.menuTreeItemChoose = data
+      this.form.id = data.id
+      this.form.menuName = data.menuName
+      this.form.parentId = data.parentId
+      this.form.menuType = data.menuType + ""
+      this.form.enableStatus = data.enableStatus + ""
+      this.form.permissionCode = data.permissionCode
+      this.form.url = data.url
+      console.info(data, node, target)
+    },
     fetchData() {
       //列表数据加载
-      // let params = new URLSearchParams();
-      // params.append("page", this.currentPage);
-      // params.append("size", this.pageSize);
       menuList({
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
-          // for (var i = 0; i < this.tableData.length; i++) {
-          //   var dataee = new Date(this.tableData[i].createDate).toJSON();
-          //   var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
-          //     .toISOString()
-          //     .replace(/T/g, " ")
-          //     .replace(/\.[\d]{3}Z/, "");
-          //   this.tableData[i].createDate = date;
-          // }
         }
       });
     },
@@ -172,14 +182,13 @@ export default {
         enableStatus: this.enableStatus
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.fetchData();
         }
       });
     },
     handleEdit(index, row) {
       //变更按钮
-      //console.log(index, row);
       this.id=row.id
       if(row.enableStatus==0){
         this.enableStatus=1
@@ -188,22 +197,35 @@ export default {
       }
       this.modify()
     },
-    addUser() {
-      // 添加账号
+    appendTreeItem(data) {
+      this.menuTreeItemChoose = data;
       this.dialogVisible = true;
+      // 清空添加表单
+      this.form.id = ""
+      this.form.menuName = ""
+      this.form.permissionCode = ""
+      this.form.url = ""
+      this.form.enableStatus = "1"
+      this.form.menuType = "0"
     },
     affirm(){
+      let that = this;
       menuAdd({
-        menuName:this.menuName,
-        permissionCode:this.permissionCode,
-        url:this.url,
-        menuType:this.region,
-        enableStatus:this.regions
+        menuName:this.form.menuName,
+        permissionCode:this.form.permissionCode,
+        parentId: this.menuTreeItemChoose == null ? 0 : this.menuTreeItemChoose.id,
+        url:this.form.url,
+        menuType:this.form.menuType,
+        enableStatus:this.form.enableStatus
       }).then(res => {
         console.log(res);
-        if (res.code == 200) {
+        if (res != null && res.code === 200) {
+          if( that.menuTreeItemChoose == null ){
+            that.menuTreeData.push(res.data)
+          }else{
+            that.menuTreeItemChoose.children.push(res.data)
+          }
           this.dialogVisible=false
-          this.fetchData();
         }
       });
     },
@@ -219,6 +241,41 @@ export default {
       //分页
       this.currentPage = val;
       this.fetchData();
+    },
+    save(){
+      let that = this;
+      if( that.menuTreeItemChoose == null ){
+        this.$message({
+          message: '请选择要编辑的菜单',
+          type: 'warning'
+        });
+        return;
+      }
+      const loading = that.$loading({
+        lock: true,
+        text: '正在保存',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      menuUpdate({
+        id:this.form.id,
+        menuName:this.form.menuName,
+        permissionCode:this.form.permissionCode,
+        parentId: this.form.parentId,
+        url:this.form.url,
+        menuType:this.form.menuType,
+        enableStatus:this.form.enableStatus
+      }).then(res => {
+        loading.close();
+        console.log(res);
+        if (res != null && res.code === 200) {
+          that.menuTreeItemChoose.menuName = that.form.menuName
+          that.menuTreeItemChoose.permissionCode = that.form.permissionCode
+          that.menuTreeItemChoose.url = that.form.url
+          that.menuTreeItemChoose.menuType = that.form.menuType
+          that.menuTreeItemChoose.enableStatus = that.form.enableStatus
+        }
+      });
     }
   }
 };
@@ -230,5 +287,13 @@ export default {
 }
 .treeHead > div {
   margin-right: 20px;
+}
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
 }
 </style>

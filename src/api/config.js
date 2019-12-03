@@ -59,8 +59,10 @@ export const admin_reset_pwd = admin_prefix + '/reset-pwd'// 重置密码
 // region 系统管理-菜单列表
 export const menu_prefix = module_admin_prefix + '/system/menu'
 export const menu_list = menu_prefix + '/list'// 列表
+export const menu_tree_list = menu_prefix + '/tree'// 列表
 export const menu_change_status = menu_prefix + '/change-status'// 变更菜单启用状态
 export const menu_add_menu = menu_prefix + '/add-menu'// 添加菜单
+export const menu_update_menu = menu_prefix + '/update-menu'// 添加菜单
 
 // endregion
 
