@@ -33,13 +33,19 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="primary"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="changeState(scope.$index, scope.row)"
             >更变状态</el-button
+          >
+          <el-button
+            size="mini"
+            type="success"
+            @click="linkMenus(scope.$index, scope.row)"
+            >关联菜单</el-button
           >
         </template>
       </el-table-column>
@@ -75,16 +81,38 @@
           </el-select>
         </el-form-item>
       </el-form>
+    </el-dialog>
+    <el-dialog
+      title="关联菜单"
+      :visible.sync="linkMenuDialogVisible"
+      width="40%"
+      :before-close="handleClose"
+    >
+      <el-form label-width="150px">
+        <el-tree class="menu-tree"
+                 ref="menuTree"
+                 :data="menuTreeData"
+                 show-checkbox
+                 :check-strictly="true"
+                 node-key="id"
+                 :expand-on-click-node="false"
+                 default-expand-all>
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ data.menuName }}</span>
+          </span>
+        </el-tree>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="affirm">确 定</el-button>
+        <el-button @click="linkMenuDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="bindRoleMenu">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { roleList,roleAdd,roleCheck,roleMenus } from "@/api/role";
+import { roleList,roleAdd,roleCheck,changeMenus } from "@/api/role";
+import { menuTreeList } from "@/api/menu";
 export default {
   data() {
     return {
@@ -94,6 +122,7 @@ export default {
         {id:'1',name:'启用'}
       ],
       dialogVisible:false,
+      linkMenuDialogVisible:false,
       currentPage: 1,
       pageSize: 10,
       total: 0,
@@ -104,6 +133,11 @@ export default {
       roleName:'',// 菜单名称
       permissionCode:'',// 菜单权限编码
       url:'',// 菜单URL路径
+
+      menuTreeData: [],
+      menuTreeItemChoose: null,
+      // 当前选中的角色数据
+      chooseRole:null
     };
   },
   created() {
@@ -113,9 +147,6 @@ export default {
   methods: {
     fetchData() {
       //列表数据加载
-      // let params = new URLSearchParams();
-      // params.append("page", this.currentPage);
-      // params.append("size", this.pageSize);
       roleList({
         pageNum:this.currentPage,
         pageSize:this.pageSize
@@ -124,14 +155,6 @@ export default {
         if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
-          // for (var i = 0; i < this.tableData.length; i++) {
-          //   var dataee = new Date(this.tableData[i].createDate).toJSON();
-          //   var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
-          //     .toISOString()
-          //     .replace(/T/g, " ")
-          //     .replace(/\.[\d]{3}Z/, "");
-          //   this.tableData[i].createDate = date;
-          // }
         }
       });
     },
@@ -146,7 +169,7 @@ export default {
         }
       });
     },
-    handleEdit(index, row) {
+    changeState(index, row) {
       //变更按钮
       //console.log(index, row);
       this.id=row.id
@@ -157,9 +180,48 @@ export default {
       }
       this.modify()
     },
+    searchMenuTreeList(){
+      menuTreeList({onlyShowEnable: this.onlyShowEnable}).then(res => {
+        if (res.code === 200) {
+          this.menuTreeData = res.data;
+          if( this.chooseRole.menuIds ){
+            this.$refs.menuTree.setCheckedKeys(this.chooseRole.menuIds, true)
+          }
+        }
+      })
+    },
+    linkMenus(index, row) {
+      this.linkMenuDialogVisible = true
+      this.chooseRole = row
+      this.searchMenuTreeList();
+    },
     addUser() {
       // 添加账号
       this.dialogVisible = true;
+    },
+    // 绑定角色与菜单关联
+    bindRoleMenu(){
+      let that = this;
+      let checkList = this.$refs.menuTree.getCheckedNodes(false, true);
+      let menuIds = [];
+      checkList.forEach(item=>{
+        menuIds.push(item.id)
+      })
+      console.log(checkList, menuIds);
+      changeMenus({
+        id: this.chooseRole.id,
+        menuIds: menuIds.join(",")
+      }).then(res => {
+        console.log(res);
+        if (res.code === 200) {
+          that.$message({
+            message: '关联成功',
+            type: 'success'
+          });
+          that.linkMenuDialogVisible = false
+          this.fetchData();
+        }
+      });
     },
     affirm(){
       roleAdd({

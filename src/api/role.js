@@ -31,7 +31,7 @@ export function roleCheck(data) {
 }
 
 // 变更菜单
-export function roleMenus(data) {
+export function changeMenus(data) {
   return request({
     url: config.Role_change_menus,
     method: 'get',

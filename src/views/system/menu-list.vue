@@ -20,7 +20,6 @@
         <el-col :span="10">
           <el-tree class="menu-tree"
                   :data="menuTreeData"
-                  show-checkbox
                   node-key="id"
                   :expand-on-click-node="false"
                   @node-click="treeItemClick"
