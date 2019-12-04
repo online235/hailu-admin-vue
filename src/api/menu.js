@@ -12,7 +12,8 @@ export function menuList(data) {
 export function menuTreeList(data) {
   return request({
     url: config.menu_tree_list,
-    method: 'get'
+    method: 'get',
+    params:data
   })
 }
 

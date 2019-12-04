@@ -1,30 +1,88 @@
 <template>
-  <div class="app-container">
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <el-tree
-        :data="menuTreeData"
-        show-checkbox
-        node-key="id"
-        :expand-on-click-node="false"
-        @node-click="treeItemClick"
-        default-expand-all>
+  <el-container>
+    <el-main>
+      <el-form :inline="true">
+        <el-form-item label="只显示启用的菜单">
+          <el-switch
+                  v-model="onlyShowEnable"
+                  @change="onlyShowEnableChange"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
+          </el-switch>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="mini" type="success" @click="appendTreeItem(null)"
+          >添加菜单</el-button
+          >
+        </el-form-item>
+      </el-form>
+      <el-row :gutter="20">
+        <el-col :span="10">
+          <el-tree class="menu-tree"
+                  :data="menuTreeData"
+                  show-checkbox
+                  node-key="id"
+                  :expand-on-click-node="false"
+                  @node-click="treeItemClick"
+                  default-expand-all>
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ data.menuName }}</span>
             <span>
               <el-button
-              type="text"
-              size="mini"
-              @click="() => appendTreeItem(data)"
+                      type="text"
+                      size="mini"
+                      @click="() => appendTreeItem(data)"
               >
                 添加下级
               </el-button>
             </span>
           </span>
-        </el-tree>
-      </el-col>
-      <el-col :span="16">
-        <el-form ref="form" :model="form" label-width="80px" size="mini">
+          </el-tree>
+        </el-col>
+        <el-col :span="14">
+          <el-form ref="form" :model="form" label-width="80px" size="mini">
+            <el-form-item label="菜单名称">
+              <el-input v-model="form.menuName"></el-input>
+            </el-form-item>
+            <el-form-item label="权限编码">
+              <el-input v-model="form.permissionCode"></el-input>
+            </el-form-item>
+            <el-form-item label="URL">
+              <el-input v-model="form.url"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单类型">
+              <el-select v-model="form.menuType" placeholder="请选择菜单类型">
+                <el-option
+                        v-for="(item, index) in choose"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="启用状态">
+              <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
+                <el-option
+                        v-for="(item, index) in chooses"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="save">保存</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+      <el-dialog
+              title="添加菜单"
+              :visible.sync="dialogVisible"
+              width="40%"
+              :before-close="handleClose"
+      >
+        <el-form ref="form" label-width="150px">
           <el-form-item label="菜单名称">
             <el-input v-model="form.menuName"></el-input>
           </el-form-item>
@@ -38,7 +96,7 @@
             <el-select v-model="form.menuType" placeholder="请选择菜单类型">
               <el-option
                       v-for="(item, index) in choose"
-                      :key="index"
+                      :key="item.id"
                       :label="item.name"
                       :value="item.id"
               ></el-option>
@@ -48,65 +106,25 @@
             <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
               <el-option
                       v-for="(item, index) in chooses"
-                      :key="index"
+                      :key="item.id"
                       :label="item.name"
                       :value="item.id"
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="save">保存</el-button>
-          </el-form-item>
         </el-form>
-      </el-col>
-    </el-row>
-    <el-dialog
-      title="添加菜单"
-      :visible.sync="dialogVisible"
-      width="40%"
-      :before-close="handleClose"
-    >
-      <el-form ref="form" label-width="150px">
-        <el-form-item label="菜单名称">
-          <el-input v-model="form.menuName"></el-input>
-        </el-form-item>
-        <el-form-item label="权限编码">
-          <el-input v-model="form.permissionCode"></el-input>
-        </el-form-item>
-        <el-form-item label="URL">
-          <el-input v-model="form.url"></el-input>
-        </el-form-item>
-        <el-form-item label="菜单类型">
-          <el-select v-model="form.menuType" placeholder="请选择菜单类型">
-            <el-option
-              v-for="(item, index) in choose"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-         <el-form-item label="启用状态">
-          <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
-            <el-option
-              v-for="(item, index) in chooses"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
+        <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="affirm">确 定</el-button>
       </span>
-    </el-dialog>
-  </div>
+      </el-dialog>
+    </el-main>
+
+  </el-container>
 </template>
 
 <script>
-import { menuList, menuAdd, menuCheck,menuTreeList, menuUpdate } from "@/api/menu";
+import { menuAdd, menuTreeList, menuUpdate } from "@/api/menu";
 export default {
   data() {
     return {
@@ -118,6 +136,7 @@ export default {
         {id:'0',name:'禁用'},
         {id:'1',name:'启用'}
       ],
+      onlyShowEnable:false,
       dialogVisible:false,
       currentPage: 1,
       pageSize: 10,
@@ -140,13 +159,15 @@ export default {
     };
   },
   created() {
-    this.fetchData(); //列表数据加载
     this.searchTreeList();
   },
 
   methods: {
+    onlyShowEnableChange(){
+      this.searchTreeList();
+    },
     searchTreeList(){
-      menuTreeList().then(res => {
+      menuTreeList({onlyShowEnable: this.onlyShowEnable}).then(res => {
         if (res.code === 200) {
           this.menuTreeData = res.data;
         }
@@ -161,41 +182,6 @@ export default {
       this.form.enableStatus = data.enableStatus + ""
       this.form.permissionCode = data.permissionCode
       this.form.url = data.url
-      console.info(data, node, target)
-    },
-    fetchData() {
-      //列表数据加载
-      menuList({
-        pageNum: this.currentPage,
-        pageSize: this.pageSize
-      }).then(res => {
-        console.log(res);
-        if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
-        }
-      });
-    },
-    modify(){
-      menuCheck({
-        id: this.id,
-        enableStatus: this.enableStatus
-      }).then(res => {
-        console.log(res);
-        if (res.code === 200) {
-          this.fetchData();
-        }
-      });
-    },
-    handleEdit(index, row) {
-      //变更按钮
-      this.id=row.id
-      if(row.enableStatus==0){
-        this.enableStatus=1
-      }else{
-        this.enableStatus=0
-      }
-      this.modify()
     },
     appendTreeItem(data) {
       this.menuTreeItemChoose = data;
@@ -237,11 +223,6 @@ export default {
         })
         .catch(_ => {});
     },
-    handleCurrentChange(val) {
-      //分页
-      this.currentPage = val;
-      this.fetchData();
-    },
     save(){
       let that = this;
       if( that.menuTreeItemChoose == null ){
@@ -281,9 +262,10 @@ export default {
 };
 </script>
 <style scoped>
-.treeHead {
-  display: flex;
-  align-items: center;
+.menu-tree{
+  height: 83vh;
+  overflow-x: auto;
+  border-right: 1px solid #d6d6d6
 }
 .treeHead > div {
   margin-right: 20px;
