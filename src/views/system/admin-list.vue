@@ -101,11 +101,8 @@
   :before-close="handleClose">
   <el-form ref="form" label-width="80px">
   <el-form-item label="角色选择">
-    <!-- <el-checkbox-group v-model="roleid">
-      <el-checkbox v-for="(item,index) in roleSelect" :key="index" :label="item.roleName" :name="roleid" :value='item.id'></el-checkbox>
-    </el-checkbox-group> -->
     <el-checkbox-group v-model="roleid">
-    <el-checkbox v-for="(item,index) in roleSelect" :key="index" :label="item.roleName" @change="roleSum($event,item,index)"></el-checkbox>
+    <el-checkbox v-for="(item,index) in roleSelect" :key="index" :checked="item.checked" :label="item.roleName" @change="roleSum($event,item,index)"></el-checkbox>
   </el-checkbox-group>
   </el-form-item>
 
@@ -306,6 +303,12 @@ export default {
       })
     },
     amendRole(index, row) { // 分配角色
+      this.roleSelect = []
+      this.roleid = []
+      let checkIds = [];
+      row.roles.forEach(item=>{
+        checkIds.push(item.id)
+      })
       roleList({
         pageNum: '1',
         pageSize: '100'
@@ -313,6 +316,13 @@ export default {
         console.log(res)
         if (res.code === 200) {
           this.roleAmend = true
+          res.data.datas.forEach(item=>{
+            if( checkIds.indexOf(item.id) >= 0 ){
+              item.checked = true
+            }else{
+              item.checked = false
+            }
+          })
           this.roleSelect=res.data.datas
           this.zhId=row.id
         }
@@ -410,7 +420,7 @@ export default {
           }
         }
       }
-      
+
       this.roleIds = this.roleData.join(',');
       console.log(this.roleIds)
     },
@@ -426,6 +436,7 @@ export default {
             type: 'success'
           })
           this.roleAmend=false
+          this.fetchData()
         }
       })
     }

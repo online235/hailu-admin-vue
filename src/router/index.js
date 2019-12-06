@@ -92,19 +92,19 @@ export const constantRoutes = [
         path: 'merchant',
         name: 'merchant1',
         component: () => import('@/views/merchant/merchant'),
-        meta: { title: '百货商户' }
+        meta: { title: '百货入驻审核', icon: 'table' }
       },
       {
         path: 'store',
         name: 'store',
         component: () => import('@/views/store/store-list'),
-        meta: { title: '店铺管理' }
+        meta: { title: '店铺审核', icon: 'table' }
       },
       {
         path: 'McLocal',
         name: 'McLocal',
         component: () => import('@/views/McLocal/McLocal'),
-        meta: { title: '本地生活圈' }
+        meta: { title: '生活圈入驻审核', icon: 'table' }
       },
       {
         path: 'merchant-type',

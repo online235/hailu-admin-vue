@@ -39,14 +39,10 @@ module.exports = {
     },
     proxy: {
       '/api/v2': {
-        target: 'http://192.168.10.135:30000', // 对应自己的接口
+        target: 'http://192.168.10.179:30000', // 对应自己的接口
         changeOrigin: true
-        // pathRewrite: {
-        //   ['^/api/v1']: ''
-        // }
       }
     }
-    // after: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
