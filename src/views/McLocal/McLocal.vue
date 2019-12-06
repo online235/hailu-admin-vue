@@ -167,8 +167,8 @@
         <el-form-item label="主营类目：">
           <el-select v-model="firstManagementTypeId" filterable placeholder="请选择" @change="firstSele">
             <el-option
-              v-for="item in options"
-              :key="item.managementId"
+              v-for="(item,index) in options"
+              :key="index"
               :label="item.managementName"
               :value="item.managementId"
             >
@@ -176,8 +176,8 @@
           </el-select>
           <el-select v-model="secondManagementTypeId" filterable placeholder="请选择">
             <el-option
-              v-for="item in secondoptions"
-              :key="item.managementId"
+              v-for="(item,index) in secondoptions"
+              :key="index"
               :label="item.managementName"
               :value="item.managementId"
             >
@@ -272,6 +272,7 @@ import {
 } from "@/api/McLocal";
 import { UploadSingle } from "@/api/FileUpload";
 import { ManageList } from "@/api/management";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -302,7 +303,7 @@ export default {
       search: "",
       checkModle: false, //审核模态框
       dialogVisible: false, //修改模态框
-      imghead: "http://192.168.10.101:30000/api/v2/basic",
+      imghead: "",
       srcList: [
         "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
       ]
@@ -315,6 +316,8 @@ export default {
     };
   },
   created() {
+    this.imghead=axios.defaults.baseURL+'/basic'
+    console.log(axios.defaults.baseURL)
     this.fetchData(); //列表数据加载
   },
 
@@ -391,7 +394,7 @@ export default {
       this.srcList[0] = this.imghead + form.idcardImgy;
     },
     business(form) {
-      // 印业执照
+      // 营业执照
       this.srcList[0] = this.imghead + form.licensePositive;
     },
     alterBtn(index, row) {

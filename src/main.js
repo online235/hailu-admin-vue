@@ -15,6 +15,7 @@ import axios from 'axios'
 import '@/icons' // icon
 import '@/permission' // permission control
 import Qs from 'qs'
+axios.defaults.baseURL = 'http://192.168.10.101:30000/api/v2'
 Vue.prototype.qs = Qs
 /**
  * If you don't want to use mock-server

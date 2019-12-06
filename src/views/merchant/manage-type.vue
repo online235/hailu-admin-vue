@@ -49,6 +49,34 @@
       </el-table>
     </div>
     <el-dialog
+      title="添加类型"
+      :visible.sync="addType"
+      width="30%"
+      :before-close="handleClose"
+      class="amendcss"
+    >
+      <div>
+        经营类型：
+        <el-input v-model="modelinput"></el-input>
+      </div>
+      <div>
+        图标颜色：
+        <el-input v-model="pictureColour"></el-input>
+      </div>
+      <div>
+        图标代码：
+        <el-input v-model="pictureCode"></el-input>
+      </div>
+      <div>
+        链接地址：
+        <el-input v-model="url"></el-input>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addType = false">取 消</el-button>
+        <el-button type="primary" @click="addAmend">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
       title="修改类型"
       :visible.sync="dialogVisible"
       width="30%"
@@ -95,6 +123,7 @@ export default {
       pictureCode: '', // 图标代码
       url: '', // 链接地址
       dialogVisible: false,
+      addType:false,
       children: '',
       search: '',
       parentId: '0',
@@ -146,12 +175,38 @@ export default {
       console.log(index, row)
     },
     handAdd() {
+      this.modelinput= '' // 类目名称
+      this.pictureColour= '' // 图标颜色
+      this.pictureCode= '' // 图标代码
+      this.url= '' // 链接地址
+      this.addType=true
+      // if(this.parentId==0){
+      //   console.log(1)
+      // }else{
+      //   console.log(2)
+      // }
+      //console.log(this.parentId)
+      // ManageAdd({
+      //   parentId: this.parentId
+      // }).then(res => {
+      //   console.log(res)
+      //   if (res.code === 200) {
+          
+      //   }
+      // })
+    },
+    addAmend(){
       ManageAdd({
-        parentId: this.parentId
+        parentId: this.parentId,
+        managementName:this.modelinput,
+        pictureColour:this.pictureColour,
+        url:this.url,
+        pictureCode:this.pictureCode
       }).then(res => {
         console.log(res)
         if (res.code === 200) {
-          this.tableData = res.data
+          this.fetchData()
+          this.addType=false
         }
       })
     },

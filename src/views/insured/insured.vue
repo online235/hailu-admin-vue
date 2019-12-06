@@ -3,7 +3,7 @@
     <div class="treeHead">
       <div><h2>参保人列表</h2></div>
       <div>
-        <el-input placeholder="可根据名称查询" v-model="search" clearable>
+        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
         </el-input>
       </div>
     </div>
@@ -13,6 +13,7 @@
         tableData.filter(
           data =>
             !search || data.name.toLowerCase().includes(search.toLowerCase())
+            || data.createDate.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"

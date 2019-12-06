@@ -2,7 +2,7 @@
   <div class="app-container">
     <div>
       <el-input
-        placeholder="请输入店铺名称"
+        placeholder="请输入会员名称"
         v-model="membername"
         style="width:20%;min-width:150px;"
       >
@@ -94,7 +94,7 @@
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
-              :src="form.idcardImgx"
+              :src="imghead+form.idcardImgx"
               @click="srcListimg(form)"
               :preview-src-list="srcList"
             >
@@ -104,7 +104,7 @@
             <el-image
               style="width: 200px; height: 150px"
               :src="form.idcardImgy"
-              @click="srcListimgy"
+              @click="srcListimgy(form)"
               :preview-src-list="srcList"
             >
             </el-image>
@@ -142,6 +142,7 @@
 
 <script>
 import { memberList,memberDetail } from '@/api/member'
+import axios from "axios";
 export default {
   data() {
     return {
@@ -156,39 +157,18 @@ export default {
       xiangqing: [],
       checkModle:false,
        form: "",
-       url: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
-        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
-      ],
-      srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
-      ]
+       imghead: "",
+      srcList: []
     };
   },
 
   created() {
+    this.imghead=axios.defaults.baseURL+'/basic'
     this.fangfa();
   },
   mounted() {},
   methods: {
-    fangda(params, num) {
-      console.log(num);
-      if (num == 1) {
-        this.$alert(
-          `<img src="` + params + `" style="width: 500px;height:250px;">`,
-          {
-            dangerouslyUseHTMLString: true
-          }
-        );
-      } else {
-        this.$alert(
-          `<img src="` + params + `" style="width: 500px;height:650px;">`,
-          {
-            dangerouslyUseHTMLString: true
-          }
-        );
-      }
-    },
+  
     sreach() {
       if (
         (this.membername.length == 0 || this.membername == "") &&
@@ -245,7 +225,7 @@ export default {
       })
     },
     handleExamine(row) {
-      //console.log(row);
+      console.log(row);
       // let params = new URLSearchParams();
       // params.append("memberid", row.memberId);
       memberDetail({userId:row.userId}).then(res => {
@@ -287,11 +267,10 @@ export default {
     },
     srcListimg(form) {
       console.log(form.idcardImgx);
-      // this.srcList[0] = item;
+      this.srcList[0] = this.imghead + form.idcardImgx;
     },
-    srcListimgy(item) {
-      //console.log(item);
-      //this.srcList[0] = item;
+    srcListimgy(form) {
+      this.srcList[0] = this.imghead + form.idcardImgy;
     },
   }
 };

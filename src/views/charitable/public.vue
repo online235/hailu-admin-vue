@@ -105,6 +105,7 @@
 
 <script>
 import { charityList,PublicAdd,ArticleAdd,charityDetails,article,modify,detailedInfor,govern } from "@/api/Charitable";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -117,12 +118,13 @@ export default {
       checkModle: false,
       dialogVisible: false,
       // 相关图片
-      imghead:'http://192.168.10.135:30000/api/v2/basic',
+      imghead:'',
       srcList:'',
       srcListimg:[],
     };
   },
   created() {
+    this.imghead=axios.defaults.baseURL+'/basic'
     this.fetchData(); //列表数据加载
   },
 

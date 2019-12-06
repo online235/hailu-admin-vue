@@ -91,133 +91,91 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <div v-show="box" class="box">
-      <div class="modelbox">
-        <p style="margin: 0;text-align: right;">
-          <i class="el-icon-close" @click="comback" />
-        </p>
-        <h3 style="text-align: center;margin: 0">审核编辑</h3>
-        <div class="auto">
-          <div>
-            <div class="rows">
-              <p>编号</p>
-              <div>{{ xiangqing.numberId }}</div>
-            </div>
-            <div class="rows">
-              <p>商家编号</p>
-              <div>{{ xiangqing.mcNumberId }}</div>
-            </div>
-            <div class="rows">
-              <p>店铺名称</p>
-              <div>{{ xiangqing.shopName }}</div>
-            </div>
-            <!-- <div class="rows">
-              <p>真实姓名</p>
-              <div>{{ xiangqing.realName }}</div>
-            </div> -->
-            <div class="rows">
-              <p>手机号码</p>
-              <div>{{ xiangqing.phone }}</div>
-            </div>
-            <div class="rows">
-              <p>身份证号码</p>
-              <div>{{ xiangqing.idCard }}</div>
-            </div>
-            <!-- <div class="rows">
-              <p>身份证有效期</p>
-              <div>{{ xiangqing.idcardtermofValidity }}</div>
-            </div>
-            <div class="rows">
-              <p>身份证是否为长期</p>
-              <div>
-                <span v-show="xiangqing.longTermCertificate === false">否</span><span v-show="xiangqing.longTermCertificate === true">是</span>
-              </div>
-            </div> -->
-            <!-- <div class="rows">
-              <p>执照名称</p>
-              <div>{{ xiangqing.businessName }}</div>
-            </div> -->
-            <div class="rows">
-              <p>经营者名称</p>
-              <div>{{ xiangqing.nameOfLegalPerson }}</div>
-            </div>
-            <!-- <div class="rows">
-              <p>执照有效日期</p>
-              <div>{{ xiangqing.licenseDate }}</div>
-            </div>
-            <div class="rows">
-              <p>营业执照是否为长期</p>
-              <div>
-                <span v-show="xiangqing.longTermLicense === false">否</span><span v-show="xiangqing.longTermLicense === true">是</span>
-              </div>
-            </div> -->
-            <div class="rows">
-              <p>审核</p>
-              <div>{{ xiangqing.toExamineDisPlay }}</div>
-            </div>
-            <div class="rows">
-              <p>创建时间</p>
-              <div>{{ xiangqing.createdat }}</div>
-            </div>
-            <div class="rows">
-              <p>跟新时间</p>
-              <div>{{ xiangqing.updatedat }}</div>
-            </div>
-            <div class="rows">
-              <p>营业执照注册号</p>
-              <div>{{ xiangqing.businessLicenseNumber }}</div>
-            </div>
-            <div class="rows">
-              <p>身份证正面</p>
-              <div>
-                <img
-                  :src="xiangqing.idcardImgx"
-                  @click="fangda(xiangqing.idcardImgx, '1')"
-                >
-              </div>
-            </div>
-            <div class="rows">
-              <p>身份证背面</p>
-              <div>
-                <img
-                  :src="xiangqing.idcardImgy"
-                  @click="fangda(xiangqing.idcardImgy, '1')"
-                >
-              </div>
-            </div>
-            <div class="rows">
-              <p>营业执照</p>
-              <div>
-                <img
-                  :src="xiangqing.licensePositive"
-                  @click="fangda(xiangqing.licensePositive, '2')"
-                >
-              </div>
-            </div>
-
-            <div class="buttonBottom">
-              <el-button
-                v-if="xiangqing.toExamine === 1"
-                type="primary"
-                @click="cancelModify(xiangqing.numberId)"
-              >审核通过</el-button>
-              <el-button
-                v-if="xiangqing.toExamine === 1"
-                type="warning"
-                @click="nocancelModify(xiangqing.numberId)"
-              >审核不通过</el-button>
-              <el-button @click="comback">取消</el-button>
-            </div>
+   <el-dialog
+      title="详情审核"
+      :visible.sync="checkModle"
+      width="40%"
+      :before-close="handleClose"
+    >
+      <el-form ref="form" :model="form" label-width="150px">
+        <el-form-item label="编号：">
+          <div>{{ form.numberId }}</div>
+        </el-form-item>
+        <el-form-item label="商家编号：">
+          <div>{{ form.mcNumberId }}</div>
+        </el-form-item>
+        <el-form-item label="店铺名称：">
+          <div>{{ form.shopName }}</div>
+        </el-form-item>
+        <el-form-item label="商家姓名：">
+          <div>{{ form.nameOfLegalPerson }}</div>
+        </el-form-item>
+        <el-form-item label="手机号码：">
+          <div>{{ form.phone }}</div>
+        </el-form-item>
+         <el-form-item label="营业执照注册号：">
+          <div>{{ form.businessLicenseNumber }}</div>
+        </el-form-item>
+         <el-form-item label="创建时间：">
+          <div>{{ form.createdat }}</div>
+        </el-form-item>
+        <el-form-item label="身份证号码：">
+          <div>{{ form.idCard }}</div>
+        </el-form-item>
+        <el-form-item label="身份证件照片：">
+          <div class="demo-image__preview">
+            <el-image
+              style="width: 200px; height: 150px"
+              :src="imghead + form.idcardImgx"
+              @click="srcListimg(form)"
+              :preview-src-list="srcList"
+            >
+            </el-image>
           </div>
-        </div>
-      </div>
-    </div>
+          <div class="demo-image__preview">
+            <el-image
+              style="width: 200px; height: 150px"
+              :src="imghead + form.idcardImgy"
+              @click="srcListimgy(form)"
+              :preview-src-list="srcList"
+            >
+            </el-image>
+          </div>
+        </el-form-item>
+        <el-form-item label="营业执照：">
+          <div class="demo-image__preview">
+            <el-image
+              style="width: 200px; height: 150px"
+              :src="imghead + form.licensePositive"
+              @click="business(form)"
+              :preview-src-list="srcList"
+            >
+            </el-image>
+          </div>
+        </el-form-item>
+        <el-form-item label="状态：">
+          <el-select v-model="region" placeholder="请选择审核状态">
+            <el-option
+              v-for="(item, index) in choose"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="checkModle = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { merchantList, merchantcheck, merchantDetail } from '@/api/merchant'
 import { formatDate } from '@/utils/date'
+import axios from "axios"
 export default {
   filters: {
     formatDate(time) {
@@ -237,33 +195,29 @@ export default {
       name: '1231231',
       sreachs: false,
       box: false,
+      checkModle:false,
+      form:'',
       total: 0,
-      xiangqing: [],
+      region:'', // 审核状态
+     imghead: "",
+      srcList: [
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
+      ],
+      choose: [
+        { id: "1", name: "审核中" },
+        { id: "2", name: "审核通过" },
+        { id: "3", name: "审核不通过" }
+      ],
+      numberId:'',
     }
   },
   created() {
+     this.imghead=axios.defaults.baseURL+'/basic'
     this.fangfa()
   },
   mounted() {},
   methods: {
-    fangda(params, num) {
-      console.log(num)
-      if (num === 1) {
-        this.$alert(
-          `<img src="` + params + `" style="width: 500px;height:250px;">`,
-          {
-            dangerouslyUseHTMLString: true
-          }
-        )
-      } else {
-        this.$alert(
-          `<img src="` + params + `" style="width: 500px;height:650px;">`,
-          {
-            dangerouslyUseHTMLString: true
-          }
-        )
-      }
-    },
+    
     sreach() {
       if (
         (this.membername.length === 0 || this.membername === '') &&
@@ -303,40 +257,6 @@ export default {
       this.membername = ''
       this.membermobile = ''
     },
-    // 审核通过
-    cancelModify(numid) {
-      let that = this;
-      const params = new URLSearchParams()
-      params.append('numberId', numid)
-      params.append('toExamine', '2')
-      merchantcheck(params).then(res => {
-        debugger
-        if (res.code === 200) {
-          that.$message({
-            message: '审核通过成功',
-            type: 'success'
-          })
-          that.fangfa()
-        }
-      })
-      this.box = false
-    },
-    // 审核不通过
-    nocancelModify(numid) {
-      const params = new URLSearchParams()
-      params.append('numberId', numid)
-      params.append('toExamine', '3')
-      merchantcheck(params).then(res => {
-        if (res.code === 200) {
-          this.$message({
-            message: '审核不通过',
-            type: 'error'
-          })
-          this.fangfa()
-        }
-      })
-      this.box = false
-    },
     handleCurrentChange(val) {
       console.log(val)
       const params = new URLSearchParams()
@@ -349,21 +269,24 @@ export default {
       })
     },
     handleExamine(row) {
-      console.log(1,row.numberId)
+      //console.log(1,row.numberId)
       const params = new URLSearchParams()
       params.append('numberId', row.numberId)
       merchantDetail(params).then(res => {
         console.log(res)
-        this.xiangqing = res.data
+        this.form = res.data
+        this.checkModle = true
+        this.region = row.toExamine + "";
+        this.numberId=res.numberId
       })
-      this.box = true
+      
     },
-    handleDelete(index, row) {
-      this.$message({
-        message: '此功能暂未开放',
-        type: 'error'
-      })
-    },
+    // handleDelete(index, row) {
+    //   this.$message({
+    //     message: '此功能暂未开放',
+    //     type: 'error'
+    //   })
+    // },
     fangfa() {
       const params = new URLSearchParams()
       params.append('limit', this.page)
@@ -373,7 +296,44 @@ export default {
         this.total = res.data.total
         this.tableData = res.data.datas
       })
-    }
+    },
+     handleClose(done) {
+      //关闭模态框按钮
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    confirm(){
+       const params = new URLSearchParams()
+      params.append('numberId', this.numberId)
+      params.append('toExamine', this.region)
+      merchantcheck(params).then(res => {
+        console.log(res)
+        if(res.code===200){
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
+          this.checkModle=false
+          this.fangfa()
+        }
+      })
+    },
+    srcListimg(form) {
+      // 身份证正面
+      console.log(form.idcardImgx);
+      this.srcList[0] = this.imghead + form.idcardImgx;
+    },
+    srcListimgy(form) {
+      // 身份证背面
+      this.srcList[0] = this.imghead + form.idcardImgy;
+    },
+    business(form) {
+      // 营业执照
+      this.srcList[0] = this.imghead + form.licensePositive;
+    },
   }
 }
 </script>

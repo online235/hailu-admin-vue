@@ -89,7 +89,7 @@
           <div class="demo-image__preview" v-for="item in url" :key="item">
             <el-image
               style="width: 100px; height: 100px"
-              :src="item"
+              :src="imghead+item"
               @click="srcListimg(item)"
               :preview-src-list="srcList"
             >
@@ -119,6 +119,7 @@ import {
   salvationStatus
 } from "@/api/salvation";
 import qs from "qs";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -131,9 +132,9 @@ export default {
       examine: "", //审核(2-审核通过、3-审核不通过)
       numberId: "",
       total: 0, //总数
+      imghead:'',
       url: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
-        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg"
+
       ],
       srcList: [
         "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
@@ -141,6 +142,7 @@ export default {
     };
   },
   created() {
+    this.imghead=axios.defaults.baseURL+'/basic'
     this.fetchData(); //列表数据加载
   },
 
@@ -185,10 +187,11 @@ export default {
       salvationDetail({
         numberId: this.numberId
       }).then(res => {
-        console.log(res);
-        if (res.code === 200) {
-          this.form = res.data[0];
-          console.log(res.data);
+        console.log(1,res);
+        if (res.code == 200) {
+           this.form = res.data[0];
+           this.url=res.data[0].imageList
+          console.log(2,res.data[0].imageList);
         }
       });
       this.checkModle = true;
