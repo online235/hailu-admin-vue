@@ -39,18 +39,18 @@
           </el-tree>
         </el-col>
         <el-col :span="14">
-          <el-form ref="form" :model="form" label-width="80px" size="mini">
+          <el-form ref="form" :model="updateForm" label-width="80px" size="mini">
             <el-form-item label="菜单名称">
-              <el-input v-model="form.menuName"></el-input>
+              <el-input v-model="updateForm.menuName"></el-input>
             </el-form-item>
             <el-form-item label="权限编码">
-              <el-input v-model="form.permissionCode"></el-input>
+              <el-input v-model="updateForm.permissionCode"></el-input>
             </el-form-item>
             <el-form-item label="URL">
-              <el-input v-model="form.url"></el-input>
+              <el-input v-model="updateForm.url"></el-input>
             </el-form-item>
             <el-form-item label="菜单类型">
-              <el-select v-model="form.menuType" placeholder="请选择菜单类型">
+              <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型">
                 <el-option
                         v-for="(item, index) in choose"
                         :key="index"
@@ -60,7 +60,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="启用状态">
-              <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
+              <el-select v-model="updateForm.enableStatus" placeholder="请选择启用状态">
                 <el-option
                         v-for="(item, index) in chooses"
                         :key="index"
@@ -81,18 +81,18 @@
               width="40%"
               :before-close="handleClose"
       >
-        <el-form ref="form" label-width="150px">
+        <el-form ref="addForm" label-width="150px">
           <el-form-item label="菜单名称">
-            <el-input v-model="form.menuName"></el-input>
+            <el-input v-model="addForm.menuName"></el-input>
           </el-form-item>
           <el-form-item label="权限编码">
-            <el-input v-model="form.permissionCode"></el-input>
+            <el-input v-model="addForm.permissionCode"></el-input>
           </el-form-item>
           <el-form-item label="URL">
-            <el-input v-model="form.url"></el-input>
+            <el-input v-model="addForm.url"></el-input>
           </el-form-item>
           <el-form-item label="菜单类型">
-            <el-select v-model="form.menuType" placeholder="请选择菜单类型">
+            <el-select v-model="addForm.menuType" placeholder="请选择菜单类型">
               <el-option
                       v-for="(item, index) in choose"
                       :key="item.id"
@@ -102,7 +102,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="启用状态">
-            <el-select v-model="form.enableStatus" placeholder="请选择启用状态">
+            <el-select v-model="addForm.enableStatus" placeholder="请选择启用状态">
               <el-option
                       v-for="(item, index) in chooses"
                       :key="item.id"
@@ -143,7 +143,16 @@ export default {
       tableData: [],
       search: "",
       // region 添加表单
-      form:{
+      updateForm:{
+        id: "",
+        parentId: 0,
+        menuName:'',// 菜单名称
+        permissionCode:'',// 菜单权限编码
+        url:'',// 菜单URL路径
+        enableStatus: "1",
+        menuType:'0',
+      },
+      addForm:{
         id: "",
         parentId: 0,
         menuName:'',// 菜单名称
@@ -174,36 +183,35 @@ export default {
     },
     treeItemClick(data, node, target){
       this.menuTreeItemChoose = data
-      this.form.id = data.id
-      this.form.menuName = data.menuName
-      this.form.parentId = data.parentId
-      this.form.menuType = data.menuType + ""
-      this.form.enableStatus = data.enableStatus + ""
-      this.form.permissionCode = data.permissionCode
-      this.form.url = data.url
+      this.updateForm.id = data.id
+      this.updateForm.menuName = data.menuName
+      this.updateForm.parentId = data.parentId
+      this.updateForm.menuType = data.menuType + ""
+      this.updateForm.enableStatus = data.enableStatus + ""
+      this.updateForm.permissionCode = data.permissionCode
+      this.updateForm.url = data.url
     },
     appendTreeItem(data) {
       this.menuTreeItemChoose = data;
       this.dialogVisible = true;
       // 清空添加表单
-      this.form.id = ""
-      this.form.menuName = ""
-      this.form.permissionCode = ""
-      this.form.url = ""
-      this.form.enableStatus = "1"
-      this.form.menuType = "0"
+      this.addForm.id = ""
+      this.addForm.menuName = ""
+      this.addForm.permissionCode = ""
+      this.addForm.url = ""
+      this.addForm.enableStatus = "1"
+      this.addForm.menuType = "0"
     },
     affirm(){
       let that = this;
       menuAdd({
-        menuName:this.form.menuName,
-        permissionCode:this.form.permissionCode,
+        menuName:this.addForm.menuName,
+        permissionCode:this.addForm.permissionCode,
         parentId: this.menuTreeItemChoose == null ? 0 : this.menuTreeItemChoose.id,
-        url:this.form.url,
-        menuType:this.form.menuType,
-        enableStatus:this.form.enableStatus
+        url:this.addForm.url,
+        menuType:this.addForm.menuType,
+        enableStatus:this.addForm.enableStatus
       }).then(res => {
-        console.log(res);
         if (res != null && res.code === 200) {
           if( that.menuTreeItemChoose == null ){
             that.menuTreeData.push(res.data)
@@ -238,22 +246,21 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       menuUpdate({
-        id: this.form.id,
-        menuName: this.form.menuName,
-        permissionCode: this.form.permissionCode,
-        parentId: this.form.parentId,
-        url: this.form.url,
-        menuType: this.form.menuType,
-        enableStatus: this.form.enableStatus
+        id: this.updateForm.id,
+        menuName: this.updateForm.menuName,
+        permissionCode: this.updateForm.permissionCode,
+        parentId: this.updateForm.parentId,
+        url: this.updateForm.url,
+        menuType: this.updateForm.menuType,
+        enableStatus: this.updateForm.enableStatus
       }).then(res => {
         loading.close()
-        console.log(res)
         if (res != null && res.code === 200) {
-          that.menuTreeItemChoose.menuName = that.form.menuName
-          that.menuTreeItemChoose.permissionCode = that.form.permissionCode
-          that.menuTreeItemChoose.url = that.form.url
-          that.menuTreeItemChoose.menuType = that.form.menuType
-          that.menuTreeItemChoose.enableStatus = that.form.enableStatus
+          that.menuTreeItemChoose.menuName = that.updateForm.menuName
+          that.menuTreeItemChoose.permissionCode = that.updateForm.permissionCode
+          that.menuTreeItemChoose.url = that.updateForm.url
+          that.menuTreeItemChoose.menuType = that.updateForm.menuType
+          that.menuTreeItemChoose.enableStatus = that.updateForm.enableStatus
         }
       })
     }

@@ -141,14 +141,12 @@ export default {
       ManageList({
         parentId: this.parentId
       }).then(res => {
-        console.log(res)
         if (res.code === 200) {
           this.tableData = res.data
         }
       })
     },
     load(tree, treeNode, resolve) {
-      // console.log(tree)
       resolve([])
     },
     handleEdit(index, row) {
@@ -159,7 +157,6 @@ export default {
       this.pictureColour = row.pictureColour
       this.pictureCode = row.pictureCode
       this.url = row.url
-      console.log(index, row)
     },
     handleDelete(index, row) {
       this.parentId = row.managementId
@@ -172,7 +169,6 @@ export default {
       this.grade = false
     },
     handleAdd(index, row) {
-      console.log(index, row)
     },
     handAdd() {
       this.modelinput= '' // 类目名称
@@ -180,20 +176,6 @@ export default {
       this.pictureCode= '' // 图标代码
       this.url= '' // 链接地址
       this.addType=true
-      // if(this.parentId==0){
-      //   console.log(1)
-      // }else{
-      //   console.log(2)
-      // }
-      //console.log(this.parentId)
-      // ManageAdd({
-      //   parentId: this.parentId
-      // }).then(res => {
-      //   console.log(res)
-      //   if (res.code === 200) {
-          
-      //   }
-      // })
     },
     addAmend(){
       ManageAdd({
@@ -203,7 +185,6 @@ export default {
         url:this.url,
         pictureCode:this.pictureCode
       }).then(res => {
-        console.log(res)
         if (res.code === 200) {
           this.fetchData()
           this.addType=false
@@ -230,7 +211,6 @@ export default {
           pictureColour: this.pictureColour,
           pictureCode: this.pictureCode
         }).then(res => {
-          console.log(res)
           if (res.code === 200) {
             this.fetchData()
           }

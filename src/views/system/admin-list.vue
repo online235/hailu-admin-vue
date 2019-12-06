@@ -251,7 +251,6 @@ export default {
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
@@ -260,15 +259,10 @@ export default {
     },
     handleEdit(index, row) {
       // 审核按钮
-      console.log(index, row)
-
-      //   let params = new URLSearchParams();
-      //   params.append("id", row.account);
       adminDetail({
         account: row.account,
         enableStatus: row.enableStatus
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.form = res.data;
           this.checkModle = true;
@@ -292,7 +286,6 @@ export default {
         id: this.zhId,
         enableStatus: this.enableStatus
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.$message({
             message: '操作成功',
@@ -313,7 +306,6 @@ export default {
         pageNum: '1',
         pageSize: '100'
       }).then(res => {
-        console.log(res)
         if (res.code === 200) {
           this.roleAmend = true
           res.data.datas.forEach(item=>{
@@ -330,7 +322,6 @@ export default {
     },
     amend(index, row) {
       // 修改状态
-      console.log(index, row)
       this.zhId = row.id
       if (row.enableStatus === 0) {
         this.enableStatus = 1
@@ -363,7 +354,6 @@ export default {
           pwd: this.pwdss, // 密码
           enableStatus: this.region // 启用状态
         }).then(res => {
-          console.log(res);
           if (res.code === 200) {
             this.dialogVisible = false;
             this.$message({
@@ -398,7 +388,6 @@ export default {
         id: this.zhId,
         newPwd: this.resepwd
       }).then(res => {
-        //console.log(res);
         if (res.code === 200) {
           this.$message({
             message: '操作成功',
@@ -409,8 +398,6 @@ export default {
       })
     },
     roleSum(e,item,index){
-      //console.log(this.roleid)
-      //console.log(e,item,index)
       if(e===true){
         this.roleData.push(item.id)
       }else{
@@ -422,14 +409,12 @@ export default {
       }
 
       this.roleIds = this.roleData.join(',');
-      console.log(this.roleIds)
     },
     roleAllot(){
       adminRoles({
         id: this.zhId,
         roleIds: this.roleIds
       }).then(res => {
-        // console.log(res);
         if (res.code === 200) {
           this.$message({
             message: '操作成功',

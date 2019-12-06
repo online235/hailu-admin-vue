@@ -158,7 +158,6 @@ export default {
         page: this.currentPage,
         size: this.pageSize
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
@@ -180,18 +179,15 @@ export default {
     //*
     //*
     handleEdit(index, row) {
-      //console.log(index, row);
       this.numberId = row.numberId;
       // let params = new URLSearchParams();
       // params.append("numberId", this.numberId);
       salvationDetail({
         numberId: this.numberId
       }).then(res => {
-        console.log(1,res);
         if (res.code == 200) {
            this.form = res.data[0];
            this.url=res.data[0].imageList
-          console.log(2,res.data[0].imageList);
         }
       });
       this.checkModle = true;
@@ -236,7 +232,6 @@ export default {
         numberId: this.numberId,
         examine: this.examine
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.$message({
             message: "审核操作成功",
@@ -250,7 +245,6 @@ export default {
     //*
     //审核按钮
     srcListimg(item) {
-      //console.log(item);
       this.srcList[0] = item;
     },
     handleCurrentChange(val) {

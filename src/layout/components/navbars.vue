@@ -94,7 +94,6 @@ export default {
         newPwd: this.newPwd,
         oldPwd: this.formerPwd
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
          this.models=false
         }

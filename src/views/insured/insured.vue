@@ -138,7 +138,6 @@ export default {
         page:this.currentPage,
         size:this.pageSize
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.tableData = res.data.list;
           this.total = res.data.total;
@@ -155,15 +154,11 @@ export default {
     },
     handleEdit(index, row) {
       //审核按钮
-      //console.log(index, row);
-
       let params = new URLSearchParams();
       params.append("id", row.id);
       insuredDetail(params).then(res => {
-        console.log(res)
         if(res.code==200){
           this.form = res.data;
-          //console.log(this.form.createDate)
           this.checkModle = true;
 
             var dataee = new Date(this.form.createDate).toJSON();
@@ -174,7 +169,6 @@ export default {
             this.form.createDate = date;
               this.region=this.choose[this.form.memberStatus-1].id
               this.insuredId=row.id
-          // console.log(res.data)
         }
       });
     },
@@ -193,7 +187,6 @@ export default {
       params.append("id", this.insuredId);
       params.append("memberStatus", this.region);
       insuredCheck(params).then(res => {
-        console.log(res)
         if(res.code==200){
           this.fetchData();
            this.$message({

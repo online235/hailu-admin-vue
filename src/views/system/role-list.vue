@@ -151,7 +151,6 @@ export default {
         pageNum:this.currentPage,
         pageSize:this.pageSize
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
@@ -163,7 +162,6 @@ export default {
         id: this.id,
         enableStatus: this.enableStatus
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.fetchData();
         }
@@ -171,7 +169,6 @@ export default {
     },
     changeState(index, row) {
       //变更按钮
-      //console.log(index, row);
       this.id=row.id
       if(row.enableStatus==0){
         this.enableStatus=1
@@ -207,12 +204,10 @@ export default {
       checkList.forEach(item=>{
         menuIds.push(item.id)
       })
-      console.log(checkList, menuIds);
       changeMenus({
         id: this.chooseRole.id,
         menuIds: menuIds.join(",")
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           that.$message({
             message: '关联成功',
@@ -228,7 +223,6 @@ export default {
         roleName:this.roleName,
         enableStatus:this.region
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.dialogVisible=false
           this.fetchData();

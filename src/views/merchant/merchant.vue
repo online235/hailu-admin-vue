@@ -181,7 +181,6 @@ export default {
     formatDate(time) {
       time = time
       const date = new Date(time)
-      // console.log(new Date(time))
       return formatDate(date, 'yyyy-MM-dd hh:mm')
     }
   },
@@ -217,7 +216,7 @@ export default {
   },
   mounted() {},
   methods: {
-    
+
     sreach() {
       if (
         (this.membername.length === 0 || this.membername === '') &&
@@ -233,7 +232,6 @@ export default {
         params.append('phone', this.membermobile)
         params.append('shopname', this.membername)
         merchantList(params).then(res => {
-          console.log(res.data)
           this.total = res.total
           this.tableData = res.data.datas
         })
@@ -249,7 +247,6 @@ export default {
       params.append('limit', this.page)
       params.append('page', this.currentPage)
       merchantList(params).then(res => {
-        console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas
       })
@@ -258,28 +255,24 @@ export default {
       this.membermobile = ''
     },
     handleCurrentChange(val) {
-      console.log(val)
       const params = new URLSearchParams()
       params.append('limit', this.page)
       params.append('page', val)
       merchantList(params).then(res => {
-        console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas
       })
     },
     handleExamine(row) {
-      //console.log(1,row.numberId)
       const params = new URLSearchParams()
       params.append('numberId', row.numberId)
       merchantDetail(params).then(res => {
-        console.log(res)
         this.form = res.data
         this.checkModle = true
         this.region = row.toExamine + "";
         this.numberId=res.numberId
       })
-      
+
     },
     // handleDelete(index, row) {
     //   this.$message({
@@ -292,7 +285,6 @@ export default {
       params.append('limit', this.page)
       params.append('page', this.currentPage)
       merchantList(params).then(res => {
-        console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas
       })
@@ -310,7 +302,6 @@ export default {
       params.append('numberId', this.numberId)
       params.append('toExamine', this.region)
       merchantcheck(params).then(res => {
-        console.log(res)
         if(res.code===200){
           this.$message({
             message: "操作成功",
@@ -323,7 +314,6 @@ export default {
     },
     srcListimg(form) {
       // 身份证正面
-      console.log(form.idcardImgx);
       this.srcList[0] = this.imghead + form.idcardImgx;
     },
     srcListimgy(form) {

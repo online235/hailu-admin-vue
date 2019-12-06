@@ -254,7 +254,6 @@ export default {
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
@@ -268,7 +267,6 @@ export default {
       lifeCircleDetail({
         id: row.id
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.form = res.data;
           this.checkModle = true;
@@ -289,7 +287,6 @@ export default {
         id: this.id,
         toExamine: this.region
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.checkModle = false;
           this.fetchData();
@@ -307,7 +304,6 @@ export default {
     },
     change(index, row) {
       // 修改信息
-      console.log(row);
       this.id = row.id;
       this.mcNumberId = row.mcNumberId;
       this.dialogVisible = true;
@@ -327,7 +323,6 @@ export default {
         lifeCircleDelete({
           id: row.id
         }).then(res => {
-          console.log(res);
           if (res.code === 200) {
             that.fetchData();
             that.$message({
@@ -351,7 +346,6 @@ export default {
         operate: this.operate,
         region: this.region
       }).then(res => {
-        console.log(res);
         if (res.code === 200) {
           this.dialogVisible = false;
           this.fetchData();

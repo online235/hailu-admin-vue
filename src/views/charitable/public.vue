@@ -61,7 +61,7 @@
   width="30%"
   :before-close="handleClose">
   <span>这是一段信息</span>
-  
+
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -89,7 +89,7 @@
                 v-for="(item,index) in srcList"
                 :key="index"
                 style="width: 100px; height: 100px"
-                :src="imghead+item" 
+                :src="imghead+item"
                 :preview-src-list="srcListimg">
             </el-image>
           </div>
@@ -135,7 +135,6 @@ export default {
       params.append("page", this.currentPage);
       params.append("size", this.pageSize);
       charityList(params).then(res => {
-        console.log(res);
         if (res.code === 200) {
          this.tableData=res.data.datas
         }
@@ -143,16 +142,13 @@ export default {
     },
     handleEdit(index, row) {
       // 审核按钮
-      // console.log(index, row);
       this.srcListimg=[]
       charityDetails({
           Id:row.id
       }).then(res => {
-        console.log(res)
         if(res.code==200){
             this.form=res.data
             this.checkModle = true;
-            //console.log(res.data.defaultPicture.split(","))
             this.srcList=res.data.defaultPicture.split(",")
             for(var i=0;i<this.srcList.length;i++){
                 this.srcListimg.push(this.imghead+this.srcList[i])
@@ -169,19 +165,8 @@ export default {
         .catch(_ => {});
     },
     addUser(){
-        console.log(11)
         this.dialogVisible=true
     },
-    // confirm() {
-    //   //详情审核确认按钮
-    //   this.checkModle = false;
-    // //   insuredCheck(params).then(res => {
-    // //     console.log(res)
-    // //     if(res.code==200){
-
-    // //     }
-    // //   });
-    // },
     handleCurrentChange(val) {
       //分页
       this.currentPage = val;

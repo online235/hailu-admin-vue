@@ -168,7 +168,7 @@ export default {
   },
   mounted() {},
   methods: {
-  
+
     sreach() {
       if (
         (this.membername.length == 0 || this.membername == "") &&
@@ -204,7 +204,6 @@ export default {
         page:this.currentPage
       }).then(res => {
 
-       console.log(res.data.data);
           this.total = res.data.total;
           this.tableData = res.data.datas;
       })
@@ -213,26 +212,21 @@ export default {
       this.membermobile=''
     },
     handleCurrentChange(val) {//分页
-      //console.log(val);
       memberList({
         limit:this.page,
         page:val
       }).then(res => {
 
-       //console.log(res.data.datas);
           this.total = res.data.total;
           this.tableData = res.data.datas;
       })
     },
     handleExamine(row) {
-      console.log(row);
       // let params = new URLSearchParams();
       // params.append("memberid", row.memberId);
       memberDetail({userId:row.userId}).then(res => {
        this.form=res.data
-       //console.log(res.data);
           this.checkModle = true;
-          //console.log(res.data.registTime)
       })
     },
     fangfa() {
@@ -244,13 +238,11 @@ export default {
         page: this.currentPage
       }).then(res => {
 
-       console.log(res);
           this.total = res.data.total;
           this.tableData = res.data.datas;
           for(var i=0;i<this.tableData.length;i++){
             var a =this.tableData[i].registTime+''
             this.tableData[i].registTime=a.substring(0, 8)
-            console.log(a.substring(0, 8))
           }
           // var a=''
           // a=res.data.registTime+''
@@ -266,7 +258,6 @@ export default {
         .catch(_ => {});
     },
     srcListimg(form) {
-      console.log(form.idcardImgx);
       this.srcList[0] = this.imghead + form.idcardImgx;
     },
     srcListimgy(form) {

@@ -20,14 +20,12 @@ export default {
   },
   methods: {
     getContent: function() {
-      //console.log(this.editorContent) //获取富文本内容
       this.editor.txt.clear(); //清空富文本的内容
     }
   },
   mounted() {
     var editor = new E("#editorElem");
     editor.customConfig.customUploadImg = (files, insert) => {
-      console.log(files[0]);
       const formData = new FormData();
       formData.append("file", files[0]);
       formData.append("path", "files/ne-icev3-dashboard/content/content/");
@@ -40,7 +38,6 @@ export default {
         },
         data: formData
       }).then(res => {
-        console.log(res);
         const result = res.data;
         if (result.code === 200) {
           //const data = result.data;

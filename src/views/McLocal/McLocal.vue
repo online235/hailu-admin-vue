@@ -317,7 +317,6 @@ export default {
   },
   created() {
     this.imghead=axios.defaults.baseURL+'/basic'
-    console.log(axios.defaults.baseURL)
     this.fetchData(); //列表数据加载
   },
 
@@ -331,7 +330,6 @@ export default {
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
@@ -340,15 +338,12 @@ export default {
     },
     handleEdit(index, row) {
       //审核按钮
-      //console.log(index, row);
       this.numberId = row.numberId;
       let params = new URLSearchParams();
       params.append("numberId", row.numberId);
       McLocalDetail(params).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.form = res.data;
-          //   //console.log(this.form.createDate)
           this.checkModle = true;
           this.region = row.toExamine + "";
         }
@@ -369,7 +364,6 @@ export default {
       params.append("numberId", this.numberId);
       params.append("toExamine", this.region);
       McLocalChange(params).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.fetchData();
           this.$message({
@@ -386,7 +380,6 @@ export default {
     },
     srcListimg(form) {
       // 身份证正面
-      console.log(form.idcardImgx);
       this.srcList[0] = this.imghead + form.idcardImgx;
     },
     srcListimgy(form) {
@@ -400,11 +393,9 @@ export default {
     alterBtn(index, row) {
         this.alterForm = row;
       // 修改信息
-      console.log(row);
       ManageList({
         parentId: "0"
       }).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.options = res.data;
         }
@@ -412,12 +403,11 @@ export default {
       ManageList({
         parentId: this.alterForm.firstManagementTypeId
       }).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.secondoptions = res.data;
         }
       });
-      
+
       this.dialogVisible = true;
       this.numberId = row.numberId;
       this.onesrc = this.imghead + this.alterForm.idcardImgx;
@@ -434,7 +424,6 @@ export default {
       McLocalDelete({
         numberId: row.numberId
       }).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.fetchData();
           this.$message({
@@ -447,40 +436,26 @@ export default {
     getFile(e) {
       let _this = this;
       var files = e.target.files[0];
-      //console.log(files)
       let params = new FormData();
       params.append("file", files, files.name);
-      //      UploadSingle(params).then(res => {
-      //     console.log(res)
-      //     if(res.code==200){
-      //       this.fetchData();
-      //        this.$message({
-      //       message: '操作成功',
-      //       type: 'success'
-      //     });
-      //     }
-      //   });
       this.axios({
         method: "post",
         url: "/api/v2/basic/upload/single/goods",
         headers: { "Content-Type": "multipart/form-data" },
         data: params
       }).then(res => {
-        //console.log(res)
         if (!e || !window.FileReader) return;
         let reader = new FileReader();
         reader.readAsDataURL(files);
         reader.onloadend = function() {
           _this.onesrc = this.result;
           _this.onesrcurl = res.data.data;
-          //console.log(_this.onesrcurl)
         };
       });
     },
     getFiless(e) {
       let _this = this;
       let filess = e.target.files[0];
-      //console.log(filess)
       let params = new FormData();
       params.append("file", filess, filess.name);
       this.axios({
@@ -492,14 +467,12 @@ export default {
         },
         data: params
       }).then(res => {
-        //console.log(res)
         if (!e || !window.FileReader) return; // 看支持不支持FileReader
         let readers = new FileReader();
         readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
         readers.onloadend = function() {
           _this.trwosrc = this.result;
           _this.trwosrcurl = res.data.data;
-          //console.log(1,_this.trwosrcurl)
         };
       });
     },
@@ -520,7 +493,6 @@ export default {
         readersss.onloadend = function() {
           _this.strwisrc = this.result;
           _this.strwisrcurl = res.data.data;
-          console.log(_this.strwisrcurl);
         };
       });
     },
@@ -537,7 +509,6 @@ export default {
         firstManagementTypeId:this.firstManagementTypeId,
         secondManagementTypeId:this.secondManagementTypeId
       }).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.dialogVisible = false;
           this.fetchData();
@@ -549,20 +520,15 @@ export default {
       });
     },
     firstSele(){
-        //console.log(this.firstManagementTypeId)
         this.secondManagementTypeId=''
          ManageList({
         parentId: this.firstManagementTypeId
       }).then(res => {
-        console.log(res);
         if (res.code == 200) {
           this.secondoptions = res.data;
         }
       });
     }
-    //   imgUrl(file) {
-    //     console.log(3,file);
-    //   }
   }
 };
 </script>

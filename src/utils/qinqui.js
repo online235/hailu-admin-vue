@@ -40,7 +40,6 @@ export default function fetchApi(options) {
       data: options.data
     })
       .then(res => {
-        console.log('返回数据', res)
         resolve(res.data)
       })
       .catch(error => {
