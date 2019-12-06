@@ -34,6 +34,14 @@
               >
                 添加下级
               </el-button>
+              <el-button
+                      type="text"
+                      style="color: red;"
+                      size="mini"
+                      @click="() => delTreeItem(data)"
+              >
+                删除
+              </el-button>
             </span>
           </span>
           </el-tree>
@@ -123,7 +131,8 @@
 </template>
 
 <script>
-import { menuAdd, menuTreeList, menuUpdate } from "@/api/menu";
+import { menuAdd, menuTreeList, menuUpdate, menuDel } from "@/api/menu";
+import { MessageBox } from 'element-ui'
 export default {
   data() {
     return {
@@ -201,6 +210,24 @@ export default {
       this.addForm.url = ""
       this.addForm.enableStatus = "1"
       this.addForm.menuType = "0"
+    },
+    delTreeItem(data) {
+      let that = this
+      MessageBox.confirm('确定要删除【' + data.menuName + '】以及所有下级菜单吗？', '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        menuDel({menuIds:data.id}).then(res => {
+          if (res != null && res.code === 200) {
+            that.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            that.searchTreeList()
+          }
+        });
+      })
     },
     affirm(){
       let that = this;

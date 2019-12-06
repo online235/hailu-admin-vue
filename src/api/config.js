@@ -71,6 +71,7 @@ export const menu_tree_list = menu_prefix + '/tree'// 列表
 export const menu_change_status = menu_prefix + '/change-status'// 变更菜单启用状态
 export const menu_add_menu = menu_prefix + '/add-menu'// 添加菜单
 export const menu_update_menu = menu_prefix + '/update-menu'// 编辑菜单
+export const menu_del_menu = menu_prefix + '/del-menu'// 添加菜单
 
 // endregion
 

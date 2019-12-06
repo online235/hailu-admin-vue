@@ -26,6 +26,15 @@ export function menuAdd(data) {
   })
 }
 
+// 删除菜单
+export function menuDel(data) {
+  return request({
+    url: config.menu_del_menu,
+    method: 'delete',
+    params: data
+  })
+}
+
 // 编辑菜单
 export function menuUpdate(data) {
   return request({
