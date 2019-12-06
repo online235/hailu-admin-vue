@@ -12,10 +12,12 @@
       :data="
         tableData.filter(
           data =>
-            !search || data.createTime.toLowerCase().includes(search.toLowerCase())
-            || data.shopName.toLowerCase().includes(search.toLowerCase())
-            || data.phone.toLowerCase().includes(search.toLowerCase())
-            || data.toExamineDisPlay.toLowerCase().includes(search.toLowerCase())
+            !search ||
+            data.createTime.toLowerCase().includes(search.toLowerCase()) ||
+            data.shopName.toLowerCase().includes(search.toLowerCase()) ||
+            data.phone.toLowerCase().includes(search.toLowerCase()) ||
+            data.toExamineDisPlay.toLowerCase().includes(search.toLowerCase())||
+            data.nameOfLegalPerson.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
@@ -28,37 +30,51 @@
       </el-table-column>
       <el-table-column label="店铺名称">
         <template slot-scope="scope">
-            <span>{{ scope.row.shopName }}</span>
+          <span>{{ scope.row.shopName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="真实姓名">
+      <el-table-column label="营业者姓名">
         <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.realName }}</el-tag>
+          <el-tag size="medium">{{ scope.row.nameOfLegalPerson }}</el-tag>
         </template>
       </el-table-column>
-       <el-table-column label="店铺手机号码">
+      <el-table-column label="店铺手机号码">
         <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.phone }}</el-tag>
+          <el-tag size="medium">{{ scope.row.phone }}</el-tag>
         </template>
       </el-table-column>
-       <el-table-column label="地址">
+      <el-table-column label="地址">
         <template slot-scope="scope">
-            <span>{{ scope.row.detailAddress }}</span>
+          <span>{{ scope.row.detailAddress }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{scope.row.toExamineDisPlay}}</span>
+          <span style="margin-left: 10px">{{
+            scope.row.toExamineDisPlay
+          }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="250">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
             >审核</el-button
+          >
+          <el-button
+            size="mini"
+            type="warning"
+            @click="alterBtn(scope.$index, scope.row)"
+            >修改信息</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteBtn(scope.$index, scope.row)"
+            >删除</el-button
           >
         </template>
       </el-table-column>
@@ -74,6 +90,110 @@
       </el-pagination>
     </div>
     <el-dialog
+      title="修改信息"
+      :visible.sync="dialogVisible"
+      width="40%"
+      :before-close="handleClose"
+    >
+      <el-form ref="form" :model="alterForm" label-width="150px">
+        <el-form-item label="店铺名称：">
+          <el-input v-model="alterForm.shopName"></el-input>
+        </el-form-item>
+        <el-form-item label="营业者姓名：">
+          <el-input v-model="alterForm.nameOfLegalPerson"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺手机号码：">
+          <el-input v-model="alterForm.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号码：">
+          <el-input v-model="alterForm.idCard"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证照片：">
+          <!-- 图片上传 -->
+          <div class="Certificates">
+            <div class="upImg">
+              <span v-if="onesrc.length == 0">身份证正面</span>
+              <img :src="onesrc" v-if="onesrc.length != 0" />
+              <input
+                type="file"
+                class="dsfafd"
+                @change="getFile"
+                multiple
+                accept="image/png,image/jpeg,image/gif,image/jpg"
+                id="file"
+              />
+              <label for="file" class="upImgbtn" v-if="onesrc.length == 0"
+                >点击上传</label
+              >
+              <label for="file" class="upseccs" v-else>上传成功</label>
+            </div>
+            <div class="upImg">
+              <span v-if="trwosrc.length == 0">身份证背面</span>
+              <img :src="trwosrc" v-if="trwosrc.length != 0" />
+              <input
+                type="file"
+                class="dsfafd"
+                @change="getFiless"
+                multiple
+                accept="image/png,image/jpeg,image/gif,image/jpg"
+                id="files"
+              />
+              <label for="files" class="upImgbtn" v-if="trwosrc.length == 0"
+                >点击上传</label
+              >
+              <label for="files" class="upseccs" v-else>上传成功</label>
+            </div>
+          </div>
+          <!-- 图片上传 -->
+        </el-form-item>
+        <el-form-item label="营业执照：">
+          <div class="upImg">
+            <span v-if="strwisrc.length == 0">工商营业执照</span>
+            <img :src="strwisrc" v-if="strwisrc.length != 0" />
+            <input
+              type="file"
+              class="dsfafd"
+              @change="getFilesss"
+              multiple
+              accept="image/png,image/jpeg,image/gif,image/jpg"
+              id="filesss"
+            />
+            <label for="filesss" class="upImgbtn" v-if="strwisrc.length == 0"
+              >点击上传</label
+            >
+            <label for="filesss" class="upseccs" v-else>上传成功</label>
+          </div>
+        </el-form-item>
+        <el-form-item label="主营类目：">
+          <el-select v-model="firstManagementTypeId" filterable placeholder="请选择" @change="firstSele">
+            <el-option
+              v-for="item in options"
+              :key="item.managementId"
+              :label="item.managementName"
+              :value="item.managementId"
+            >
+            </el-option>
+          </el-select>
+          <el-select v-model="secondManagementTypeId" filterable placeholder="请选择">
+            <el-option
+              v-for="item in secondoptions"
+              :key="item.managementId"
+              :label="item.managementName"
+              :value="item.managementId"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="详细地址：">
+          <el-input v-model="alterForm.detailAddress"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="upLoad">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
       width="40%"
@@ -83,8 +203,8 @@
         <el-form-item label="店铺名称：">
           <div>{{ form.shopName }}</div>
         </el-form-item>
-        <el-form-item label="真实姓名：">
-          <div>{{ form.realName }}</div>
+        <el-form-item label="营业者姓名：">
+          <div>{{ form.nameOfLegalPerson }}</div>
         </el-form-item>
         <el-form-item label="店铺手机号码：">
           <div>{{ form.phone }}</div>
@@ -96,7 +216,7 @@
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
-              :src="form.idcardImgx"
+              :src="imghead + form.idcardImgx"
               @click="srcListimg(form)"
               :preview-src-list="srcList"
             >
@@ -105,24 +225,18 @@
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
-              :src="form.idcardImgy"
-              @click="srcListimgy"
+              :src="imghead + form.idcardImgy"
+              @click="srcListimgy(form)"
               :preview-src-list="srcList"
             >
             </el-image>
           </div>
         </el-form-item>
-        <el-form-item label="法人姓名：">
-          <div>{{ form.nameOfLegalPerson }}</div>
-        </el-form-item>
-        <el-form-item label="执照名称：">
-          <div>{{ form.businessName }}</div>
-        </el-form-item>
         <el-form-item label="营业执照：">
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
-              :src="form.licensePositive"
+              :src="imghead + form.licensePositive"
               @click="business(form)"
               :preview-src-list="srcList"
             >
@@ -149,13 +263,32 @@
 </template>
 
 <script>
-import { McLocalList,McLocalDetail,McLocalCheck,McLocalChange,McLocalDelete } from "@/api/McLocal";
+import {
+  McLocalList,
+  McLocalDetail,
+  McLocalCheck,
+  McLocalChange,
+  McLocalDelete
+} from "@/api/McLocal";
+import { UploadSingle } from "@/api/FileUpload";
+import { ManageList } from "@/api/management";
 export default {
   data() {
     return {
+      onesrc: [], //身份证正面
+      trwosrc: [], // 身份证背面
+      strwisrc: [], //营业执照照片
+      onesrcurl: "", //身份证正面照url
+      trwosrcurl: "", //身份证背面照url
+      strwisrcurl: "", //营业执照url
+      options: [], // 一级主营类目
+      secondoptions:[],// 二级主营类目
+      firstManagementTypeId: "",// 一级经营类型
+      secondManagementTypeId: "",// 二级经营类型
       form: "",
+      alterForm: "",
       region: "",
-      numberId:'',
+      numberId: "",
       choose: [
         { id: "1", name: "审核中" },
         { id: "2", name: "审核通过" },
@@ -167,10 +300,18 @@ export default {
       total: 0,
       tableData: [],
       search: "",
-      checkModle: false,
+      checkModle: false, //审核模态框
+      dialogVisible: false, //修改模态框
+      imghead: "http://192.168.10.101:30000/api/v2/basic",
       srcList: [
         "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
       ]
+      //   // 修改数据
+      //   shopName:'',//店铺名称
+      //   nameOfLegalPerson:'',//经营者姓名
+      //   phone:'',// 手机号
+      //   idCard:'',//身份证号
+      //   detailAddress:'',// 地址
     };
   },
   created() {
@@ -184,29 +325,29 @@ export default {
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
       McLocalList({
-        pageNum:this.currentPage,
-        pageSize:this.pageSize
+        pageNum: this.currentPage,
+        pageSize: this.pageSize
       }).then(res => {
         console.log(res);
         if (res.code == 200) {
-           this.tableData = res.data.datas;
-           this.total = res.data.total;
+          this.tableData = res.data.datas;
+          this.total = res.data.total;
         }
       });
     },
     handleEdit(index, row) {
       //审核按钮
       //console.log(index, row);
-        this.numberId=row.numberId
+      this.numberId = row.numberId;
       let params = new URLSearchParams();
       params.append("numberId", row.numberId);
       McLocalDetail(params).then(res => {
-        console.log(res)
-        if(res.code==200){
-           this.form = res.data;
-        //   //console.log(this.form.createDate)
-           this.checkModle = true;
-           this.region=row.toExamine+''
+        console.log(res);
+        if (res.code == 200) {
+          this.form = res.data;
+          //   //console.log(this.form.createDate)
+          this.checkModle = true;
+          this.region = row.toExamine + "";
         }
       });
     },
@@ -224,14 +365,14 @@ export default {
       let params = new URLSearchParams();
       params.append("numberId", this.numberId);
       params.append("toExamine", this.region);
-      McLocalCheck(params).then(res => {
-        console.log(res)
-        if(res.code==200){
+      McLocalChange(params).then(res => {
+        console.log(res);
+        if (res.code == 200) {
           this.fetchData();
-           this.$message({
-          message: '操作成功',
-          type: 'success'
-        });
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
         }
       });
     },
@@ -241,16 +382,184 @@ export default {
       this.fetchData();
     },
     srcListimg(form) {
+      // 身份证正面
       console.log(form.idcardImgx);
-      // this.srcList[0] = item;
+      this.srcList[0] = this.imghead + form.idcardImgx;
     },
-    srcListimgy(item) {
-      //console.log(item);
-      //this.srcList[0] = item;
+    srcListimgy(form) {
+      // 身份证背面
+      this.srcList[0] = this.imghead + form.idcardImgy;
     },
-    business(){
-
+    business(form) {
+      // 印业执照
+      this.srcList[0] = this.imghead + form.licensePositive;
     },
+    alterBtn(index, row) {
+        this.alterForm = row;
+      // 修改信息
+      console.log(row);
+      ManageList({
+        parentId: "0"
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.options = res.data;
+        }
+      });
+      ManageList({
+        parentId: this.alterForm.firstManagementTypeId
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.secondoptions = res.data;
+        }
+      });
+      
+      this.dialogVisible = true;
+      this.numberId = row.numberId;
+      this.onesrc = this.imghead + this.alterForm.idcardImgx;
+      this.trwosrc = this.imghead + this.alterForm.idcardImgy;
+      this.strwisrc = this.imghead + this.alterForm.licensePositive;
+      this.onesrcurl = this.alterForm.idcardImgx;
+      this.trwosrcurl = this.alterForm.idcardImgy;
+      this.strwisrcurl = this.alterForm.licensePositive;
+      this.firstManagementTypeId= this.alterForm.firstManagementTypeId
+      this.secondManagementTypeId= this.alterForm.secondManagementTypeId
+    },
+    deleteBtn(index, row) {
+      // 删除
+      McLocalDelete({
+        numberId: row.numberId
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.fetchData();
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
+        }
+      });
+    },
+    getFile(e) {
+      let _this = this;
+      var files = e.target.files[0];
+      //console.log(files)
+      let params = new FormData();
+      params.append("file", files, files.name);
+      //      UploadSingle(params).then(res => {
+      //     console.log(res)
+      //     if(res.code==200){
+      //       this.fetchData();
+      //        this.$message({
+      //       message: '操作成功',
+      //       type: 'success'
+      //     });
+      //     }
+      //   });
+      this.axios({
+        method: "post",
+        url: "/api/v2/basic/upload/single/goods",
+        headers: { "Content-Type": "multipart/form-data" },
+        data: params
+      }).then(res => {
+        //console.log(res)
+        if (!e || !window.FileReader) return;
+        let reader = new FileReader();
+        reader.readAsDataURL(files);
+        reader.onloadend = function() {
+          _this.onesrc = this.result;
+          _this.onesrcurl = res.data.data;
+          //console.log(_this.onesrcurl)
+        };
+      });
+    },
+    getFiless(e) {
+      let _this = this;
+      let filess = e.target.files[0];
+      //console.log(filess)
+      let params = new FormData();
+      params.append("file", filess, filess.name);
+      this.axios({
+        method: "post",
+        url: "/api/v2/basic/upload/single/goods",
+        headers: {
+          "Content-Type": "multipart/form-data"
+          // 'Access-token' : localStorage.getItem('Access_token')
+        },
+        data: params
+      }).then(res => {
+        //console.log(res)
+        if (!e || !window.FileReader) return; // 看支持不支持FileReader
+        let readers = new FileReader();
+        readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
+        readers.onloadend = function() {
+          _this.trwosrc = this.result;
+          _this.trwosrcurl = res.data.data;
+          //console.log(1,_this.trwosrcurl)
+        };
+      });
+    },
+    getFilesss(e) {
+      let _this = this;
+      var filesss = e.target.files[0];
+      let params = new FormData();
+      params.append("file", filesss, filesss.name);
+      this.axios({
+        method: "post",
+        url: "/api/v2/basic/upload/single/goods",
+        headers: { "Content-Type": "multipart/form-data" },
+        data: params
+      }).then(res => {
+        if (!e || !window.FileReader) return;
+        let readersss = new FileReader();
+        readersss.readAsDataURL(filesss);
+        readersss.onloadend = function() {
+          _this.strwisrc = this.result;
+          _this.strwisrcurl = res.data.data;
+          console.log(_this.strwisrcurl);
+        };
+      });
+    },
+    upLoad() {
+      McLocalCheck({
+        numberId: this.numberId,
+        idcardImgx: this.onesrcurl,
+        idcardImgy: this.trwosrcurl,
+        shopName: this.alterForm.shopName,
+        realName: this.alterForm.realName,
+        phone: this.alterForm.phone,
+        idCard: this.idCard,
+        licensePositive: this.strwisrcurl,
+        firstManagementTypeId:this.firstManagementTypeId,
+        secondManagementTypeId:this.secondManagementTypeId
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.dialogVisible = false;
+          this.fetchData();
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
+        }
+      });
+    },
+    firstSele(){
+        //console.log(this.firstManagementTypeId)
+        this.secondManagementTypeId=''
+         ManageList({
+        parentId: this.firstManagementTypeId
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.secondoptions = res.data;
+        }
+      });
+    }
+    //   imgUrl(file) {
+    //     console.log(3,file);
+    //   }
   }
 };
 </script>
@@ -268,8 +577,66 @@ export default {
 .treeHead > div {
   margin-right: 20px;
 }
-.demo-image__preview{
-    display: inline-block;
-    margin-left: 10px;
+.demo-image__preview {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.upImg {
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 125px;
+  border-radius: 6px;
+  position: relative;
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ddd;
+  font-size: 24px;
+}
+.dsfafd {
+  display: none;
+}
+.upImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.upImg.active {
+  border: 1px solid #0090fa;
+}
+.upImgbtn {
+  position: absolute;
+  left: 30%;
+  bottom: 5%;
+  width: 35%;
+  height: 15%;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+.upseccs {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: #0090fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 12px;
+}
+.Certificates {
+  margin-left: 10px;
+  width: 75%;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

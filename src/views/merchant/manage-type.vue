@@ -1,31 +1,6 @@
 <template>
   <div class="app-container">
     <div class="manage">
-      <!-- <el-table
-    :data="tableData"
-    style="width: 100%"
-    row-key="id"
-    border
-    lazy
-    :load="load"
-    :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="380">
-    </el-table-column>
-     <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table> -->
       <el-table
         row-key="id"
         border
@@ -35,41 +10,40 @@
         :data="
           tableData.filter(
             data =>
-              !search || data.name.toLowerCase().includes(search.toLowerCase())
-          )
-        "
-        style="width: 100%"
-      >
-        <el-table-column label="经营类型" prop="name"> </el-table-column>
+              !search ||
+              data.managementName.toLowerCase().includes(search.toLowerCase())
+          )" style="width: 100%">
+        <el-table-column
+          label="经营类型"
+          prop="managementName"
+        ></el-table-column>
         <el-table-column align="right">
           <template slot="header" slot-scope="scope">
             <el-input
+              v-if="scope"
               v-model="search"
               size="mini"
-              placeholder="仅限搜索主级"
-              v-if="scope"
+              placeholder="可根据关键字搜索"
             />
-            <el-button size="mini" type="primary" @click="handAdd"
-              >添加</el-button
-            >
-          </template>
-          <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-              >编辑</el-button
-            >
             <el-button
               size="mini"
               type="primary"
-              @click="handleAdd(scope.$index, scope.row)"
-              v-if="scope.row.children == undefined ? false : true"
-              >添加</el-button
-            >
+              @click="handAdd"
+            >添加</el-button>
+            <el-button
+              v-if="grade"
+              size="mini"
+              type="primary"
+              @click="getBack"
+            >返回上一级</el-button>
+          </template>
+          <template slot-scope="scope">
             <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+              @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button>
+            <el-button v-if="scope.row.children == undefined ? false : true" size="mini" type="primary" @click="handleAdd(scope.$index, scope.row)">添加</el-button>
+            <el-button v-if="grade == false ? true : false" size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">下一级</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -79,11 +53,24 @@
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose"
+      class="amendcss"
     >
-      <span>
+      <div>
         经营类型：
         <el-input v-model="modelinput"></el-input>
-      </span>
+      </div>
+      <div>
+        图标颜色：
+        <el-input v-model="pictureColour"></el-input>
+      </div>
+      <div>
+        图标代码：
+        <el-input v-model="pictureCode"></el-input>
+      </div>
+      <div>
+        链接地址：
+        <el-input v-model="url"></el-input>
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="amend">确 定</el-button>
@@ -98,167 +85,76 @@ import {
   ManageAdd,
   ManageCheck,
   ManageMenus
-} from "@/api/management";
+} from '@/api/management'
 export default {
   data() {
     return {
-      modelinput: "",
+      grade: false,
+      modelinput: '', // 类目名称
+      pictureColour: '', // 图标颜色
+      pictureCode: '', // 图标代码
+      url: '', // 链接地址
       dialogVisible: false,
-      children: "",
-      search: "",
+      children: '',
+      search: '',
+      parentId: '0',
+      managementId: '',
       cstableData: [],
-      tableData: [
-        {
-          id: 1,
-          name: "美食",
-          children: [
-            {
-              id: 11,
-              name: "小吃快餐"
-            },
-            {
-              id: 12,
-              name: "烧烤烤肉"
-            },
-            {
-              id: 13,
-              name: "甜点饮品"
-            },
-            {
-              id: 14,
-              name: "日韩料理"
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: "酒店住宿",
-          children: [
-            {
-              id: 21,
-              name: "怡红院"
-            },
-            {
-              id: 22,
-              name: "紫轩阁"
-            },
-            {
-              id: 23,
-              name: "天足堂"
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: "旅游景点",
-          children: [
-            {
-              id: 31,
-              name: "故宫"
-            },
-            {
-              id: 32,
-              name: "圆明园"
-            }
-          ]
-        },
-        {
-          id: 4,
-          name: "休闲娱乐",
-          children: [
-            {
-              id: 41,
-              name: "KTV"
-            },
-            {
-              id: 42,
-              name: "网咖"
-            },
-            {
-              id: 43,
-              name: "游乐场"
-            },
-            {
-              id: 44,
-              name: "电影院"
-            }
-          ]
-        }
-      ]
-    };
+      tableData: []
+    }
   },
-  created() {},
+  created() {
+    this.fetchData()
+  },
 
   methods: {
-    fetchData(){
+    fetchData() {
       ManageList({
-        pageNum: this.currentPage,
-        pageSize: this.pageSize
+        parentId: this.parentId
       }).then(res => {
-        console.log(res);
-        if (res.code == 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
-        }
-      });
-    },
-    load(tree, treeNode, resolve) {
-      //console.log(tree)
-      resolve([]);
-    },
-    handleEdit(index, row) {
-      this.dialogVisible = true;
-      if (row.children) {
-        for (var i = 0; i < this.tableData.length; i++) {
-          if (this.tableData[i].id == row.id) {
-            console.log(this.tableData[i]);
-            this.modelinput = this.tableData[i].name;
-          }
-        }
-      } else {
-        for (var i = 0; i < this.tableData.length; i++) {
-          for (var j = 0; j < this.tableData[i].children.length; j++) {
-            if (this.tableData[i].children[j].id == row.id) {
-              console.log(this.tableData[i].children[j]);
-              this.modelinput = this.tableData[i].children[j].name;
-            }
-          }
-        }
-      }
-      //console.log(index, row);
-    },
-    handleDelete(index, row) {
-      let that = this;
-      that.$confirm('是否删除该经营类型?', '提示', {
-        confirmButtonText: '删除',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        //console.log(index, row);
-        if (row.children) {
-          for (var i = 0; i < this.tableData.length; i++) {
-            if (this.tableData[i].id == row.id) {
-              this.tableData.splice(i, 1);
-            }
-          }
-        } else {
-          for (var i = 0; i < this.tableData.length; i++) {
-            for (var j = 0; j < this.tableData[i].children.length; j++) {
-              if (this.tableData[i].children[j].id == row.id) {
-                console.log(this.tableData[i].children[j]);
-                this.tableData[i].children.splice(j, 1);
-                console.log(this.tableData[i].children);
-              }
-            }
-          }
+        console.log(res)
+        if (res.code === 200) {
+          this.tableData = res.data
         }
       })
-
+    },
+    load(tree, treeNode, resolve) {
+      // console.log(tree)
+      resolve([])
+    },
+    handleEdit(index, row) {
+      this.dialogVisible = true
+      this.modelinput = row.managementName
+      this.parentId = row.parentId
+      this.managementId = row.managementId
+      this.pictureColour = row.pictureColour
+      this.pictureCode = row.pictureCode
+      this.url = row.url
+      console.log(index, row)
+    },
+    handleDelete(index, row) {
+      this.parentId = row.managementId
+      this.fetchData()
+      this.grade = true
+    },
+    getBack() {
+      this.parentId = '0'
+      this.fetchData()
+      this.grade = false
     },
     handleAdd(index, row) {
       console.log(index, row)
     },
-    handAdd() {},
+    handAdd() {
+      ManageAdd({
+        parentId: this.parentId
+      }).then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          this.tableData = res.data
+        }
+      })
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -267,14 +163,31 @@ export default {
         .catch(_ => {})
     },
     amend() {
-      this.dialogVisible = false
+      if (this.modelinput === '') {
+        this.$message.error('类目名称不能为空');
+      } else {
+        this.dialogVisible = false
+        ManageCheck({
+          managementId: this.managementId,
+          parentId: this.parentId,
+          managementName: this.modelinput,
+          url: this.url,
+          pictureColour: this.pictureColour,
+          pictureCode: this.pictureCode
+        }).then(res => {
+          console.log(res)
+          if (res.code === 200) {
+            this.fetchData()
+          }
+        })
+      }
     }
   }
 }
 </script>
 <style scoped>
 .manage {
-  width: 60%;
+  width: 80%;
 }
 .el-input {
   width: 70%;
@@ -282,5 +195,8 @@ export default {
 .el-table .cell,
 .el-table th div {
   overflow: visible;
+}
+.amendcss div {
+  margin-top: 10px;
 }
 </style>

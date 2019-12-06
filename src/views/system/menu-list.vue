@@ -228,26 +228,26 @@ export default {
         this.$message({
           message: '请选择要编辑的菜单',
           type: 'warning'
-        });
-        return;
+        })
+        return
       }
       const loading = that.$loading({
         lock: true,
         text: '正在保存',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       menuUpdate({
-        id:this.form.id,
-        menuName:this.form.menuName,
-        permissionCode:this.form.permissionCode,
+        id: this.form.id,
+        menuName: this.form.menuName,
+        permissionCode: this.form.permissionCode,
         parentId: this.form.parentId,
-        url:this.form.url,
-        menuType:this.form.menuType,
-        enableStatus:this.form.enableStatus
+        url: this.form.url,
+        menuType: this.form.menuType,
+        enableStatus: this.form.enableStatus
       }).then(res => {
-        loading.close();
-        console.log(res);
+        loading.close()
+        console.log(res)
         if (res != null && res.code === 200) {
           that.menuTreeItemChoose.menuName = that.form.menuName
           that.menuTreeItemChoose.permissionCode = that.form.permissionCode
@@ -255,10 +255,10 @@ export default {
           that.menuTreeItemChoose.menuType = that.form.menuType
           that.menuTreeItemChoose.enableStatus = that.form.enableStatus
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style scoped>
 .menu-tree{

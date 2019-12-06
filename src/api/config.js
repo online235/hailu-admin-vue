@@ -1,9 +1,17 @@
 export const prefix = '/api/v2'
 export const module_auth = '/auth'
 export const module_admin = '/admin'
+export const module_basic = '/basic'// 海露基础服务
 
 export const module_auth_prefix = prefix + module_auth
 export const module_admin_prefix = prefix + module_admin
+export const module_basic_prefix = prefix + module_basic
+
+// region 文件管理
+export const File_Upload = module_basic_prefix + '/upload'
+export const File_Upload_single = File_Upload + '/single/goods'
+
+// endregion
 
 // region 登录接口
 export const auth_login = module_auth_prefix + '/login/2'
@@ -62,7 +70,7 @@ export const menu_list = menu_prefix + '/list'// 列表
 export const menu_tree_list = menu_prefix + '/tree'// 列表
 export const menu_change_status = menu_prefix + '/change-status'// 变更菜单启用状态
 export const menu_add_menu = menu_prefix + '/add-menu'// 添加菜单
-export const menu_update_menu = menu_prefix + '/update-menu'// 添加菜单
+export const menu_update_menu = menu_prefix + '/update-menu'// 编辑菜单
 
 // endregion
 
@@ -72,6 +80,7 @@ export const Role_list = Role_prefix + '/list'// 列表
 export const Role_add_role = Role_prefix + '/add-role'// 添加角色
 export const Role_change_menus = Role_prefix + '/change-menus'// 变更菜单
 export const Role_change_status = Role_prefix + '/change-status'// 变更角色启用状态
+export const Role_update = menu_prefix + 'update-role'// 编辑角色
 // endregion
 
 // region 生活圈店铺管理
@@ -84,18 +93,30 @@ export const life_circle_delete = life_circle_prefix + '/delMcEntryInformation'/
 // endregion
 
 // region 经营行业
-export const Management_prefix = module_admin_prefix + '/ManagementType/find'
-export const Management_list = Management_prefix + '/queryBusinessType'// 列表
-export const Management_add = Management_prefix + 'add/industry'// 添加经营行业
+export const Management_prefix = module_admin_prefix + '/ManagementType'
+export const Management_list = Management_prefix + '/find/queryBusinessType'// 列表
+export const Management_add = Management_prefix + '/add/industry'// 添加经营行业
 export const Management_change = Management_prefix + '/upd/industry'// 更改行业标签内容
-export const Management_delete = Management_prefix + '/typeDetails'// 查询经营类型详细
+export const Management_delete = Management_prefix + '/find/typeDetails'// 查询经营类型详细
 // endregion
 
 // region -商家入驻-生活圈后台
-export const McLocal_prefix = module_admin_prefix + '/pc/life-circle/'
+export const McLocal_prefix = module_admin_prefix + '/pc/life-circle'
 export const McLocal_list = McLocal_prefix + '/localCircleEntryList'// 列表
 export const McLocal_Details = McLocal_prefix + '/localCircleEntryDetails'// 详情
 export const McLocal_Entry = McLocal_prefix + '/updLocalCircleEntry'// 更改生活圈商家入驻信息
 export const McLocal_change = McLocal_prefix + '/changeLocalCircleState'// 更改生活圈商家入驻审核状态
 export const McLocal_delete = McLocal_prefix + '/delLocalCircleEntry'// 删除生活圈商家入驻信息
+// endregion
+
+// region 心安-政府慈善公益
+export const Charitable_prefix = module_admin_prefix + '/app'
+export const Charitable_list = Charitable_prefix + '/xinAn/publicInterestList'// 超级管理员查询公益列表
+export const Charitable_Details = Charitable_prefix + '/xinAn/detailed'// 根据编号查询公益详细
+export const Charitable_addPublic = Charitable_prefix + '/xinAn/addPublicInterest'// 添加添加公益
+export const Charitable_addArticle = Charitable_prefix + '/xinan/addGovernment'// 添加文章
+export const Charitable_article = Charitable_prefix + '/xinan/articleList'// 超级管理员查询文章列表
+export const Charitable_modify = Charitable_prefix + '/xinan/modify'// 修改文章
+export const Charitable_detailedInfor = Charitable_prefix + '/xinan/detailedInformation'// 超查询账号下详细信息
+export const Charitable_govern = Charitable_prefix + '/xinan/governmentPublicWelfare'// 政府管理员查询公益列表
 // endregion

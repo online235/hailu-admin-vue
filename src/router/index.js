@@ -65,19 +65,19 @@ export const constantRoutes = [
         path: 'admin',
         name: 'admin',
         component: () => import('@/views/system/admin-list'),
-        meta: { title: '管理员', icon: 'table' }
+        meta: { title: '管理员' }
       },
       {
         path: 'menu',
         name: 'menu',
         component: () => import('@/views/system/menu-list'),
-        meta: { title: '菜单', icon: 'tree' }
+        meta: { title: '菜单' }
       },
       {
         path: 'role',
         name: 'role',
         component: () => import('@/views/system/role-list'),
-        meta: { title: '角色', icon: 'tree' }
+        meta: { title: '角色' }
       }
     ]
   },
@@ -90,27 +90,27 @@ export const constantRoutes = [
     children: [
       {
         path: 'merchant',
-        name: 'merchant',
+        name: 'merchant1',
         component: () => import('@/views/merchant/merchant'),
-        meta: { title: '百货商户', icon: 'table' }
+        meta: { title: '百货商户' }
       },
       {
         path: 'store',
         name: 'store',
         component: () => import('@/views/store/store-list'),
-        meta: { title: '店铺管理', icon: 'table' }
+        meta: { title: '店铺管理' }
       },
       {
         path: 'McLocal',
         name: 'McLocal',
         component: () => import('@/views/McLocal/McLocal'),
-        meta: { title: '本地生活圈', icon: 'table' }
+        meta: { title: '本地生活圈' }
       },
       {
         path: 'merchant-type',
         name: 'merchant-type',
         component: () => import('@/views/merchant/manage-type'),
-        meta: { title: '经营类型', icon: 'tree' }
+        meta: { title: '经营类型' }
       }
     ]
   },
@@ -123,15 +123,15 @@ export const constantRoutes = [
     children: [
       {
         path: 'member',
-        name: 'member',
+        name: 'member1',
         component: () => import('@/views/member/member'),
-        meta: { title: '会员列表', icon: 'table' }
+        meta: { title: '会员列表' }
       },
       {
         path: 'insured',
         name: 'insured',
         component: () => import('@/views/insured/insured'),
-        meta: { title: '参保人列表', icon: 'table' }
+        meta: { title: '参保人列表' }
       }
     ]
   },
@@ -140,13 +140,34 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/salvation/salvation',
     name: 'salvation',
-    meta: { title: '救助管理', icon: 'example' },
+    meta: { title: '心安慈善管理', icon: 'example' },
     children: [
       {
         path: 'salvation',
-        name: 'salvation',
+        name: 'salvation1',
         component: () => import('@/views/salvation/salvation'),
-        meta: { title: '救助列表', icon: 'table' }
+        meta: { title: '救助列表' }
+      }
+    ]
+  },
+  {
+    path: '/charitable',
+    name: 'charitable',
+    component: Layout,
+    redirect: '/charitable/charitable',
+    meta: { title: '政府慈善公益', icon: 'example' },
+    children: [
+      {
+        path: 'public',
+        name: 'public',
+        component: () => import('@/views/charitable/public'),
+        meta: { title: '公益列表' }
+      },
+      {
+        path: 'article',
+        name: 'article',
+        component: () => import('@/views/charitable/article'),
+        meta: { title: '文章列表' }
       }
     ]
   },

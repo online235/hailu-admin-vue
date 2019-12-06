@@ -38,3 +38,11 @@ export function changeMenus(data) {
     params: data
   })
 }
+// 编辑角色
+export function roleUpdate(data) {
+  return request({
+    url: config.Role_update,
+    method: 'post',
+    params: data
+  })
+}

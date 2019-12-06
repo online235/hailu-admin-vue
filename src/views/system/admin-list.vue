@@ -101,18 +101,18 @@
   :before-close="handleClose">
   <el-form ref="form" label-width="80px">
   <el-form-item label="角色选择">
-    <el-checkbox-group v-model="type">
-      <el-checkbox label="1" name="type"></el-checkbox>
-      <el-checkbox label="2" name="type"></el-checkbox>
-      <el-checkbox label="3" name="type"></el-checkbox>
-      <el-checkbox label="4" name="type"></el-checkbox>
-    </el-checkbox-group>
+    <!-- <el-checkbox-group v-model="roleid">
+      <el-checkbox v-for="(item,index) in roleSelect" :key="index" :label="item.roleName" :name="roleid" :value='item.id'></el-checkbox>
+    </el-checkbox-group> -->
+    <el-checkbox-group v-model="roleid">
+    <el-checkbox v-for="(item,index) in roleSelect" :key="index" :label="item.roleName" @change="roleSum($event,item,index)"></el-checkbox>
+  </el-checkbox-group>
   </el-form-item>
 
 </el-form>
   <span slot="footer" class="dialog-footer">
     <el-button @click="roleAmend = false">取 消</el-button>
-    <el-button type="primary" @click="roleAmend = false">确 定</el-button>
+    <el-button type="primary" @click="roleAllot">确 定</el-button>
   </span>
 </el-dialog>
     <el-dialog
@@ -204,44 +204,49 @@ import {
   adminRoles,
   adminModify,
   adminReset
-} from "@/api/admin";
+} from '@/api/admin';
+import { roleList, roleAdd, roleCheck, roleMenus, roleUpdate } from '@/api/role'
 export default {
   data() {
     return {
       form: [],
       type:'',
-      region: "1",
+      region: '1',
       choose: [
-        { id: "0", name: "禁用" },
-        { id: "1", name: "启用" }
+        { id: '0', name: '禁用' },
+        { id: '1', name: '启用' }
       ],
-      insuredId: "",
+      roleid:[],
+      roleData:[],
+      roleSelect:'',// 角色选择
+      insuredId: '',
       memberStatus: [],
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
-      roleAmend:false,
+      search: '',
+      roleAmend: false,
       resetModal: false,
       checkModle: false, // 详情模态框
-      zhId: "", // 账号id
-      enableStatus: "", // 状态0禁用，1启用
+      zhId: '', // 账号id
+      enableStatus: '', // 状态0禁用，1启用
       dialogVisible: false, // 添加模态框
-      account: "", // 账号
-      nickName: "", // 账号昵称
-      phone: "", // 手机号
-      pwdss: "", // 密码
-      resepwd: "" // 重置密码
-    };
+      account: '', // 账号
+      nickName: '', // 账号昵称
+      phone: '', // 手机号
+      pwdss: '', // 密码
+      resepwd: '', // 重置密码
+      roleIds:'',//角色id
+    }
   },
   created() {
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
     fetchData() {
-      //列表数据加载
+      // 列表数据加载
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
@@ -254,11 +259,11 @@ export default {
           this.tableData = res.data.datas;
           this.total = res.data.total;
         }
-      });
+      })
     },
     handleEdit(index, row) {
-      //审核按钮
-      console.log(index, row);
+      // 审核按钮
+      console.log(index, row)
 
       //   let params = new URLSearchParams();
       //   params.append("id", row.account);
@@ -271,18 +276,18 @@ export default {
           this.form = res.data;
           this.checkModle = true;
         }
-      });
+      })
     },
     handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
+      // 关闭模态框按钮
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     confirm() {
-      //详情审核确认按钮
+      // 详情审核确认按钮
     },
     state() {
       // 修改状态接口
@@ -293,43 +298,53 @@ export default {
         console.log(res);
         if (res.code === 200) {
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
-          this.fetchData();
+            message: '操作成功',
+            type: 'success'
+          })
+          this.fetchData()
         }
-      });
+      })
     },
-    amendRole(index, row) {
-        this.roleAmend=true
+    amendRole(index, row) { // 分配角色
+      roleList({
+        pageNum: '1',
+        pageSize: '100'
+      }).then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          this.roleAmend = true
+          this.roleSelect=res.data.datas
+          this.zhId=row.id
+        }
+      })
     },
     amend(index, row) {
       // 修改状态
-      console.log(index, row);
-      this.zhId = row.id;
-      if (row.enableStatus == 0) {
-        this.enableStatus = 1;
+      console.log(index, row)
+      this.zhId = row.id
+      if (row.enableStatus === 0) {
+        this.enableStatus = 1
       } else {
-        this.enableStatus = 0;
+        this.enableStatus = 0
       }
-      //this.enableStatus = row.enableStatus;
-      this.state();
+      // this.enableStatus = row.enableStatus;
+      this.state()
     },
     addUser() {
       // 添加账号
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     affirm() {
       // 确认添加
-      //!(/^1[3456789]\d{9}$/.test(phone))
-      if (this.account == "") {
-        this.$message.error("账号不能为空");
-      } else if (this.nickName == "") {
-        this.$message.error("账号昵称不能为空");
-      } else if (this.phone == "") {
-        this.$message.error("手机号不能为空");
-      } else if (this.pwdss == "") {
-        this.$message.error("密码不能为空");
+      // !(/^1[3456789]\d{9}$/.test(phone))
+      if (this.account === '') {
+        this.$message.error('账号不能为空')
+      } else if (this.nickName === '') {
+        this.$message.error('账号昵称不能为空')
+      } else if (this.phone === '') {
+        this.$message.error('手机号不能为空')
+      } else if (this.pwdss === '') {
+        this.$message.error('密码不能为空')
       } else {
         adminAdd({
           account: this.account, // 账号
@@ -342,30 +357,30 @@ export default {
           if (res.code === 200) {
             this.dialogVisible = false;
             this.$message({
-              message: "操作成功",
-              type: "success"
-            });
-            this.fetchData();
-            this.account == "";
-            this.nickName == "";
-            this.phone == "";
-            this.pwdss == "";
+              message: '操作成功',
+              type: 'success'
+            })
+            this.fetchData()
+            this.account == ''
+            this.nickName == ''
+            this.phone == ''
+            this.pwdss == ''
           }
-        });
+        })
       }
     },
     handleCurrentChange(val) {
-      //分页
-      this.currentPage = val;
-      this.fetchData();
+      // 分页
+      this.currentPage = val
+      this.fetchData()
     },
     // alterPwd(){// 修改密码
 
     // },
     resetPwd(index, row) {
       // 重置密码
-      this.resetModal = true;
-      this.zhId = row.id;
+      this.resetModal = true
+      this.zhId = row.id
     },
     pwdReset() {
       // 确认密码重置
@@ -376,15 +391,46 @@ export default {
         //console.log(res);
         if (res.code === 200) {
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
-          this.resetModal = false;
+            message: '操作成功',
+            type: 'success'
+          })
+          this.resetModal = false
         }
-      });
+      })
+    },
+    roleSum(e,item,index){
+      //console.log(this.roleid)
+      //console.log(e,item,index)
+      if(e===true){
+        this.roleData.push(item.id)
+      }else{
+        for(var i=0;i<this.roleData.length;i++){
+          if(this.roleData[i]==item.id){
+            this.roleData.splice(i,1)
+          }
+        }
+      }
+      
+      this.roleIds = this.roleData.join(',');
+      console.log(this.roleIds)
+    },
+    roleAllot(){
+      adminRoles({
+        id: this.zhId,
+        roleIds: this.roleIds
+      }).then(res => {
+        // console.log(res);
+        if (res.code === 200) {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+          this.roleAmend=false
+        }
+      })
     }
   }
-};
+}
 </script>
 <style scoped>
 .treeHead {

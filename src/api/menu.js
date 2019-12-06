@@ -13,7 +13,7 @@ export function menuTreeList(data) {
   return request({
     url: config.menu_tree_list,
     method: 'get',
-    params:data
+    params: data
   })
 }
 
@@ -43,4 +43,11 @@ export function menuCheck(data) {
     params: data
   })
 }
-
+// 添加菜单
+// export function menuUpdate(data) {
+//   return request({
+//     url: config.menu_update,
+//     method: 'post',
+//     params: data
+//   })
+// }
