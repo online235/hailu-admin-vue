@@ -119,6 +119,12 @@ export const asyncRoutes = [
         name: 'insured',
         component: () => import('@/views/insured/insured'),
         meta: { title: '参保人列表' }
+      },
+      {
+        path: 'serviceProviders',
+        name: 'serviceProviders',
+        component: () => import('@/views/serviceProviders/serviceProviders'),
+        meta: { title: '服务商列表' }
       }
     ]
   },
@@ -158,6 +164,24 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/version',
+    name: 'version',
+    component: Layout,
+    redirect: '/version/versiontable',
+    meta: { title: 'App管理', icon: 'example' },
+    children: [
+      {
+        path: 'version',
+        name: 'version',
+        component: () => import('@/views/version/version'),
+        meta: { title: '版本管理' }
+      }
+    ]
+  },
+
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = (menus) => new Router({

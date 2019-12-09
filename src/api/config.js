@@ -51,6 +51,8 @@ export const insured_rescue_list = insured_prefix + '/findList'
 export const insured_rescue_detail = insured_prefix + '/findInsured'
 export const insured_rescue_change_state = insured_prefix + '/updMemberStatus'
 
+// 服务商列表
+export const serviceProviders_prefix = module_admin_prefix + '/serviceProviders/findList'
 // endregion
 
 // region 系统管理-管理员列表
@@ -121,3 +123,10 @@ export const Charitable_modify = Charitable_prefix + '/xinan/modify'// 修改文
 export const Charitable_detailedInfor = Charitable_prefix + '/xinan/detailedInformation'// 超查询账号下详细信息
 export const Charitable_govern = Charitable_prefix + '/xinan/governmentPublicWelfare'// 政府管理员查询公益列表
 // endregion
+
+// region APP管理
+export const AppTable_prefix = module_admin_prefix + '/appManagement'
+export const VersionTable_list = AppTable_prefix + '/version/findList'// 版本管理列表
+export const VersionTable_save = AppTable_prefix + '/version/save'// 保存版本管理
+export const VersionDelete_save = AppTable_prefix + '/version/version/'// 删除版本管理
+
