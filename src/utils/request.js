@@ -50,7 +50,7 @@ service.interceptors.response.use(
   },
   error => {
     if (error.response.data !== undefined) {
-      let res = error.response.data
+      const res = error.response.data
       if (res.code === 401 || res.code === 1002) {
         /**
                  * 401 请求头没有携带Access-token
@@ -81,7 +81,7 @@ service.interceptors.response.use(
         })
       }
     } else {
-      let msg;
+      let msg
       if (error.response === undefined) {
         msg = '请求失败'
       } else {

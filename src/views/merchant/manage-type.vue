@@ -178,7 +178,10 @@ export default {
       this.addType=true
     },
     addAmend(){
-      ManageAdd({
+      if(this.modelinput==''){
+        this.$message.error('经营类型不能为空');
+      }else{
+        ManageAdd({
         parentId: this.parentId,
         managementName:this.modelinput,
         pictureColour:this.pictureColour,
@@ -190,6 +193,8 @@ export default {
           this.addType=false
         }
       })
+      }
+      
     },
     handleClose(done) {
       this.$confirm('确认关闭？')

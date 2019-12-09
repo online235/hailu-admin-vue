@@ -3,7 +3,7 @@
     <div class="treeHead">
       <div><h2>救助列表</h2></div>
       <div>
-        <el-input placeholder="可根据名称查询" v-model="search" clearable>
+        <el-input v-model="search" clearable placeholder="可根据名称查询">
         </el-input>
       </div>
     </div>
@@ -42,18 +42,17 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >审核</el-button
-          >
+          >审核</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
+        @current-change="handleCurrentChange"
       >
       </el-pagination>
     </div>
@@ -86,12 +85,12 @@
           <div>{{ form.instructions }}</div>
         </el-form-item>
         <el-form-item label="详情图片">
-          <div class="demo-image__preview" v-for="item in url" :key="item">
+          <div v-for="item in url" :key="item" class="demo-image__preview">
             <el-image
+              :preview-src-list="srcList"
               style="width: 100px; height: 100px"
               :src="imghead+item"
               @click="srcListimg(item)"
-              :preview-src-list="srcList"
             >
             </el-image>
           </div>
@@ -117,39 +116,36 @@ import {
   salvationList,
   salvationDetail,
   salvationStatus
-} from "@/api/salvation";
-import qs from "qs";
-import axios from "axios";
+} from '@/api/salvation'
+import axios from 'axios'
 export default {
   data() {
     return {
-      form: "",
-      currentPage: 1, //页数
-      pageSize: 10, //每页数据量
-      tableData: [], //列表数据
-      search: "", //搜索框
-      checkModle: false, //模态框
-      examine: "", //审核(2-审核通过、3-审核不通过)
-      numberId: "",
-      total: 0, //总数
-      imghead:'',
+      form: '',
+      currentPage: 1, // 页数
+      pageSize: 10, // 每页数据量
+      tableData: [], // 列表数据
+      search: '', // 搜索框
+      checkModle: false, // 模态框
+      examine: '', // 审核(2-审核通过、3-审核不通过)
+      numberId: '',
+      total: 0, // 总数
+      imghead: '',
       url: [
 
       ],
-      srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
-      ]
-    };
+      srcList: []
+    }
   },
   created() {
-    this.imghead=axios.defaults.baseURL+'/basic'
-    this.fetchData(); //列表数据加载
+    this.imghead = axios.defaults.baseURL + '/basic'
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
-    //列表数据加载
-    //*
-    //*
+    // 列表数据加载
+    // *
+    // *
     fetchData() {
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
@@ -159,25 +155,25 @@ export default {
         size: this.pageSize
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          this.total = res.data.total
           for (var i = 0; i < this.tableData.length; i++) {
-            var dataee = new Date(this.tableData[i].updatedat).toJSON();
+            var dataee = new Date(this.tableData[i].updatedat).toJSON()
             var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
               .toISOString()
-              .replace(/T/g, " ")
-              .replace(/\.[\d]{3}Z/, "");
-            this.tableData[i].updatedat = date;
+              .replace(/T/g, ' ')
+              .replace(/\.[\d]{3}Z/, '')
+            this.tableData[i].updatedat = date
           }
         }
-      });
+      })
     },
-    //*
-    //*
-    //列表数据加载
-    //审核按钮
-    //*
-    //*
+    // *
+    // *
+    // 列表数据加载
+    // 审核按钮
+    // *
+    // *
     handleEdit(index, row) {
       this.numberId = row.numberId;
       // let params = new URLSearchParams();
@@ -189,37 +185,37 @@ export default {
            this.form = res.data[0];
            this.url=res.data[0].imageList
         }
-      });
-      this.checkModle = true;
+      })
+      this.checkModle = true
     },
     handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
+      // 关闭模态框按钮
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     confirm() {
-      //详情审核通过按钮
-      this.checkModle = false;
-      this.examine = "2";
+      // 详情审核通过按钮
+      this.checkModle = false
+      this.examine = '2'
 
-      this.audit();
-      this.fetchData();
+      this.audit()
+      this.fetchData()
       // this.$message({
       //     message: '操作成功',
       //     type: 'success'
       //   });
     },
     failure() {
-      //详情审核不通过按钮
-      this.examine = "3";
-      this.checkModle = false;
-      this.audit();
+      // 详情审核不通过按钮
+      this.examine = '3'
+      this.checkModle = false
+      this.audit()
     },
     audit() {
-      //审核
+      // 审核
       // let params = new URLSearchParams();
       // params.append("examine", this.examine);
       // params.append("numberId", this.numberId);
@@ -234,26 +230,26 @@ export default {
       }).then(res => {
         if (res.code === 200) {
           this.$message({
-            message: "审核操作成功",
-            type: "success"
-          });
-          this.fetchData();
+            message: '审核操作成功',
+            type: 'success'
+          })
+          this.fetchData()
         }
-      });
+      })
     },
-    //*
-    //*
-    //审核按钮
+    // *
+    // *
+    // 审核按钮
     srcListimg(item) {
       this.srcList[0] = item;
     },
     handleCurrentChange(val) {
-      //分页
-      this.currentPage = val;
-      this.fetchData();
+      // 分页
+      this.currentPage = val
+      this.fetchData()
     }
   }
-};
+}
 </script>
 <style scoped>
 .guarantee {

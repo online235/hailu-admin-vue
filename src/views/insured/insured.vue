@@ -182,27 +182,27 @@ export default {
     },
     confirm() {
       //详情审核确认按钮
-      this.checkModle = false;
-      let params = new URLSearchParams();
-      params.append("id", this.insuredId);
-      params.append("memberStatus", this.region);
+      this.checkModle = false
+      let params = new URLSearchParams()
+      params.append('id', this.insuredId)
+      params.append('memberStatus', this.region)
       insuredCheck(params).then(res => {
-        if(res.code==200){
-          this.fetchData();
-           this.$message({
-          message: '操作成功',
-          type: 'success'
-        });
+        if (res.code===200) {
+          this.fetchData()
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
     handleCurrentChange(val) {
-      //分页
-      this.currentPage = val;
-      this.fetchData();
+      // 分页
+      this.currentPage = val
+      this.fetchData()
     }
   }
-};
+}
 </script>
 <style scoped>
 .guarantee {
