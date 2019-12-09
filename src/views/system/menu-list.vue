@@ -51,13 +51,13 @@
             <el-form-item label="菜单名称">
               <el-input v-model="updateForm.menuName"></el-input>
             </el-form-item>
-            <el-form-item label="权限编码">
+            <el-form-item label="权限编码" v-show="false">
               <el-input v-model="updateForm.permissionCode"></el-input>
             </el-form-item>
             <el-form-item label="URL">
               <el-input v-model="updateForm.url"></el-input>
             </el-form-item>
-            <el-form-item label="菜单类型">
+            <el-form-item label="菜单类型" v-show="false">
               <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型">
                 <el-option
                         v-for="(item, index) in choose"
@@ -93,13 +93,13 @@
           <el-form-item label="菜单名称">
             <el-input v-model="addForm.menuName"></el-input>
           </el-form-item>
-          <el-form-item label="权限编码">
+          <el-form-item label="权限编码" v-show="false">
             <el-input v-model="addForm.permissionCode"></el-input>
           </el-form-item>
           <el-form-item label="URL">
             <el-input v-model="addForm.url"></el-input>
           </el-form-item>
-          <el-form-item label="菜单类型">
+          <el-form-item label="菜单类型" v-show="false">
             <el-select v-model="addForm.menuType" placeholder="请选择菜单类型">
               <el-option
                       v-for="(item, index) in choose"
@@ -178,7 +178,6 @@ export default {
   created() {
     this.searchTreeList();
   },
-
   methods: {
     onlyShowEnableChange(){
       this.searchTreeList();
@@ -246,6 +245,10 @@ export default {
             that.menuTreeItemChoose.children.push(res.data)
           }
           this.dialogVisible=false
+          that.$message({
+              message: '添加成功',
+              type: 'success'
+          })
         }
       });
     },
@@ -288,6 +291,10 @@ export default {
           that.menuTreeItemChoose.url = that.updateForm.url
           that.menuTreeItemChoose.menuType = that.updateForm.menuType
           that.menuTreeItemChoose.enableStatus = that.updateForm.enableStatus
+          that.$message({
+              message: '保存成功',
+              type: 'success'
+          })
         }
       })
     }

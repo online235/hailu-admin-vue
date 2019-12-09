@@ -1,4 +1,5 @@
 import { api_login, api_logout } from '@/api/login'
+import dynamicRoute from '@/utils/dynamicRoute'
 import {
   getAccessToken,
   getRefreshToken,
@@ -6,19 +7,25 @@ import {
   getUsername,
   removeToken,
   setToken,
-  setUserInfo
+  setUserInfo,
+  getMenus,
+  setMenus
 } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const state = {
   token: getAccessToken(),
   name: getUsername(),
-  avatar: getUserImg()
+  avatar: getUserImg(),
+  menus: getMenus()
 }
 
 const mutations = {
   SET_TOKEN: (state, accessToken) => {
     state.token = accessToken
+  },
+  SET_MENUS: (state, menus) => {
+    state.menus = menus
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -36,11 +43,22 @@ const actions = {
       api_login({ account: username.trim(), pwd: password }).then(response => {
         const { data } = response
         const userImg = data.avatar == null ? '@/assets/default_avatar.png' : ''
-        commit('SET_TOKEN', data.accessToken)
         commit('SET_NAME', data.nickName)
+
         commit('SET_AVATAR', userImg)
         setUserInfo(userImg, data.nickName)
+
+        commit('SET_TOKEN', data.accessToken)
         setToken(data.accessToken, data.refreshToken)
+
+        commit('SET_MENUS', data.menus)
+        setMenus(data.menus)
+
+        let accessRoutes = []
+        dynamicRoute.appendToRouter(data.menus, menu=> accessRoutes.push(menu))
+        resetRouter(accessRoutes)
+        dynamicRoute.initState.menuInit = true
+
         resolve()
       }).catch(error => {
         reject(error)

@@ -2,6 +2,7 @@ const accessTokenKey = 'accessToken'
 const refreshTokenKey = 'refreshToken'
 const usernameKey = 'username'
 const userImgKey = 'userImg'
+const menusKey = 'menus'
 
 export function getAccessToken() {
   return localStorage.getItem(accessTokenKey)
@@ -17,6 +18,14 @@ export function getUsername() {
 
 export function getUserImg() {
   return localStorage.getItem(userImgKey)
+}
+
+export function getMenus() {
+  return localStorage.getItem(menusKey)
+}
+
+export function setMenus(menus) {
+  return localStorage.setItem(menusKey, JSON.stringify(menus))
 }
 
 export function setUserInfo(userImg, username) {

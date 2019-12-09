@@ -1,6 +1,7 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+import dynamicRoute from '@/utils/dynamicRoute'
+import { resetRouter } from '@/router'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getAccessToken } from '@/utils/auth' // get token from cookie
@@ -9,8 +10,7 @@ import getPageTitle from '@/utils/get-page-title'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
-
-router.beforeEach(async(to, from, next) => {
+router.beforeEach((to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -26,35 +26,41 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
-        next()
-      } else {
-        try {
-          // get user info
-          await store.dispatch('user/getInfo')
-
+      const menus = store.getters.menus
+      if (menus) {
+        if( !dynamicRoute.initState.menuInit ){
+          let menuArray = menus instanceof Array ? menus : JSON.parse(menus)
+          let accessRoutes = []
+          dynamicRoute.appendToRouter(menuArray, menu=> accessRoutes.push(menu))
+          resetRouter(accessRoutes)
+          dynamicRoute.initState.menuInit = true
+          next(location.href.substring(location.href.indexOf("/#") + 2))
+        }else{
           next()
-        } catch (error) {
-          // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
         }
+        // try{
+        //   let currentPath = location.href.substring(location.href.indexOf("/#") + 2)
+        //   if( currentPath !== from.path ){
+        //     next(currentPath)
+        //   }
+        // }catch(err){
+        // }
+        // next()
+        NProgress.done()
+      }else{
+        dynamicRoute.initState.menuInit = false
+        next(`/login?redirect=${to.path}`)
+        NProgress.done()
       }
     }
   } else {
-    /* has no token*/
 
     if (whiteList.indexOf(to.path) !== -1) {
-      // in the free login whitelist, go directly
       next()
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
+      dynamicRoute.initState.menuInit = false
       next(`/login?redirect=${to.path}`)
       NProgress.done()
-      // next()
     }
   }
 })
