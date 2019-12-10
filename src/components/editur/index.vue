@@ -16,7 +16,6 @@
         // uploadPath,
         editor: null,
         info_: null,
-        cesi:'777'
       }
     },
     model: {

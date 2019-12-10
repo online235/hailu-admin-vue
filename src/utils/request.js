@@ -3,7 +3,7 @@ import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getAccessToken, getRefreshToken, setToken } from '@/utils/auth'
 import { api_refresh_token } from '@/api/login'
-import router from "@/router";
+import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
@@ -62,7 +62,7 @@ service.interceptors.response.use(
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
-            router.push(location.href.substring(location.href.indexOf("/#") + 2))
+            router.push(location.href.substring(location.href.indexOf('/#') + 2))
           })
         })
         return Promise.reject(new Error(res.message || 'Error'))
@@ -76,7 +76,7 @@ service.interceptors.response.use(
             if (response.code === 200) {
               setToken(response.data)
             }
-            router.push(location.href.substring(location.href.indexOf("/#") + 2))
+            router.push(location.href.substring(location.href.indexOf('/#') + 2))
           })
         })
       }

@@ -92,7 +92,7 @@
     <el-dialog
       title="修改信息"
       :visible.sync="dialogVisible"
-      width="40%"
+      width="750px"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="alterForm" label-width="150px">
@@ -196,7 +196,7 @@
     <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
-      width="40%"
+      width="750px"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="form" label-width="150px">
@@ -438,19 +438,12 @@ export default {
       var files = e.target.files[0];
       let params = new FormData();
       params.append("file", files, files.name);
-      this.axios({
-        method: "post",
-        url: "/api/v2/basic/upload/single/goods",
-        headers: { "Content-Type": "multipart/form-data" },
-        data: params
-      }).then(res => {
-        if (!e || !window.FileReader) return;
-        let reader = new FileReader();
-        reader.readAsDataURL(files);
-        reader.onloadend = function() {
-          _this.onesrc = this.result;
-          _this.onesrcurl = res.data.data;
-        };
+      UploadSingle(params).then(res => {
+        // console.log(res)
+        if (res.code == 200) {
+          this.onesrcurl = res.data;
+          this.onesrc = this.imghead+res.data;
+        }
       });
     },
     getFiless(e) {
@@ -458,22 +451,12 @@ export default {
       let filess = e.target.files[0];
       let params = new FormData();
       params.append("file", filess, filess.name);
-      this.axios({
-        method: "post",
-        url: "/api/v2/basic/upload/single/goods",
-        headers: {
-          "Content-Type": "multipart/form-data"
-          // 'Access-token' : localStorage.getItem('Access_token')
-        },
-        data: params
-      }).then(res => {
-        if (!e || !window.FileReader) return; // 看支持不支持FileReader
-        let readers = new FileReader();
-        readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
-        readers.onloadend = function() {
-          _this.trwosrc = this.result;
-          _this.trwosrcurl = res.data.data;
-        };
+      UploadSingle(params).then(res => {
+        // console.log(res)
+        if (res.code == 200) {
+          this.trwosrcurl = res.data;
+          this.trwosrc = this.imghead+res.data;
+        }
       });
     },
     getFilesss(e) {
@@ -481,19 +464,12 @@ export default {
       var filesss = e.target.files[0];
       let params = new FormData();
       params.append("file", filesss, filesss.name);
-      this.axios({
-        method: "post",
-        url: "/api/v2/basic/upload/single/goods",
-        headers: { "Content-Type": "multipart/form-data" },
-        data: params
-      }).then(res => {
-        if (!e || !window.FileReader) return;
-        let readersss = new FileReader();
-        readersss.readAsDataURL(filesss);
-        readersss.onloadend = function() {
-          _this.strwisrc = this.result;
-          _this.strwisrcurl = res.data.data;
-        };
+       UploadSingle(params).then(res => {
+        // console.log(res)
+        if (res.code == 200) {
+          this.strwisrcurl = res.data;
+          this.strwisrc = this.imghead+res.data;
+        }
       });
     },
     upLoad() {

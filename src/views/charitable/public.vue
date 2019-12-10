@@ -59,17 +59,30 @@
       </el-pagination>
     </div>
     <el-dialog
-      title="提示"
+      title="添加"
       :visible.sync="dialogVisible"
-      width="50%"
+      width="850px"
       :before-close="handleClose"
     >
       <el-form ref="form" label-width="100px">
         <el-form-item label="公益标题：">
           <el-input v-model="commonwealTitle"></el-input>
         </el-form-item>
-        <el-form-item label="公益文章内容：">
+        <el-form-item label="文章内容：">
           <editor-bar v-model="detail" :isClear="isClear" @change="change"></editor-bar>
+        </el-form-item>
+        <el-form-item label="相关图片：">
+          <el-upload
+  :action="imghead+upSite"
+  list-type="picture-card"
+  :on-preview="handlePictureCardPreview"
+  :on-remove="handleRemove"
+  :on-success='upImage'>
+  <i class="el-icon-plus"></i>
+</el-upload>
+<el-dialog :visible.sync="dialogImg" append-to-body>
+  <img width="100%" :src="dialogImageUrl" alt="">
+</el-dialog>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -82,7 +95,7 @@
     <el-dialog
       title="详情"
       :visible.sync="checkModle"
-      width="50%"
+      width="850px"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="form" label-width="100px">
@@ -144,12 +157,14 @@ export default {
       dialogVisible: false, // 添加模态框
       // 相关图片
       imghead: "", // 图片请求头
+      upSite:'/upload/single/goods', // 请求地址
       // srcList: "",
       //srcListimg: [],
-      // imgList:[],
       commonwealTitle: "", // 公益标题
       article: "", // 公益内容
         dialogImg: false,
+        dialogImageUrl:'',
+        upImgList:[],
         record:{ // 添加post的数据
           adminId:'8685102477447168',
           article:'',
@@ -231,7 +246,7 @@ export default {
         this.$message.error('内容不能未空');
       }else{
         this.record.article=this.detail
-        //this.record.defaultPicture=this.imgList.join(',')
+        this.record.defaultPicture=this.upImgList.join(',')
         this.record.commonwealTitle=this.commonwealTitle
         let params = qs.stringify(this.record)
         console.log(params)
@@ -257,6 +272,19 @@ export default {
       }
     },
     // 富文本
+    handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        //console.log(file.response.data)
+        this.dialogImageUrl = this.imghead+file.response.data;
+        this.dialogImg= true;
+      },
+      upImage(file){
+        // console.log(file)
+        this.upImgList.push(file.data)
+        console.log(this.upImgList)
+      }
   }
 };
 </script>
@@ -273,5 +301,10 @@ export default {
 }
 .treeHead > div {
   margin-right: 20px;
+}
+</style>
+<style>
+  .el-dialog{
+  z-index: 3000;
 }
 </style>

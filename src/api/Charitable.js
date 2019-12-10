@@ -23,7 +23,7 @@ export function ArticleAdd(data) {
   return request({
     url: config.Charitable_addArticle,
     method: 'post',
-    params: data
+    data: data
   })
 }
 

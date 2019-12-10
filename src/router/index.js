@@ -79,19 +79,19 @@ export const asyncRoutes = [
         path: 'merchant',
         name: 'merchant1',
         component: () => import('@/views/merchant/merchant'),
-        meta: { title: '百货入驻审核', icon: 'table' }
+        meta: { title: '百货入驻审核' }
       },
       {
         path: 'store',
         name: 'store',
         component: () => import('@/views/store/store-list'),
-        meta: { title: '店铺审核', icon: 'table' }
+        meta: { title: '店铺审核' }
       },
       {
         path: 'McLocal',
         name: 'McLocal',
         component: () => import('@/views/McLocal/McLocal'),
-        meta: { title: '生活圈入驻审核', icon: 'table' }
+        meta: { title: '生活圈入驻审核' }
       },
       {
         path: 'merchant-type',
@@ -161,9 +161,15 @@ export const asyncRoutes = [
         name: 'article',
         component: () => import('@/views/charitable/article'),
         meta: { title: '文章列表' }
+      },
+      {
+        path: 'account',
+        name: 'account',
+        component: () => import('@/views/charitable/account'),
+        meta: { title: '账号公益信息' }
       }
     ]
-  },
+  }
   {
     path: '/version',
     name: 'version',

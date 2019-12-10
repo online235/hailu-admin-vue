@@ -5,7 +5,7 @@ export function UploadSingle(data) {
   return request({
     url: config.File_Upload_single,
     method: 'post',
-    params: data
+    data: data
   })
 }
 

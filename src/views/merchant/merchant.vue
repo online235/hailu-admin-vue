@@ -54,9 +54,9 @@
             <span style="margin-left: 12px">{{ scope.row.toExamineDisPlay }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间">
+        <el-table-column label="审核时间">
           <template slot-scope="scope">
-            <span style="margin-left: 12px">{{ scope.row.createdat | formatDate }}</span>
+            <span style="margin-left: 12px">{{ scope.row.createTime}}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
@@ -94,7 +94,7 @@
    <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
-      width="40%"
+      width="750px"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="form" label-width="150px">
@@ -117,7 +117,7 @@
           <div>{{ form.businessLicenseNumber }}</div>
         </el-form-item>
          <el-form-item label="创建时间：">
-          <div>{{ form.createdat }}</div>
+          <div>{{ form.createTime }}</div>
         </el-form-item>
         <el-form-item label="身份证号码：">
           <div>{{ form.idCard }}</div>
@@ -285,6 +285,7 @@ export default {
       params.append('limit', this.page)
       params.append('page', this.currentPage)
       merchantList(params).then(res => {
+        console.log(res.data)
         this.total = res.data.total
         this.tableData = res.data.datas
       })
@@ -378,5 +379,8 @@ export default {
   margin-bottom: 10px;
   margin-right: 10px;
 }
-
+.demo-image__preview{
+  display: inline-block;
+  margin-right: 20px;
+}
 </style>
