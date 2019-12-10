@@ -11,6 +11,7 @@ export function charityList(data) {
 
 // 添加公益
 export function PublicAdd(data) {
+  console.log(data)
   return request({
     url: config.Charitable_addPublic,
     method: 'post',
@@ -67,6 +68,15 @@ export function govern(data) {
   return request({
     url: config.Charitable_govern,
     method: 'post',
+    params: data
+  })
+}
+
+// 政府管理员查询公益列表
+export function adminList(data) {
+  return request({
+    url: config.admin_rescue_list,
+    method: 'get',
     params: data
   })
 }

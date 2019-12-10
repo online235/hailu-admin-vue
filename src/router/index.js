@@ -169,7 +169,7 @@ export const asyncRoutes = [
         meta: { title: '账号公益信息' }
       }
     ]
-  }
+  },
   {
     path: '/version',
     name: 'version',
