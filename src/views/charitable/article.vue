@@ -102,6 +102,7 @@ import {
   govern
 } from "@/api/Charitable";
 import EditorBar from '@/components/editur/index'
+import axios from 'axios'
 export default {
   components: { EditorBar },
   data() {
