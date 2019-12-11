@@ -61,7 +61,7 @@
       </el-pagination>
     </div>
     <el-dialog
-      title="添加菜单"
+      title="添加角色"
       :visible.sync="dialogVisible"
       width="40%"
       :before-close="handleClose"
@@ -81,6 +81,10 @@
           </el-select>
         </el-form-item>
       </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="affirm">确 定</el-button>
+      </span>
     </el-dialog>
     <el-dialog
       title="关联菜单"

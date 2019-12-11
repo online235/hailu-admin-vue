@@ -63,7 +63,7 @@ service.interceptors.response.use(
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
-            router.push(location.href.substring(location.href.indexOf('/#') + 2))
+            router.push(`/login?redirect=` + location.href.substring(location.href.indexOf('/#') + 2))
           })
         })
         return Promise.reject(new Error(res.message || 'Error'))
