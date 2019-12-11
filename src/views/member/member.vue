@@ -142,7 +142,7 @@
 
 <script>
 import { memberList,memberDetail } from '@/api/member'
-import axios from "axios";
+import * as config from '@/api/config'
 export default {
   data() {
     return {
@@ -163,7 +163,7 @@ export default {
   },
 
   created() {
-    this.imghead=axios.defaults.baseURL+'/basic'
+    this.imghead=config.module_basic_prefix
     this.fangfa();
   },
   mounted() {},

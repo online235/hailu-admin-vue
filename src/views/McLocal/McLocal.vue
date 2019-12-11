@@ -272,7 +272,7 @@ import {
 } from "@/api/McLocal";
 import { UploadSingle } from "@/api/FileUpload";
 import { ManageList } from "@/api/management";
-import axios from "axios";
+import * as config from '@/api/config'
 export default {
   data() {
     return {
@@ -316,7 +316,7 @@ export default {
     };
   },
   created() {
-    this.imghead=axios.defaults.baseURL+'/basic'
+    this.imghead=config.module_basic_prefix
     this.fetchData(); //列表数据加载
   },
 

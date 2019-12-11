@@ -175,7 +175,7 @@
 <script>
 import { merchantList, merchantcheck, merchantDetail } from '@/api/merchant'
 import { formatDate } from '@/utils/date'
-import axios from "axios"
+import * as config from '@/api/config'
 export default {
   filters: {
     formatDate(time) {
@@ -211,7 +211,7 @@ export default {
     }
   },
   created() {
-     this.imghead=axios.defaults.baseURL+'/basic'
+     this.imghead= config.module_basic_prefix
     this.fangfa()
   },
   mounted() {},
