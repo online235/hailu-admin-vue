@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import * as config from './config'
-// 超级管理员查询公益列表
+// 管理员根据token查询公益列表
 export function charityList(data) {
   return request({
     url: config.Charitable_list,
@@ -58,15 +58,6 @@ export function modify(data) {
 export function detailedInfor(data) {
   return request({
     url: config.Charitable_detailedInfor,
-    method: 'post',
-    params: data
-  })
-}
-
-// 政府管理员查询公益列表
-export function govern(data) {
-  return request({
-    url: config.Charitable_govern,
     method: 'post',
     params: data
   })

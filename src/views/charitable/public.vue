@@ -149,7 +149,6 @@ import {
   article,
   modify,
   detailedInfor,
-  govern,
   adminList
 } from '@/api/Charitable'
 import axios from 'axios'

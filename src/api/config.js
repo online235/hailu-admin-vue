@@ -115,14 +115,13 @@ export const McLocal_delete = McLocal_prefix + '/delLocalCircleEntry'// 删除�
 
 // region 心安-政府慈善公益
 export const Charitable_prefix = module_admin_prefix + '/app'
-export const Charitable_list = Charitable_prefix + '/xinAn/publicInterestList'// 超级管理员查询公益列表
+export const Charitable_list = Charitable_prefix + '/xinAn/governmentPublicWelfare'// 管理员根据token查询公益列表
 export const Charitable_Details = Charitable_prefix + '/xinAn/detailed'// 根据编号查询公益详细
 export const Charitable_addPublic = Charitable_prefix + '/xinAn/addPublicInterest'// 添加添加公益
 export const Charitable_addArticle = Charitable_prefix + '/xinan/addGovernment'// 添加文章
 export const Charitable_article = Charitable_prefix + '/xinan/articleList'// 超级管理员查询文章列表
 export const Charitable_modify = Charitable_prefix + '/xinan/modify'// 修改文章
 export const Charitable_detailedInfor = Charitable_prefix + '/xinan/detailedInformation'// 超查询账号下详细信息
-export const Charitable_govern = Charitable_prefix + '/xinan/governmentPublicWelfare'// 政府管理员查询公益列表
 // endregion
 
 // region APP管理
