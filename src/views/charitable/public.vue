@@ -72,18 +72,18 @@
       width="850px"
       :before-close="handleClose"
     >
-      <el-form :model="record" :rules="rules" ref="ruleForm" label-width="110px" class="demo-ruleForm">
-        <el-form-item label="政府编号：" prop="type">
+      <el-form :model="record" :rules="rules" ref="versionForm" label-width="110px" class="demo-ruleForm">
+        <el-form-item label="政府编号：" prop="adminId">
           <el-select v-model="record.adminId" placeholder="请选择专业" ref="major">
             <el-option  v-for="(major,index) in adminList" :label="major.nickName" :value="major.id" :key="index"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="公益标题：" prop="name">
+        <el-form-item label="公益标题：" prop="commonwealTitle">
           <el-input v-model="record.commonwealTitle"></el-input>
         </el-form-item>
 
-        <el-form-item label="相关图片：">
+        <el-form-item label="相关图片：" prop="defaultPicture">
           <el-upload class="avatar-uploader"
           :action="imghead+upSite"
           :show-file-list="false"
@@ -95,12 +95,12 @@
         </el-upload>
         </el-form-item>
 
-        <el-form-item label="公益文章内容：" prop="region">
+        <el-form-item label="公益文章内容：" prop="article">
           <editor-bar v-model="record.article" :is-clear="isClear"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
-          <el-button @click="cancelForm('formName')">取消</el-button>
+          <el-button type="primary" @click="submitForm('versionForm')">确 定</el-button>
+          <el-button @click="cancelForm('versionForm')">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -111,7 +111,7 @@
       width="850px"
       :before-close="handleClose"
     >
-      <el-form ref="form" :model="records" :rules="rules"  label-width="110px">
+      <el-form ref="form" :model="records" label-width="110px">
         <el-form-item label="政府编号：">
           <div>{{adminId}}</div>
         </el-form-item>
@@ -172,52 +172,38 @@ export default {
       upSite:'/upload/single/goods', // 请求地址
       // srcList: "",
       // srcListimg: [],
-      commonwealTitle: '',  // 公益标题
-      article: '',          // 公益内容
       dialogImg: false,
       adminList: [],
       isClear: false,       // 富文本
       detail: '',           // 添加-富文本内容
       details: '',          // 详情-富文本内容
       cratedat: '',         // 公益创建时间
-      adminId: '',          // 政府编号
       // 富文本
       record: { // 添加post的数据
-        adminId: '',
-        article: '',
-        commonwealTitle: '',
-        defaultPicture: ''
+        adminId: '',          // 政府编号
+        article: '',          // 公益内容
+        commonwealTitle: '',  // 公益标题
+        defaultPicture: ''    //图片路径
       },
       rules: {
         adminId: [
-          { required: true, message: "", trigger: 'blur' }
+          { required: true, message: "请选择政府", trigger: 'change' }
         ],
         article: [
-          { required: true, message: "内容不能未空", trigger: 'blur' }
+          { required: true, message: "内容不能为空", trigger: 'change' }
         ],
         commonwealTitle: [
-          { required: true, message: "标题不能未空", trigger: 'blur' }
+          { required: true, message: "标题不能为空", trigger: 'change' }
         ],
         defaultPicture: [
-          { required: true, message: "图片不能未空", trigger: 'blur' }
+          { required: true, message: "图片不能为空", trigger: 'change' }
         ]
       },
       records: { // 修改post的数据
         article: '',
         commonwealTitle: '',
         defaultPicture: ''
-      },
-      rules: {
-        article: [
-        { required: true, message: "内容不能未空", trigger: 'blur' }
-      ],
-        commonwealTitle: [
-        { required: true, message: "标题不能未空", trigger: 'blur' }
-      ],
-        defaultPicture: [
-        { required: true, message: "图片不能未空", trigger: 'blur' }
-      ]
-    }
+      }
     }
   },
 
