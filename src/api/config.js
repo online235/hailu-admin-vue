@@ -10,6 +10,7 @@ export const module_basic_prefix = prefix + module_basic
 // region 文件管理
 export const File_Upload = module_basic_prefix + '/upload'
 export const File_Upload_single = File_Upload + '/single/goods'
+export const file_Upload_single_article = File_Upload + '/single/article'
 
 // endregion
 
