@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+    <div class="treeHead">
+    <div>
+      <h2>百货入驻列表</h2>
+    </div>
     <div>
       <el-input
         v-model="membername"
@@ -21,6 +25,7 @@
         @click="sreach"
       >搜索</el-button>
       <el-button v-if="sreachs" @click="cancel">重置</el-button>
+    </div>
     </div>
     <!-- 表格 -->
     <template>
@@ -189,7 +194,7 @@ export default {
       membername: '',
       membermobile: '',
       currentPage: 1,
-      page: 15,
+      page: 10,
       tableData: [],
       name: '1231231',
       sreachs: false,
@@ -228,7 +233,7 @@ export default {
         })
       } else {
         const params = new URLSearchParams()
-        params.append('limit', this.page)
+        params.append('pageSize', this.page)
         params.append('phone', this.membermobile)
         params.append('shopname', this.membername)
         merchantList(params).then(res => {
@@ -244,8 +249,8 @@ export default {
     // 取消搜索
     cancel() {
       const params = new URLSearchParams()
-      params.append('limit', this.page)
-      params.append('page', this.currentPage)
+      params.append('pageSize', this.page)
+      params.append('pageSize', this.currentPage)
       merchantList(params).then(res => {
         this.total = res.data.total
         this.tableData = res.data.datas
@@ -255,12 +260,15 @@ export default {
       this.membermobile = ''
     },
     handleCurrentChange(val) {
+      console.log(this.page,val)
       const params = new URLSearchParams()
-      params.append('limit', this.page)
-      params.append('page', val)
+      params.append('pageSize', this.page)
+      params.append('pageNum', val)
       merchantList(params).then(res => {
         this.total = res.data.total
         this.tableData = res.data.datas
+        console.log(this.tableData)
+        // this.fangfa()
       })
     },
     handleExamine(row) {
@@ -282,8 +290,8 @@ export default {
     // },
     fangfa() {
       const params = new URLSearchParams()
-      params.append('limit', this.page)
-      params.append('page', this.currentPage)
+      params.append('pageSize', this.page)
+      params.append('pageNum', this.currentPage)
       merchantList(params).then(res => {
         console.log(res.data)
         this.total = res.data.total
@@ -381,6 +389,13 @@ export default {
 }
 .demo-image__preview{
   display: inline-block;
+  margin-right: 20px;
+}
+.treeHead {
+  display: flex;
+  align-items: center;
+}
+.treeHead > div {
   margin-right: 20px;
 }
 </style>

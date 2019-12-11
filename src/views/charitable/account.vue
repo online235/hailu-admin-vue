@@ -1,6 +1,10 @@
 <template>
   <div class="app-container">
-    1111
+    <div class="treeHead">
+        <div>
+            <h2>账号公益信息</h2>
+        </div>
+    </div>
   </div>
 </template>
 

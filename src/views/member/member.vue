@@ -65,7 +65,7 @@
       <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
-      width="40%"
+      width="800px"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="form" label-width="150px">

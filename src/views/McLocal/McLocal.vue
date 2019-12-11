@@ -3,23 +3,31 @@
     <div class="treeHead">
       <div><h2>商家入驻列表</h2></div>
       <div>
-        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
-        </el-input>
-      </div>
+      <el-input
+        v-model="membername"
+        placeholder="请输入店铺名称"
+        style="width:20%;min-width:150px;"
+      >
+        <i slot="prefix" class="el-input__icon el-icon-search" />
+      </el-input>
+      <el-input
+        v-model="membermobile"
+        placeholder="请输入手机号码"
+        style="width:20%;min-width:150px;"
+      >
+        <i slot="prefix" class="el-input__icon el-icon-search" />
+      </el-input>
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="sreach"
+      >搜索</el-button>
+      <el-button v-if="sreachs" @click="cancel">重置</el-button>
+    </div>
     </div>
     <el-table
       border
-      :data="
-        tableData.filter(
-          data =>
-            !search ||
-            data.createTime.toLowerCase().includes(search.toLowerCase()) ||
-            data.shopName.toLowerCase().includes(search.toLowerCase()) ||
-            data.phone.toLowerCase().includes(search.toLowerCase()) ||
-            data.toExamineDisPlay.toLowerCase().includes(search.toLowerCase())||
-            data.nameOfLegalPerson.toLowerCase().includes(search.toLowerCase())
-        )
-      "
+      :data="tableData"
       style="width: 100%"
     >
       <el-table-column label="日期">
@@ -276,6 +284,9 @@ import * as config from '@/api/config'
 export default {
   data() {
     return {
+      membername: '', // 名称查询
+      membermobile: '',// 手机号码查询
+      sreachs: false, // 重置按钮
       onesrc: [], //身份证正面
       trwosrc: [], // 身份证背面
       strwisrc: [], //营业执照照片
@@ -323,9 +334,6 @@ export default {
   methods: {
     fetchData() {
       //列表数据加载
-      // let params = new URLSearchParams();
-      // params.append("page", this.currentPage);
-      // params.append("size", this.pageSize);
       McLocalList({
         pageNum: this.currentPage,
         pageSize: this.pageSize
@@ -504,7 +512,45 @@ export default {
           this.secondoptions = res.data;
         }
       });
-    }
+    },
+    sreach() {
+      if (
+        (this.membername.length === 0 || this.membername === '') &&
+        (this.membermobile.length === 0 || this.membermobile === '')
+      ) {
+        this.$message({
+          type: 'warning',
+          message: '请输入搜索内容'
+        })
+      } else {
+        McLocalList({
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        shopName:this.membername,
+        phone:this.membermobile
+      }).then(res => {
+        if (res.code == 200) {
+          this.tableData = res.data.datas;
+          this.total = res.data.total;
+        }
+      });
+        this.sreachs = true
+      }
+    },
+    cancel() {
+      McLocalList({
+        pageNum: this.currentPage,
+        pageSize: this.pageSize
+      }).then(res => {
+        if (res.code == 200) {
+          this.tableData = res.data.datas;
+          this.total = res.data.total;
+          this.sreachs = false
+          this.membername = ''
+          this.membermobile = ''
+        }
+      });
+    },
   }
 };
 </script>

@@ -3,21 +3,31 @@
     <div class="treeHead">
       <div><h2>店铺-列表</h2></div>
       <div>
-        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
-        </el-input>
-      </div>
+      <el-input
+        v-model="membername"
+        placeholder="请输入店铺名称"
+        style="width:20%;min-width:150px;"
+      >
+        <i slot="prefix" class="el-input__icon el-icon-search" />
+      </el-input>
+      <el-input
+        v-model="membermobile"
+        placeholder="请输入手机号码"
+        style="width:20%;min-width:150px;"
+      >
+        <i slot="prefix" class="el-input__icon el-icon-search" />
+      </el-input>
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="sreach"
+      >搜索</el-button>
+      <el-button v-if="sreachs" @click="cancel">重置</el-button>
+    </div>
     </div>
     <el-table
       border
-      :data="
-        tableData.filter(
-          data =>
-            !search || data.shopName.toLowerCase().includes(search.toLowerCase()) ||
-            data.createdat.toLowerCase().includes(search.toLowerCase()) ||
-            data.phone.toLowerCase().includes(search.toLowerCase()) ||
-            data.detailAddress.toLowerCase().includes(search.toLowerCase())
-        )
-      "
+      :data="tableData"
       style="width: 100%"
     >
       <el-table-column label="创建日期">
@@ -26,7 +36,7 @@
           <span style="margin-left: 10px">{{ scope.row.createdat }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="店铺名">
+      <el-table-column label="店铺名称">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.shopName }}</el-tag>
@@ -167,7 +177,7 @@
       :before-close="handleClose"
     >
       <el-form ref="form" :model="form" label-width="150px">
-        <el-form-item label="店铺名：">
+        <el-form-item label="店铺名称：">
           <div>{{ form.shopName }}</div>
         </el-form-item>
         <el-form-item label="店家号码：">
@@ -209,6 +219,9 @@ import {
 export default {
   data() {
     return {
+      membername: '', // 名称查询
+      membermobile: '',// 手机号码查询
+      sreachs: false, // 重置按钮
       form: "",
       region: "",
       insuredId: "",
@@ -257,6 +270,9 @@ export default {
         if (res.code === 200) {
           this.tableData = res.data.datas;
           this.total = res.data.total;
+          this.sreachs = false
+          this.membername = ''
+          this.membermobile = ''
         }
       });
     },
@@ -355,7 +371,34 @@ export default {
           });
         }
       });
-    }
+    },
+    sreach() {
+      if (
+        (this.membername.length === 0 || this.membername === '') &&
+        (this.membermobile.length === 0 || this.membermobile === '')
+      ) {
+        this.$message({
+          type: 'warning',
+          message: '请输入搜索内容'
+        })
+      } else {
+        lifeCircleList({
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        shopName:this.membername,
+        phone:this.membermobile
+      }).then(res => {
+        if (res.code == 200) {
+          this.tableData = res.data.datas;
+          this.total = res.data.total;
+        }
+      });
+        this.sreachs = true
+      }
+    },
+    cancel() {
+      this.fetchData();
+    },
   }
 };
 </script>

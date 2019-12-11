@@ -130,3 +130,11 @@ export const VersionTable_list = AppTable_prefix + '/version/findList'// 版本�
 export const VersionTable_save = AppTable_prefix + '/version/save'// 保存版本管理
 export const VersionDelete_save = AppTable_prefix + '/version/version/'// 删除版本管理
 
+// region 百货商户入驻
+
+export const openApi_prefix = module_admin_prefix + '/open-api/account'
+export const openApi_list = openApi_prefix + '/list'
+export const openApi_del = openApi_prefix + '/del-account'
+export const openApi_add = openApi_prefix + '/add-account'
+
+// endregion

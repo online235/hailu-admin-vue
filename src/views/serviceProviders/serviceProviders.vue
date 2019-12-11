@@ -17,16 +17,11 @@
       <el-button type = "primary" icon="el-icon-search" @click="sreach"
       >搜索</el-button
       >
+      <el-button @click="cancel" v-if="sreachs">重置</el-button>
     </div>
     <el-table
       border
-      :data="
-        tableData.filter(
-          data =>
-            !search || data.name.toLowerCase().includes(search.toLowerCase())
-            || data.createDate.toLowerCase().includes(search.toLowerCase())
-        )
-      "
+      :data="tableData"
       style="width: 100%"
     >
       <el-table-column label="服务商名称">
@@ -86,7 +81,6 @@ export default {
   data() {
     return {
       isServiceChoose: [
-        { value: '', label: '' },
         { value: '1', label: '是' },
         { value: '2', label: '否' }
       ],
@@ -95,7 +89,8 @@ export default {
       total: 0,
       tableData: [],
       serviceName: '',
-      isService: ''
+      isService: '',
+      sreachs: false,
     }
   },
   created() {
@@ -116,6 +111,9 @@ export default {
         this.total = res.data.total
         this.tableData = res.data.datas
       })
+    },
+     cancel() {
+       this.sreach()
     },
     handleCurrentChange(val) {
       // 分页
