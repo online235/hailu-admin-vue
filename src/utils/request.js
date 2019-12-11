@@ -9,13 +9,14 @@ import router from '@/router'
 const service = axios.create({
   baseURL: '', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
 })
 
+// service.defaults.baseURL = "https://www.hailu1688.com";
 // request interceptor
 service.interceptors.request.use(
   config => {
@@ -49,7 +50,7 @@ service.interceptors.response.use(
     return Promise.reject(new Error(res.message || 'Error'))
   },
   error => {
-    if (error.response.data !== undefined) {
+    if (error.response !== undefined && error.response.data !== undefined) {
       const res = error.response.data
       if (res.code === 401 || res.code === 1002) {
         /**
@@ -81,12 +82,7 @@ service.interceptors.response.use(
         })
       }
     } else {
-      let msg
-      if (error.response === undefined) {
-        msg = '请求失败'
-      } else {
-        msg = error.message
-      }
+      let msg = error.message
       Message({
         message: msg,
         type: 'error',
