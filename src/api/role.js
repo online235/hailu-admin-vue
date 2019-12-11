@@ -46,3 +46,11 @@ export function roleUpdate(data) {
     params: data
   })
 }
+// 删除角色
+export function deleteRole(data) {
+  return request({
+    url: config.Role_del,
+    method: 'delete',
+    params: data
+  })
+}

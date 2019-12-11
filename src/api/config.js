@@ -1,4 +1,8 @@
+
 export const prefix = '/api/v2'
+
+// region 模块前缀
+
 export const module_auth = '/auth'
 export const module_admin = '/admin'
 export const module_basic = '/basic'// 海露基础服务
@@ -6,6 +10,8 @@ export const module_basic = '/basic'// 海露基础服务
 export const module_auth_prefix = prefix + module_auth
 export const module_admin_prefix = prefix + module_admin
 export const module_basic_prefix = prefix + module_basic
+
+// endregion
 
 // region 文件管理
 export const File_Upload = module_basic_prefix + '/upload'
@@ -65,6 +71,7 @@ export const admin_add_account = admin_prefix + '/add-account'// 添加账号
 export const admin_change_roles = admin_prefix + '/change-roles'// 变更角色
 export const admin_modify_pwd = admin_prefix + '/modify-pwd'// 修改密码
 export const admin_reset_pwd = admin_prefix + '/reset-pwd'// 重置密码
+export const admin_delete = admin_prefix + '/del-account'// 重置密码
 // endregion
 
 // region 系统管理-菜单列表
@@ -84,7 +91,8 @@ export const Role_list = Role_prefix + '/list'// 列表
 export const Role_add_role = Role_prefix + '/add-role'// 添加角色
 export const Role_change_menus = Role_prefix + '/change-menus'// 变更菜单
 export const Role_change_status = Role_prefix + '/change-status'// 变更角色启用状态
-export const Role_update = menu_prefix + 'update-role'// 编辑角色
+export const Role_update = Role_prefix + '/update-role'// 编辑角色
+export const Role_del = Role_prefix + '/del-role'// 编辑角色
 // endregion
 
 // region 生活圈店铺管理

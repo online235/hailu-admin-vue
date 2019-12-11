@@ -65,3 +65,12 @@ export function adminReset(data) {
     params: data
   })
 }
+
+// 删除账号
+export function deleteAccount(data) {
+  return request({
+    url: config.admin_delete,
+    method: 'delete',
+    params: data
+  })
+}

@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="270px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -46,6 +46,12 @@
             type="success"
             @click="linkMenus(scope.$index, scope.row)"
             >关联菜单</el-button
+          >
+          <el-button
+                  size="mini"
+                  type="danger"
+                  @click="delRole(scope.$index, scope.row)"
+          >删除</el-button
           >
         </template>
       </el-table-column>
@@ -115,8 +121,9 @@
 </template>
 
 <script>
-import { roleList,roleAdd,roleCheck,changeMenus } from "@/api/role";
+import { roleList,roleAdd,roleCheck,changeMenus, deleteRole } from "@/api/role";
 import { menuTreeList } from "@/api/menu";
+import { MessageBox } from 'element-ui'
 export default {
   data() {
     return {
@@ -160,6 +167,26 @@ export default {
           this.total = res.data.total;
         }
       });
+    },
+    delRole(index, row) {
+      let that = this
+      MessageBox.confirm('确定要删除【' + row.roleName + '】吗？', '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteRole({
+          id: row.id
+        }).then(res => {
+          if (res.code === 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            that.fetchData()
+          }
+        })
+      })
     },
     modify(){
       roleCheck({

@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="420">
+      <el-table-column label="操作" width="430">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -80,6 +80,12 @@
             type="danger"
             @click="resetPwd(scope.$index, scope.row)"
             >重置密码</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="delAccount(scope.$index, scope.row)"
+            >删除</el-button
           >
         </template>
       </el-table-column>
@@ -199,10 +205,11 @@ import {
   adminCheck,
   adminAdd,
   adminRoles,
-  adminModify,
-  adminReset
+  adminReset,
+  deleteAccount
 } from '@/api/admin';
-import { roleList, roleAdd, roleCheck, roleMenus, roleUpdate } from '@/api/role'
+import { roleList } from '@/api/role'
+import { MessageBox } from 'element-ui'
 export default {
   data() {
     return {
@@ -267,6 +274,26 @@ export default {
           this.form = res.data;
           this.checkModle = true;
         }
+      })
+    },
+    delAccount(index, row){
+      let that = this
+      MessageBox.confirm('确定要删除【' + row.nickName + '】吗？', '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteAccount({
+          id: row.id
+        }).then(res => {
+          if (res.code === 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            that.fetchData()
+          }
+        })
       })
     },
     handleClose(done) {
