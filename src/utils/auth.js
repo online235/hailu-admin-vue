@@ -1,46 +1,46 @@
-const accessTokenKey = 'accessToken'
-const refreshTokenKey = 'refreshToken'
-const usernameKey = 'username'
-const userImgKey = 'userImg'
-const menusKey = 'menus'
+const accessTokenKey = 'adminAccessToken'
+const refreshTokenKey = 'adminRefreshToken'
+const usernameKey = 'adminUsername'
+const userImgKey = 'adminUserImg'
+const menusKey = 'adminMenus'
 
 export function getAccessToken() {
-  return localStorage.getItem(accessTokenKey)
+  return sessionStorage.getItem(accessTokenKey)
 }
 
 export function getRefreshToken() {
-  return localStorage.getItem(refreshTokenKey)
+  return sessionStorage.getItem(refreshTokenKey)
 }
 
 export function getUsername() {
-  return localStorage.getItem(usernameKey)
+  return sessionStorage.getItem(usernameKey)
 }
 
 export function getUserImg() {
-  return localStorage.getItem(userImgKey)
+  return sessionStorage.getItem(userImgKey)
 }
 
 export function getMenus() {
-  return localStorage.getItem(menusKey)
+  return sessionStorage.getItem(menusKey)
 }
 
 export function setMenus(menus) {
-  return localStorage.setItem(menusKey, JSON.stringify(menus))
+  return sessionStorage.setItem(menusKey, JSON.stringify(menus))
 }
 
 export function setUserInfo(userImg, username) {
-  localStorage.setItem(userImgKey, userImg)
-  localStorage.setItem(usernameKey, username)
+  sessionStorage.setItem(userImgKey, userImg)
+  sessionStorage.setItem(usernameKey, username)
 }
 
 export function setToken(accessToken, refreshToken) {
-  localStorage.setItem(accessTokenKey, accessToken)
+  sessionStorage.setItem(accessTokenKey, accessToken)
   if (refreshToken !== null && refreshToken !== undefined) {
-    localStorage.setItem(refreshTokenKey, refreshToken)
+    sessionStorage.setItem(refreshTokenKey, refreshToken)
   }
 }
 
 export function removeToken() {
-  localStorage.removeItem(accessTokenKey)
-  localStorage.removeItem(refreshTokenKey)
+  sessionStorage.removeItem(accessTokenKey)
+  sessionStorage.removeItem(refreshTokenKey)
 }
