@@ -50,7 +50,7 @@ export function modify(data) {
   return request({
     url: config.Charitable_modify,
     method: 'post',
-    params: data
+    data: data
   })
 }
 

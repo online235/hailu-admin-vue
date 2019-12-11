@@ -133,13 +133,25 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/salvation/salvation',
     name: 'salvation',
-    meta: { title: '心安慈善管理', icon: 'example' },
+    meta: { title: '心安救助管理', icon: 'example' },
     children: [
       {
         path: 'salvation',
         name: 'salvation1',
         component: () => import('@/views/salvation/salvation'),
         meta: { title: '救助列表' }
+      },
+      {
+        path: 'Casehistory',
+        name: 'Casehistory',
+        component: () => import('@/views/salvation/Casehistory'),
+        meta: { title: '救助案例' }
+      },
+      {
+        path: 'periods',
+        name: 'periods',
+        component: () => import('@/views/salvation/periods'),
+        meta: { title: '期数统计' }
       }
     ]
   },
@@ -178,9 +190,9 @@ export const asyncRoutes = [
         meta: { title: '文章列表' }
       },
       {
-        path: 'account',
-        name: 'account',
-        component: () => import('@/views/charitable/account'),
+        path: 'myEssay',
+        name: 'myEssay',
+        component: () => import('@/views/charitable/myEssay'),
         meta: { title: '账号公益信息' }
       }
     ]

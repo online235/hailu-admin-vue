@@ -6,11 +6,11 @@
         <el-input placeholder="可根据关键字查询" v-model="search" clearable>
         </el-input>
       </div>
-      <div>
+      <!-- <div>
         <el-button size="medium" type="success" @click="addUser"
           >添加文章</el-button
         >
-      </div>
+      </div> -->
     </div>
     <el-table
       border
@@ -139,9 +139,9 @@ export default {
         }
       });
     },
-    addUser() { // 添加按钮
-      this.dialogVisible = true;
-    },
+    // addUser() { // 添加按钮
+    //   this.dialogVisible = true;
+    // },
     change(val) {
       //console.log(val)
     },

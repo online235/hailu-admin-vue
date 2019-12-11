@@ -138,3 +138,13 @@ export const openApi_del = openApi_prefix + '/del-account'
 export const openApi_add = openApi_prefix + '/add-account'
 
 // endregion
+
+// region 百货商户入驻
+
+export const caseHistory_prefix = module_admin_prefix + '/pc/xaHelpMember'
+export const caseHistory_list = caseHistory_prefix + '/list' // 查询救助历史案例列表
+export const caseHistory_del = caseHistory_prefix + '/getXaHelpMemberModelDetail' // 查询单条救助案例详情
+export const caseHistory_add = caseHistory_prefix + '/insertXaHelpMember' // 插入救助案例
+export const caseHistory_alter = caseHistory_prefix + '/updateXaHelpMember' // 更新救助案例数据
+
+// endregion

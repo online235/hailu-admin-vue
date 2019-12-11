@@ -123,10 +123,17 @@
         </el-form-item>
 
         <el-form-item label="相关图片：">
-          <div class="avatar-div avatar-uploader">
+          <!-- <div class="avatar-div avatar-uploader">
             <img v-if="records.defaultPicture" :src="this.imghead+records.defaultPicture" class="avatar" >
             <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
-          </div>
+          </div> -->
+          <div class="demo-image__preview">
+  <el-image 
+    style="width: 100px; height: 100px"
+    :src="this.imghead+records.defaultPicture" 
+    :preview-src-list="srcList">
+  </el-image>
+</div>
         </el-form-item>
 
         <el-form-item label="公益文章内容：">
@@ -170,7 +177,7 @@ export default {
       // 相关图片
       imghead: '',          // 图片请求头
       upSite:'/upload/single/goods', // 请求地址
-      // srcList: "",
+      srcList: [],
       // srcListimg: [],
       dialogImg: false,
       adminList: [],
@@ -240,6 +247,7 @@ export default {
           this.records.defaultPicture = res.data.defaultPicture
           this.cratedat = res.data.cratedat
           this.adminId = res.data.adminId
+          this.srcList[0] = this.imghead+res.data.defaultPicture
         }
       })
     },
