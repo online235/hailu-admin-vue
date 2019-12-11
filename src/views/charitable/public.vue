@@ -154,6 +154,7 @@ import {
 import axios from 'axios'
 import EditorBar from '@/components/editur/index'
 import qs from 'qs'
+import * as config from '@/api/config'
 export default {
   components: { EditorBar },
   data() {
@@ -223,7 +224,7 @@ export default {
 
   created() {
     // console.log(this.editor)
-    this.imghead = axios.defaults.baseURL + '/basic'
+    this.imghead = config.module_basic_prefix
     this.fetchData() // 列表数据加载
   },
 
