@@ -51,14 +51,14 @@
             <el-form-item label="菜单名称">
               <el-input v-model="updateForm.menuName"></el-input>
             </el-form-item>
-            <el-form-item label="前端路由">
+            <el-form-item label="前端路由" v-show="showFormRouteItem">
               <el-input v-model="updateForm.url"></el-input>
             </el-form-item>
-            <el-form-item label="后端接口">
+            <el-form-item label="后端接口" v-show="showFormApiItem">
               <el-input v-model="updateForm.api"></el-input>
             </el-form-item>
             <el-form-item label="菜单类型">
-              <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型">
+              <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型" @change="changeMenuType" >
                 <el-option
                         v-for="(item, index) in menuTypes"
                         :key="index"
@@ -93,14 +93,14 @@
           <el-form-item label="菜单名称">
             <el-input v-model="addForm.menuName"></el-input>
           </el-form-item>
-          <el-form-item label="前端路由">
+          <el-form-item label="前端路由" v-show="showFormRouteItem">
             <el-input v-model="addForm.url"></el-input>
           </el-form-item>
-          <el-form-item label="后端接口">
+          <el-form-item label="后端接口" v-show="showFormApiItem">
             <el-input v-model="addForm.api"></el-input>
           </el-form-item>
           <el-form-item label="菜单类型">
-            <el-select v-model="addForm.menuType" placeholder="请选择菜单类型">
+            <el-select v-model="addForm.menuType" placeholder="请选择菜单类型" @change="changeMenuType" >
               <el-option
                       v-for="(item, index) in menuTypes"
                       :key="index"
@@ -110,7 +110,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="启用状态">
-            <el-select v-model="addForm.enableStatus" placeholder="请选择启用状态">
+            <el-select v-model="addForm.enableStatus" placeholder="请选择启用状态" >
               <el-option
                       v-for="(item, index) in chooses"
                       :key="item.id"
@@ -172,7 +172,9 @@ export default {
       },
       // endregion
       menuTreeData: [],
-      menuTreeItemChoose: null
+      menuTreeItemChoose: null,
+      showFormRouteItem: true,// 是否显示路由表单项
+      showFormApiItem: false, // 是否显示后端接口表单项
     };
   },
   created() {
@@ -209,6 +211,18 @@ export default {
       this.addForm.api = ""
       this.addForm.enableStatus = "1"
       this.addForm.menuType = "0"
+      this.showFormApiItem = false
+      this.showFormRouteItem = true
+    },
+    changeMenuType(row) {
+        if( row === "2" ){
+            this.showFormApiItem = true
+            this.showFormRouteItem = false
+        }else{
+            this.showFormApiItem = false
+            this.showFormRouteItem = true
+        }
+        console.info(row)
     },
     delTreeItem(data) {
       let that = this
