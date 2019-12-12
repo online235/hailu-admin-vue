@@ -95,23 +95,25 @@
     <el-dialog
       title="关联菜单"
       :visible.sync="linkMenuDialogVisible"
-      width="40%"
+      width="50%"
       :before-close="handleClose"
     >
-      <el-form label-width="150px">
-        <el-tree class="menu-tree"
-                 ref="menuTree"
-                 :data="menuTreeData"
-                 show-checkbox
-                 :check-strictly="true"
-                 node-key="id"
-                 :expand-on-click-node="false"
-                 default-expand-all>
+      <div class="dialog-body-max-height">
+        <el-form label-width="150px">
+          <el-tree class="menu-tree"
+                   ref="menuTree"
+                   :data="menuTreeData"
+                   show-checkbox
+                   :check-strictly="true"
+                   node-key="id"
+                   :expand-on-click-node="false"
+                   default-expand-all>
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ data.menuName }}</span>
           </span>
-        </el-tree>
-      </el-form>
+          </el-tree>
+        </el-form>
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="linkMenuDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="bindRoleMenu">确 定</el-button>
@@ -283,5 +285,9 @@ export default {
 }
 .treeHead > div {
   margin-right: 20px;
+}
+.dialog-body-max-height{
+  height: 40vh;
+  overflow-x: auto;
 }
 </style>
