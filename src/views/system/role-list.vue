@@ -96,6 +96,7 @@
       title="关联菜单"
       :visible.sync="linkMenuDialogVisible"
       width="50%"
+      z-index="1000"
       :before-close="handleClose"
     >
       <div class="dialog-body-max-height">
@@ -211,21 +212,25 @@ export default {
       this.modify()
     },
     searchMenuTreeList(){
+      this.linkMenuDialogVisible = true
       let that = this
       const loading = that.$loading({
         lock: true,
-        text: '正在加载数据，请稍候',
+        text: '正在处理，请稍候',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
       menuTreeList({onlyShowEnable: this.onlyShowEnable}).then(res => {
-        loading.close()
         if (res.code === 200) {
-          this.linkMenuDialogVisible = true
           this.menuTreeData = res.data;
           if( this.chooseRole.menuIds ){
-            this.$refs.menuTree.setCheckedKeys(this.chooseRole.menuIds, true)
+            setTimeout(function () {
+              loading.close()
+              that.$refs.menuTree.setCheckedKeys(that.chooseRole.menuIds, true)
+            }, 200)
           }
+        }else{
+          loading.close()
         }
       })
     },
@@ -298,4 +303,7 @@ export default {
   height: 40vh;
   overflow-x: auto;
 }
+  .el-loading-mask{
+    z-index: 2006;
+  }
 </style>
