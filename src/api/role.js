@@ -34,8 +34,8 @@ export function roleCheck(data) {
 export function changeMenus(data) {
   return request({
     url: config.Role_change_menus,
-    method: 'get',
-    params: data
+    method: 'post',
+    data: data
   })
 }
 // 编辑角色
