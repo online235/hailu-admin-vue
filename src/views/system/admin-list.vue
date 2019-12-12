@@ -54,6 +54,13 @@
           }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="账号类型">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{
+            scope.row.accountTypeDisplay
+          }}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作" width="430">
         <template slot-scope="scope">
@@ -163,6 +170,16 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="账号类型：">
+          <el-select v-model="accountType" placeholder="请选择启用状态">
+            <el-option
+              v-for="(item, index) in accountTypes"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -216,6 +233,10 @@ export default {
       form: [],
       type:'',
       region: '1',
+      accountTypes: [
+        { id: '1', name: '管理员' },
+        { id: '2', name: '政府' }
+      ],
       choose: [
         { id: '0', name: '禁用' },
         { id: '1', name: '启用' }
@@ -237,6 +258,7 @@ export default {
       enableStatus: '', // 状态0禁用，1启用
       dialogVisible: false, // 添加模态框
       account: '', // 账号
+      accountType: '1', // 账号类型
       nickName: '', // 账号昵称
       phone: '', // 手机号
       pwdss: '', // 密码
@@ -379,6 +401,7 @@ export default {
           nickName: this.nickName, // 账号昵称
           phone: this.phone, // 手机号
           pwd: this.pwdss, // 密码
+          accountType: this.accountType, // 账号类型
           enableStatus: this.region // 启用状态
         }).then(res => {
           if (res.code === 200) {
