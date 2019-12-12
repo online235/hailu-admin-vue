@@ -137,9 +137,8 @@ export default {
   data() {
     return {
       menuTypes:[
-        {id:'0',name:'菜单'},
-        {id:'1',name:'按钮'},
-        {id:'2',name:'接口'}
+        {id:'0',name:'前端路由'},
+        {id:'2',name:'后端接口'}
       ],
       chooses:[
         {id:'0',name:'禁用'},
