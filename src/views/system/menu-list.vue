@@ -51,16 +51,16 @@
             <el-form-item label="菜单名称">
               <el-input v-model="updateForm.menuName"></el-input>
             </el-form-item>
-            <el-form-item label="权限编码" v-show="false">
-              <el-input v-model="updateForm.permissionCode"></el-input>
-            </el-form-item>
-            <el-form-item label="URL">
+            <el-form-item label="前端路由">
               <el-input v-model="updateForm.url"></el-input>
             </el-form-item>
-            <el-form-item label="菜单类型" v-show="false">
+            <el-form-item label="后端接口">
+              <el-input v-model="updateForm.api"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单类型">
               <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型">
                 <el-option
-                        v-for="(item, index) in choose"
+                        v-for="(item, index) in menuTypes"
                         :key="index"
                         :label="item.name"
                         :value="item.id"
@@ -93,17 +93,17 @@
           <el-form-item label="菜单名称">
             <el-input v-model="addForm.menuName"></el-input>
           </el-form-item>
-          <el-form-item label="权限编码" v-show="false">
-            <el-input v-model="addForm.permissionCode"></el-input>
-          </el-form-item>
-          <el-form-item label="URL">
+          <el-form-item label="前端路由">
             <el-input v-model="addForm.url"></el-input>
           </el-form-item>
-          <el-form-item label="菜单类型" v-show="false">
+          <el-form-item label="后端接口">
+            <el-input v-model="addForm.api"></el-input>
+          </el-form-item>
+          <el-form-item label="菜单类型">
             <el-select v-model="addForm.menuType" placeholder="请选择菜单类型">
               <el-option
-                      v-for="(item, index) in choose"
-                      :key="item.id"
+                      v-for="(item, index) in menuTypes"
+                      :key="index"
                       :label="item.name"
                       :value="item.id"
               ></el-option>
@@ -136,9 +136,10 @@ import { MessageBox } from 'element-ui'
 export default {
   data() {
     return {
-      choose:[
+      menuTypes:[
         {id:'0',name:'菜单'},
-        {id:'1',name:'按钮'}
+        {id:'1',name:'按钮'},
+        {id:'2',name:'接口'}
       ],
       chooses:[
         {id:'0',name:'禁用'},
@@ -156,19 +157,19 @@ export default {
         id: "",
         parentId: 0,
         menuName:'',// 菜单名称
-        permissionCode:'',// 菜单权限编码
         url:'',// 菜单URL路径
-        enableStatus: "1",
+        api:'',// 后端接口
         menuType:'0',
+        enableStatus: "1",
       },
       addForm:{
         id: "",
         parentId: 0,
         menuName:'',// 菜单名称
-        permissionCode:'',// 菜单权限编码
         url:'',// 菜单URL路径
-        enableStatus: "1",
+        api:'',// 后端接口
         menuType:'0',
+        enableStatus: "1",
       },
       // endregion
       menuTreeData: [],
@@ -196,8 +197,8 @@ export default {
       this.updateForm.parentId = data.parentId
       this.updateForm.menuType = data.menuType + ""
       this.updateForm.enableStatus = data.enableStatus + ""
-      this.updateForm.permissionCode = data.permissionCode
       this.updateForm.url = data.url
+      this.updateForm.api = data.api
     },
     appendTreeItem(data) {
       this.menuTreeItemChoose = data;
@@ -205,8 +206,8 @@ export default {
       // 清空添加表单
       this.addForm.id = ""
       this.addForm.menuName = ""
-      this.addForm.permissionCode = ""
       this.addForm.url = ""
+      this.addForm.api = ""
       this.addForm.enableStatus = "1"
       this.addForm.menuType = "0"
     },
@@ -232,9 +233,9 @@ export default {
       let that = this;
       menuAdd({
         menuName:this.addForm.menuName,
-        permissionCode:this.addForm.permissionCode,
         parentId: this.menuTreeItemChoose == null ? 0 : this.menuTreeItemChoose.id,
         url:this.addForm.url,
+        api:this.addForm.api,
         menuType:this.addForm.menuType,
         enableStatus:this.addForm.enableStatus
       }).then(res => {
@@ -278,17 +279,17 @@ export default {
       menuUpdate({
         id: this.updateForm.id,
         menuName: this.updateForm.menuName,
-        permissionCode: this.updateForm.permissionCode,
         parentId: this.updateForm.parentId,
         url: this.updateForm.url,
+        api: this.updateForm.api,
         menuType: this.updateForm.menuType,
         enableStatus: this.updateForm.enableStatus
       }).then(res => {
         loading.close()
         if (res != null && res.code === 200) {
           that.menuTreeItemChoose.menuName = that.updateForm.menuName
-          that.menuTreeItemChoose.permissionCode = that.updateForm.permissionCode
           that.menuTreeItemChoose.url = that.updateForm.url
+          that.menuTreeItemChoose.api = that.updateForm.api
           that.menuTreeItemChoose.menuType = that.updateForm.menuType
           that.menuTreeItemChoose.enableStatus = that.updateForm.enableStatus
           that.$message({
@@ -318,4 +319,8 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
+  .tip{
+    width: 100%;
+    margin-bottom: 15px;
+  }
 </style>
