@@ -131,12 +131,6 @@ export const asyncRoutes = [
         name: 'insured',
         component: () => import('@/views/insured/insured'),
         meta: { title: '参保人列表', icon: 'insured' }
-      },
-      {
-        path: 'serviceProviders',
-        name: 'serviceProviders',
-        component: () => import('@/views/serviceProviders/serviceProviders'),
-        meta: { title: '服务商列表' }
       }
     ]
   },
@@ -236,6 +230,27 @@ export const asyncRoutes = [
         name: 'version',
         component: () => import('@/views/version/version'),
         meta: { title: '版本管理' }
+      }
+    ]
+  },
+  {
+    path: '/serviceProviders',
+    name: 'serviceProviders',
+    component: Layout,
+    redirect: '/serviceProviders/serviceProviderstable',
+    meta: { title: '城市合伙人管理', icon: 'example' },
+    children: [
+      {
+        path: 'serviceProviders',
+        name: 'serviceProviders',
+        component: () => import('@/views/serviceProviders/serviceProviders'),
+        meta: { title: '城市合伙人列表' }
+      },
+      {
+        path: 'serviceProvidersOrder',
+        name: 'serviceProvidersOrder',
+        component: () => import('@/views/serviceProviders/serviceProvidersOrder'),
+        meta: { title: '城市合伙人订单' }
       }
     ]
   },

@@ -6,10 +6,12 @@ export const prefix = '/api/v2'
 export const module_auth = '/auth'
 export const module_admin = '/admin'
 export const module_basic = '/basic'// 海露基础服务
+export const module_xinan = '/xinan'// 海露基础服务
 
 export const module_auth_prefix = prefix + module_auth
 export const module_admin_prefix = prefix + module_admin
 export const module_basic_prefix = prefix + module_basic
+export const module_xinan_prefix = prefix + module_xinan
 
 // endregion
 
@@ -60,6 +62,8 @@ export const insured_rescue_change_state = insured_prefix + '/updMemberStatus'
 
 // 服务商列表
 export const serviceProviders_prefix = module_admin_prefix + '/serviceProviders/findList'
+export const serviceProvidersOrder_prefix = module_admin_prefix + '/hlOrder/findList'
+export const editServiceProvidersOrder_prefix = module_admin_prefix + '/hlOrder/edit'
 // endregion
 
 // region 系统管理-管理员列表
@@ -209,3 +213,6 @@ export const Tag_Details = Tag_prefix + '/delTag' // 删除标签
 export const Tag_alter = Tag_prefix + '/modifyTag' // 修改标签属性
 
 // endregion
+// 地址
+export const address_prefix = module_xinan_prefix + '/nation/findParentListByCode' // 获取地址信息
+

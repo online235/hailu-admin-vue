@@ -25,6 +25,11 @@
       :data="tableData"
       style="width: 100%"
     >
+      <el-table-column label="用户名称">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.userName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="服务商名称">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
