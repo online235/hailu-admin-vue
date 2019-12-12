@@ -9,7 +9,7 @@ import router from '@/router'
 const service = axios.create({
   baseURL: '', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'

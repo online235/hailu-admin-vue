@@ -211,8 +211,17 @@ export default {
       this.modify()
     },
     searchMenuTreeList(){
+      let that = this
+      const loading = that.$loading({
+        lock: true,
+        text: '正在加载数据，请稍候',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       menuTreeList({onlyShowEnable: this.onlyShowEnable}).then(res => {
+        loading.close()
         if (res.code === 200) {
+          this.linkMenuDialogVisible = true
           this.menuTreeData = res.data;
           if( this.chooseRole.menuIds ){
             this.$refs.menuTree.setCheckedKeys(this.chooseRole.menuIds, true)
@@ -221,7 +230,6 @@ export default {
       })
     },
     linkMenus(index, row) {
-      this.linkMenuDialogVisible = true
       this.chooseRole = row
       this.searchMenuTreeList();
     },
