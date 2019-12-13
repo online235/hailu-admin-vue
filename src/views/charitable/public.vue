@@ -46,7 +46,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="100px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -128,9 +128,9 @@
             <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
           </div> -->
           <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="this.imghead+records.defaultPicture" 
+    :src="this.imghead+records.defaultPicture"
     :preview-src-list="srcList">
   </el-image>
 </div>

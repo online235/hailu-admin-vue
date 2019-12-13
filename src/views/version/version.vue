@@ -68,7 +68,8 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="版本内容">
+      <el-table-column label="版本内容" :show-tooltip-when-overflow="true"
+        :show-overflow-tooltip='true'>
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.content }}</span>

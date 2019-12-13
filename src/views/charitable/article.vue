@@ -38,7 +38,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="100px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -166,7 +166,7 @@ export default {
       modify(params).then(res => {
         console.log(res)
         if (res.code === 200) {
-          
+
         }
       });
     },
@@ -179,7 +179,7 @@ export default {
       }
   },
   mounted() {
-    
+
   }
 };
 </script>

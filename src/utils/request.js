@@ -77,7 +77,8 @@ service.interceptors.response.use(
             if (response.code === 200) {
               setToken(response.data)
             }
-            router.push(location.href.substring(location.href.indexOf('/#') + 2))
+            location.reload()
+            // router.push(location.href.substring(location.href.indexOf('/#') + 2))
           })
         })
       }
