@@ -36,8 +36,8 @@ export default {
       if (this.cityCode != undefined){
       params.append("code", getCityCode())
       cityCodeName(params).then( res => {
-        if (res.data.code == 200){
-          this.cityCodeName = res.data.data
+        if (res.code === 200){
+          this.cityCodeName = res.data
           console.log(this.cityCodeName)
         }
       }).catch( res => {

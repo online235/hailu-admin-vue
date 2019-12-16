@@ -208,6 +208,7 @@ export default {
       this.updateForm.enableStatus = data.enableStatus + ""
       this.updateForm.url = data.url
       this.updateForm.api = data.api
+      this.changeMenuType(this.updateForm.menuType)
     },
     appendTreeItem(data) {
       this.menuTreeItemChoose = data;
