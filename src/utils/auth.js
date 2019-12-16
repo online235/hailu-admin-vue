@@ -19,7 +19,7 @@ export function getUsername() {
 }
 
 export function getAccountType() {
-  return sessionStorage.getItem(accountType)
+  return sessionStorage.getItem(accountTypeKey)
 }
 
 export function getUserImg() {
