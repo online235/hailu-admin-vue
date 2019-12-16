@@ -73,8 +73,8 @@
       :before-close="handleClose"
     >
       <el-form :model="record" :rules="rules" ref="versionForm" label-width="110px" class="demo-ruleForm">
-        <el-form-item label="政府编号：" prop="adminId">
-          <el-select v-model="record.adminId" placeholder="请选择专业" ref="major">
+        <el-form-item v-if="this.accountType == 1" label="政府编号：" prop="adminId">
+          <el-select v-model="record.adminId" placeholder="请选择政府" ref="major">
             <el-option  v-for="(major,index) in adminList" :label="major.nickName" :value="major.id" :key="index"></el-option>
           </el-select>
         </el-form-item>
@@ -158,14 +158,14 @@ import {
   detailedInfor,
   adminList
 } from '@/api/Charitable'
-import axios from 'axios'
 import EditorBar from '@/components/editur/index'
-import qs from 'qs'
 import * as config from '@/api/config'
+import { getAccountType } from '@/utils/auth'
 export default {
   components: { EditorBar },
   data() {
     return {
+      accountType: '',        //账号类型
       form: '',              // 详情数据
       currentPage: 1,       // 默认页码
       pageSize: 10,         // 默认页数
@@ -185,6 +185,7 @@ export default {
       detail: '',           // 添加-富文本内容
       details: '',          // 详情-富文本内容
       cratedat: '',         // 公益创建时间
+      adminId: '',          //政府编号
       // 富文本
       record: { // 添加post的数据
         adminId: '',          // 政府编号
@@ -252,11 +253,12 @@ export default {
       })
     },
     addUser() { // 添加按钮
+      const type = this.accountType = getAccountType()
+      console.log(this.accountType)
       this.dialogVisible = true
+      if (type != 2){
       let params = new URLSearchParams();
       params.append("accountType", '2')
-      params.append('page', 1)
-      params.append('size', 200)
       adminList(params).then( res => {
         if (res.code == 200){
             this.adminList = res.data.datas
@@ -264,6 +266,7 @@ export default {
       }).catch( res => {
         this.$message.error("查询政府账号产生错误")
       })
+      }
     },
     handleCurrentChange(val) {
       // 分页
@@ -299,9 +302,6 @@ export default {
       this.checkModle = false
     },
     handleClose(done) { // 关闭模态框按钮
-          this.$nextTick(()=>{
-            this.$refs[formName].resetFields()
-          })
           Object.keys(this.record).forEach(key => (this.record[key] = ''))
           done()
     },

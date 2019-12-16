@@ -55,11 +55,10 @@ export function modify(data) {
 }
 
 // 超查询账号下详细信息
-export function detailedInfor(data) {
+export function detailedInfor() {
   return request({
     url: config.Charitable_detailedInfor,
-    method: 'post',
-    params: data
+    method: 'post'
   })
 }
 

@@ -46,7 +46,7 @@ const actions = {
         commit('SET_NAME', data.nickName)
 
         commit('SET_AVATAR', userImg)
-        setUserInfo(userImg, data.nickName)
+        setUserInfo(userImg, data.nickName, data.accountType, data.cityCode)
 
         commit('SET_TOKEN', data.accessToken)
         setToken(data.accessToken, data.refreshToken)

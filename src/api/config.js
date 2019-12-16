@@ -130,6 +130,7 @@ export const Charitable_addArticle = Charitable_prefix + '/xinan/addGovernment'/
 export const Charitable_article = Charitable_prefix + '/xinan/articleList'// 超级管理员查询文章列表
 export const Charitable_modify = Charitable_prefix + '/xinan/modify'// 修改文章
 export const Charitable_detailedInfor = Charitable_prefix + '/xinan/detailedInformation'// 超查询账号下详细信息
+export const Charitable_findCityNameByCode = Charitable_prefix + '/xinan/findCityNameByCode'// 获取当个城市名称
 // endregion
 
 // region APP管理

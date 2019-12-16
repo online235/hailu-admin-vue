@@ -38,7 +38,7 @@
       <div style="float: right;"><el-button type="primary" @click="amend">修改</el-button></div>
     </div>
     </div>
-    
+
 
     <el-dialog
       title="添加文章"
@@ -100,7 +100,7 @@ export default {
       //列表数据加载
       detailedInfor().then(res => {
         console.log(res);
-        if (res.code === 200) {
+        if (res.code == 200) {
           this.tableData = res.data;
           this.commonwealArticle = res.data.commonwealArticle;
         }
@@ -114,7 +114,7 @@ export default {
       //console.log(val)
     },
     addBenefit() {
-      
+
       ArticleAdd(this.detail).then(res => {
           console.log(res)
         if (res.code === 200) {
