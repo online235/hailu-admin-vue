@@ -54,11 +54,19 @@
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
           >查看详情</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="btnDelete(scope.$index, scope.row)"
-          >删除</el-button>
+
+          <el-popconfirm
+            confirmButtonText='确定'
+            cancelButtonText='取消'
+            icon="el-icon-info"
+            iconColor="red"
+            title="确定删除吗？"
+            @onConfirm="btnDelete(scope.$index, scope.row)"
+          >
+            <el-button slot="reference" type="danger"
+                       size="mini">删除</el-button>
+          </el-popconfirm>
+
         </template>
       </el-table-column>
     </el-table>
@@ -436,5 +444,5 @@ export default {
     height: 178px;
     display: block;
   }
-  
+
 </style>
