@@ -7,6 +7,7 @@
       </div>
       <div>
         <el-button
+          v-if="accountType == 2"
           size="medium"
           type="success"
           @click="addUser"
@@ -46,13 +47,18 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100px">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
           >查看详情</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="btnDelete(scope.$index, scope.row)"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -73,7 +79,7 @@
       :before-close="handleClose"
     >
       <el-form :model="record" :rules="rules" ref="versionForm" label-width="110px" class="demo-ruleForm">
-        <el-form-item v-if="this.accountType == 1" label="政府编号：" prop="adminId">
+        <el-form-item v-if="accountType == 1" label="政府编号：" prop="adminId">
           <el-select v-model="record.adminId" placeholder="请选择政府" ref="major">
             <el-option  v-for="(major,index) in adminList" :label="major.nickName" :value="major.id" :key="index"></el-option>
           </el-select>
@@ -90,7 +96,7 @@
           :on-preview="handlePictureCardPreview"
           :on-success="upImage"
           :before-upload="beforeAvatarUpload">
-          <img v-if="record.defaultPicture" :src="this.imghead+record.defaultPicture" class="avatar">
+          <img v-if="record.defaultPicture" :src="imghead+record.defaultPicture" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
         </el-upload>
         </el-form-item>
@@ -116,32 +122,44 @@
           <div>{{adminId}}</div>
         </el-form-item>
         <el-form-item label="标题：">
-          <div>{{records.commonwealTitle}}</div>
+          <!-- <div>{{records.commonwealTitle}}</div> -->
+          <el-input v-model="records.commonwealTitle"></el-input>
         </el-form-item>
         <el-form-item label="日期：">
           <div>{{cratedat}}</div>
         </el-form-item>
 
         <el-form-item label="相关图片：">
-          <!-- <div class="avatar-div avatar-uploader">
-            <img v-if="records.defaultPicture" :src="this.imghead+records.defaultPicture" class="avatar" >
-            <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
-          </div> -->
-          <div class="demo-image__preview">
+          <!-- <div class="demo-image__preview">
   <el-image
     style="width: 100px; height: 100px"
     :src="this.imghead+records.defaultPicture"
     :preview-src-list="srcList">
   </el-image>
-</div>
+</div> -->
+        <el-upload class="avatar-uploader"
+          :action="imghead+upSite"
+          :show-file-list="false"
+          :on-preview="handlePictureCardPreviews"
+          :on-success="upImages"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="records.defaultPicture" :src="imghead+records.defaultPicture" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
+        </el-upload>
+        <el-button size="mini" type="primary" @click="examines">查看大图</el-button>
         </el-form-item>
 
         <el-form-item label="公益文章内容：">
-          <div v-html="records.article"></div>
+          <!-- <div v-html="records.article"></div> -->
+          <editor-bar v-model="records.article" :is-clear="isClear"/>
         </el-form-item>
         <el-form-item>
           <el-button @click="cancelForms()">取消</el-button>
+          <el-button v-if="accountType == 2" @click="modification()" type="primary">保存</el-button>
         </el-form-item>
+        <el-dialog :visible.sync="examine" append-to-body>
+  <img width="100%" :src="imghead+records.defaultPicture" alt="">
+</el-dialog>
       </el-form>
     </el-dialog>
   </div>
@@ -156,7 +174,8 @@ import {
   article,
   modify,
   detailedInfor,
-  adminList
+  adminList,
+  ArticleDelete
 } from '@/api/Charitable'
 import EditorBar from '@/components/editur/index'
 import * as config from '@/api/config'
@@ -180,6 +199,8 @@ export default {
       srcList: [],
       // srcListimg: [],
       dialogImg: false,
+      examine:false,
+      imageUrl: '',
       adminList: [],
       isClear: false,       // 富文本
       detail: '',           // 添加-富文本内容
@@ -208,9 +229,11 @@ export default {
         ]
       },
       records: { // 修改post的数据
+        adminId:'',
         article: '',
         commonwealTitle: '',
-        defaultPicture: ''
+        defaultPicture: '',
+        id:'',
       }
     }
   },
@@ -218,6 +241,7 @@ export default {
 
   created() {
     // console.log(this.editor)
+    this.accountType = getAccountType()
     this.imghead = config.module_basic_prefix
     this.fetchData() // 列表数据加载
   },
@@ -236,6 +260,9 @@ export default {
       })
     },
     handleEdit(index, row) {
+      // console.log(row)
+      this.records.id = row.id
+      this.records.adminId = row.adminId
       charityDetails({
         Id: row.id
       }).then(res => {
@@ -249,6 +276,20 @@ export default {
           this.cratedat = res.data.cratedat
           this.adminId = res.data.adminId
           this.srcList[0] = this.imghead+res.data.defaultPicture
+        }
+      })
+    },
+    btnDelete(index, row){
+      ArticleDelete({
+        id: row.id
+      }).then(res => {
+        console.log(res)
+        if (res.code == 200) {
+          this.$message({
+                message: '操作成功',
+                type: 'success'
+              });
+              this.fetchData()
         }
       })
     },
@@ -301,6 +342,21 @@ export default {
     cancelForms() {  // 取消按钮
       this.checkModle = false
     },
+    modification(){
+      console.log(this.records)
+      PublicAdd(this.records).then(res => {
+            console.log(res)
+            if (res.code = 200) {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              });
+              // Object.keys(this.record).forEach(key => (this.record[key] = ''))
+              this.checkModle = false
+              this.fetchData()
+            }
+          })
+    },
     handleClose(done) { // 关闭模态框按钮
           Object.keys(this.record).forEach(key => (this.record[key] = ''))
           done()
@@ -309,8 +365,18 @@ export default {
         this.dialogImageUrl = this.imghead+file.response.data;
         this.dialogImg= true;
       },
+       handlePictureCardPreviews(file) {
+        this.dialogImageUrl = this.imghead+file.response.data;
+        this.dialogImg= true;
+      },
       upImage(file){
         this.record.defaultPicture = file.data
+      },
+       upImages(file){
+        this.records.defaultPicture = file.data
+      },
+      examines(){
+        this.examine = true
       },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -370,4 +436,5 @@ export default {
     height: 178px;
     display: block;
   }
+  
 </style>

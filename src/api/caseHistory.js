@@ -23,7 +23,7 @@ export function caseHistoryAdd(data) {
   return request({
     url: config.caseHistory_add,
     method: 'post',
-    params: data
+    data: data
   })
 }
 
@@ -32,7 +32,7 @@ export function caseHistoryAlter(data) {
   return request({
     url: config.caseHistory_alter,
     method: 'post',
-    params: data
+    data: data
   })
 }
 

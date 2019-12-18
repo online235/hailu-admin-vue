@@ -275,6 +275,7 @@ export default {
       const params = new URLSearchParams()
       params.append('numberId', row.numberId)
       merchantDetail(params).then(res => {
+        console.log(res.data)
         this.form = res.data
         this.checkModle = true
         this.region = row.toExamine + "";

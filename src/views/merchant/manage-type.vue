@@ -60,6 +60,10 @@
         <el-input v-model="modelinput"></el-input>
       </div>
       <div>
+        类型备注：
+        <el-input v-model="remarks"></el-input>
+      </div>
+      <div>
         图标颜色：
         <el-input v-model="pictureColour"></el-input>
       </div>
@@ -86,6 +90,10 @@
       <div>
         经营类型：
         <el-input v-model="modelinput"></el-input>
+      </div>
+      <div>
+        类型备注：
+        <el-input v-model="remarks"></el-input>
       </div>
       <div>
         图标颜色：
@@ -119,6 +127,7 @@ export default {
     return {
       grade: false,
       modelinput: '', // 类目名称
+      remarks:'', // 备注
       pictureColour: '', // 图标颜色
       pictureCode: '', // 图标代码
       url: '', // 链接地址
@@ -152,6 +161,7 @@ export default {
     handleEdit(index, row) {
       this.dialogVisible = true
       this.modelinput = row.managementName
+      this.remarks = row.remarks
       this.parentId = row.parentId
       this.managementId = row.managementId
       this.pictureColour = row.pictureColour
@@ -172,6 +182,7 @@ export default {
     },
     handAdd() {
       this.modelinput= '' // 类目名称
+      this.remarks = ''
       this.pictureColour= '' // 图标颜色
       this.pictureCode= '' // 图标代码
       this.url= '' // 链接地址
@@ -189,6 +200,10 @@ export default {
         pictureCode:this.pictureCode
       }).then(res => {
         if (res.code === 200) {
+          this.$message({
+                        message: "操作成功",
+                        type: "success"
+                    });
           this.fetchData()
           this.addType=false
         }
@@ -212,11 +227,16 @@ export default {
           managementId: this.managementId,
           parentId: this.parentId,
           managementName: this.modelinput,
+          remarks:this.remarks,
           url: this.url,
           pictureColour: this.pictureColour,
           pictureCode: this.pictureCode
         }).then(res => {
           if (res.code === 200) {
+            this.$message({
+                        message: "操作成功",
+                        type: "success"
+                    });
             this.fetchData()
           }
         })

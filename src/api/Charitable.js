@@ -28,6 +28,14 @@ export function ArticleAdd(data) {
   })
 }
 
+// 删除文章
+export function ArticleDelete(data) {
+  return request({
+    url: config.Charitable_Delete,
+    method: 'post',
+    params: data
+  })
+}
 // 根据编号查询公益详细
 export function charityDetails(data) {
   return request({

@@ -42,7 +42,7 @@ export function setUserInfo(userImg, username, accountType, cityCode) {
   sessionStorage.setItem(userImgKey, userImg)
   sessionStorage.setItem(usernameKey, username)
   sessionStorage.setItem(accountTypeKey, accountType)
-  if (cityCode != null){
+  if (cityCode != null) {
     sessionStorage.setItem(cityCodeKey, cityCode)
   }
 }

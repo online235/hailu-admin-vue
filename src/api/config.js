@@ -129,6 +129,7 @@ export const Charitable_addPublic = Charitable_prefix + '/xinAn/addPublicInteres
 export const Charitable_addArticle = Charitable_prefix + '/xinan/addGovernment'// 添加文章
 export const Charitable_article = Charitable_prefix + '/xinan/articleList'// 超级管理员查询文章列表
 export const Charitable_modify = Charitable_prefix + '/xinan/modify'// 修改文章
+export const Charitable_Delete = Charitable_prefix + '/xinAn/delCharitable'// 删除公益
 export const Charitable_detailedInfor = Charitable_prefix + '/xinan/detailedInformation'// 超查询账号下详细信息
 export const Charitable_findCityNameByCode = Charitable_prefix + '/xinan/findCityNameByCode'// 获取当个城市名称
 // endregion
@@ -148,12 +149,43 @@ export const openApi_add = openApi_prefix + '/add-account'
 
 // endregion
 
-// region 百货商户入驻
+// region 心安救助历史案例
 
 export const caseHistory_prefix = module_admin_prefix + '/pc/xaHelpMember'
 export const caseHistory_list = caseHistory_prefix + '/list' // 查询救助历史案例列表
 export const caseHistory_del = caseHistory_prefix + '/getXaHelpMemberModelDetail' // 查询单条救助案例详情
 export const caseHistory_add = caseHistory_prefix + '/insertXaHelpMember' // 插入救助案例
 export const caseHistory_alter = caseHistory_prefix + '/updateXaHelpMember' // 更新救助案例数据
+
+// endregion
+
+// region 心安期数统计
+
+export const statistics_prefix = module_admin_prefix + '/pc/xaStatistics'
+export const statistics_list = statistics_prefix + '/list' // 查询期数统计列表
+export const statistics_del = statistics_prefix + '/getXaStatisticsDetail' // 查询单条期数统计数据详情
+export const statistics_add = statistics_prefix + '/insertXaStatistics' // 插入期数统计数据
+export const statistics_alter = statistics_prefix + '/updateXaStatistics' // 更新期数统计数据
+
+// endregion
+
+// region 广告管理
+
+export const Banner_prefix = module_admin_prefix + '/banner'
+export const Banner_list = Banner_prefix + '/list' // 查询广告列表
+export const Banner_del = Banner_prefix + '/getBannerDetail' // 查询广告详情
+export const Banner_add = Banner_prefix + '/insertBanner' // 插入广告
+export const Banner_alter = Banner_prefix + '/updateBanner' // 更新广告
+
+// endregion
+
+// region 标签
+
+export const Tag_prefix = module_admin_prefix + '/pc/tag'
+export const Tag_list = Tag_prefix + '/findMcSysTagList' // 标签列表
+export const Tag_del = Tag_prefix + '/findTag' // 根据编号查询一个标签
+export const Tag_shop = Tag_prefix + '/shopLabel' // 根据店铺编号查询店铺下的标签
+export const Tag_add = Tag_prefix + '/addTag' // 添加标签
+export const Tag_alter = Tag_prefix + '/modifyTag' // 修改标签属性
 
 // endregion

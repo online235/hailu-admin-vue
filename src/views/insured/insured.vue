@@ -76,9 +76,9 @@
         <el-form-item label="姓名：">
           <div>{{ form.name }}</div>
         </el-form-item>
-        <el-form-item label="value：">
+        <!-- <el-form-item label="value：">
           <div>{{ form.value }}</div>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="创建时间：">
           <div>{{ form.createDate }}</div>
         </el-form-item>

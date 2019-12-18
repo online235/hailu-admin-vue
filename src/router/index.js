@@ -171,6 +171,36 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/Tag',
+    component: Layout,
+    redirect: '/Tag/Tag',
+    name: 'Tag',
+    meta: { title: '标签管理', icon: 'example' },
+    children: [
+      {
+        path: 'Tag',
+        name: 'Tag1',
+        component: () => import('@/views/Tag/Tag'),
+        meta: { title: '标签管理' }
+      }
+    ]
+  },
+  {
+    path: '/multimedia',
+    component: Layout,
+    redirect: '/multimedia/multimedia',
+    name: 'multimedia',
+    meta: { title: '多媒体管理', icon: 'example' },
+    children: [
+      {
+        path: 'advertising',
+        name: 'advertising',
+        component: () => import('@/views/multimedia/advertising'),
+        meta: { title: '广告管理' }
+      }
+    ]
+  },
+  {
     path: '/charitable',
     name: 'charitable',
     component: Layout,
