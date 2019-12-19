@@ -121,9 +121,9 @@
          <el-form-item label="营业执照注册号：">
           <div>{{ form.businessLicenseNumber }}</div>
         </el-form-item>
-         <el-form-item label="创建时间：">
-          <div>{{ form.createTime }}</div>
-        </el-form-item>
+         <!-- <el-form-item label="创建时间：">
+          <div>{{ form.dateTime }}</div>
+        </el-form-item> -->
         <el-form-item label="身份证号码：">
           <div>{{ form.idCard }}</div>
         </el-form-item>
@@ -218,6 +218,7 @@ export default {
   created() {
      this.imghead= config.module_basic_prefix
     this.fangfa()
+    
   },
   mounted() {},
   methods: {

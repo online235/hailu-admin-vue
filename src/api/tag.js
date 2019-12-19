@@ -13,7 +13,7 @@ export function TagList(data) {
 export function TagDel(data) {
   return request({
     url: config.Tag_del,
-    method: 'post',
+    method: 'get',
     params: data
   })
 }
@@ -22,7 +22,7 @@ export function TagDel(data) {
 export function Tagshop(data) {
   return request({
     url: config.Tag_shop,
-    method: 'post',
+    method: 'get',
     params: data
   })
 }
@@ -31,7 +31,16 @@ export function TagAdd(data) {
   return request({
     url: config.Tag_add,
     method: 'post',
-    data: data
+    params: data
+  })
+}
+
+// 删除标签
+export function TagDetails(data) {
+  return request({
+    url: config.Tag_Details,
+    method: 'post',
+    params: data
   })
 }
 

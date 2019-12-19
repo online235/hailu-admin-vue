@@ -186,6 +186,7 @@ export const Tag_list = Tag_prefix + '/findMcSysTagList' // 标签列表
 export const Tag_del = Tag_prefix + '/findTag' // 根据编号查询一个标签
 export const Tag_shop = Tag_prefix + '/shopLabel' // 根据店铺编号查询店铺下的标签
 export const Tag_add = Tag_prefix + '/addTag' // 添加标签
+export const Tag_Details = Tag_prefix + '/delTag' // 删除标签
 export const Tag_alter = Tag_prefix + '/modifyTag' // 修改标签属性
 
 // endregion

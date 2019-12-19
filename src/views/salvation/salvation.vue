@@ -6,6 +6,11 @@
         <el-input v-model="search" clearable placeholder="可根据名称查询">
         </el-input>
       </div>
+      <div>
+        <el-button size="medium" type="success" @click="addUser"
+          >添加</el-button
+        >
+      </div>
     </div>
     <el-table
       border
@@ -32,7 +37,7 @@
       </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.examine }}</span>
+          <span style="margin-left: 10px">{{ scope.row.examine==2?'审核通过':'审核不通过' }}</span>
         </template>
       </el-table-column>
 
@@ -56,6 +61,17 @@
       >
       </el-pagination>
     </div>
+    <el-dialog
+  title="提示"
+  :visible.sync="dialogVisible"
+  width="40%"
+  :before-close="handleClose">
+  <span>这是一段信息</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
     <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
@@ -99,13 +115,17 @@
           <div>{{ form.createdat }}</div>
         </el-form-item>
         <el-form-item label="状态：">
-          <div>{{ form.examine }}</div>
+          <!-- <div>{{ form.examine==2?'审核通过':'审核不通过' }}</div> -->
+          <el-select v-model="form.examine" placeholder="请选择审核状态：">
+            <el-option label="审核通过" value="2"></el-option>
+            <el-option label="审核不通过" value="3"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="checkModle = false">取 消</el-button>
-        <el-button type="primary" @click="confirm">审核通过</el-button>
-        <el-button type="danger" @click="failure">审核不通过</el-button>
+        <el-button type="primary" @click="confirm">确认</el-button>
+        <!-- <el-button type="danger" @click="failure">审核不通过</el-button> -->
       </span>
     </el-dialog>
   </div>
@@ -117,8 +137,10 @@ import {
   salvationDetail,
   salvationStatus
 } from '@/api/salvation'
+import EditorBar from '@/components/editur/index'
 import axios from 'axios'
 export default {
+  components: { EditorBar },
   data() {
     return {
       form: '',
@@ -127,6 +149,7 @@ export default {
       tableData: [], // 列表数据
       search: '', // 搜索框
       checkModle: false, // 模态框
+      dialogVisible:false,// 添加模态框
       examine: '', // 审核(2-审核通过、3-审核不通过)
       numberId: '',
       total: 0, // 总数
@@ -157,14 +180,14 @@ export default {
         if (res.code === 200) {
           this.tableData = res.data.datas
           this.total = res.data.total
-          for (var i = 0; i < this.tableData.length; i++) {
-            var dataee = new Date(this.tableData[i].updatedat).toJSON()
-            var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
-              .toISOString()
-              .replace(/T/g, ' ')
-              .replace(/\.[\d]{3}Z/, '')
-            this.tableData[i].updatedat = date
-          }
+          // for (var i = 0; i < this.tableData.length; i++) {
+          //   var dataee = new Date(this.tableData[i].updatedat).toJSON()
+          //   var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
+          //     .toISOString()
+          //     .replace(/T/g, ' ')
+          //     .replace(/\.[\d]{3}Z/, '')
+          //   this.tableData[i].updatedat = date
+          // }
         }
       })
     },
@@ -182,8 +205,8 @@ export default {
         numberId: this.numberId
       }).then(res => {
         if (res.code == 200) {
-           this.form = res.data[0];
-           this.url=res.data[0].imageList
+           this.form = res.data;
+           this.url=res.data.imageList
         }
       })
       this.checkModle = true
@@ -199,31 +222,19 @@ export default {
     confirm() {
       // 详情审核通过按钮
       this.checkModle = false
-      this.examine = '2'
+      this.examine = this.form.examine
 
       this.audit()
       this.fetchData()
-      // this.$message({
-      //     message: '操作成功',
-      //     type: 'success'
-      //   });
     },
-    failure() {
-      // 详情审核不通过按钮
-      this.examine = '3'
-      this.checkModle = false
-      this.audit()
-    },
+    // failure() {
+    //   // 详情审核不通过按钮
+    //   this.examine = '3'
+    //   this.checkModle = false
+    //   this.audit()
+    // },
     audit() {
       // 审核
-      // let params = new URLSearchParams();
-      // params.append("examine", this.examine);
-      // params.append("numberId", this.numberId);
-
-      // let params = qs.stringify({
-      //   numberId: this.numberId,
-      //   examine: this.examine
-      // });
       salvationStatus({
         numberId: this.numberId,
         examine: this.examine
@@ -247,6 +258,9 @@ export default {
       // 分页
       this.currentPage = val
       this.fetchData()
+    },
+    addUser(){
+      this.dialogVisible = true
     }
   }
 }

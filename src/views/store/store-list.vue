@@ -184,11 +184,25 @@
           <div>{{ form.phone }}</div>
         </el-form-item>
         <el-form-item label="创建时间：">
-          <div>{{ form.createdat }}</div>
+          <div>{{ form.dateTime }}</div>
         </el-form-item>
-        <!-- <el-form-item label="审核状态：">
-          <div>{{ form.toExamine }}</div>
-        </el-form-item> -->
+        <el-form-item label="营业状态：">
+          <div>{{ form.businessStateDisplay }}</div>
+        </el-form-item>
+         <el-form-item label="营业时间：">
+          <div>{{ form.weekDayDisplay }}</div>
+        </el-form-item>
+        <el-form-item label="店铺详细地址：">
+          <div>{{ form.detailAddress }}</div>
+        </el-form-item>
+        <el-form-item label="标签：">
+          <el-tag
+  v-for="tag in tags"
+  :key="tag.tagName"
+  :type="tag.type">
+  {{tag.tagName}}
+</el-tag>
+        </el-form-item>
         <el-form-item label="审核状态：">
           <el-select v-model="region" placeholder="请选择审核状态">
             <el-option
@@ -216,6 +230,7 @@ import {
   lifeCircleChange,
   lifeCircleDelete
 } from "@/api/life-circle";
+import { Tagshop } from "@/api/tag";
 export default {
   data() {
     return {
@@ -235,6 +250,13 @@ export default {
         { id: "1", name: "营业中" },
         { id: "2", name: "休息中" }
       ],
+      tags: [
+          { name: '标签一', type: '' },
+          // { name: '标签二', type: 'success' },
+          // { name: '标签三', type: 'info' },
+          // { name: '标签四', type: 'warning' },
+          // { name: '标签五', type: 'danger' }
+        ],
       memberStatus: [],
       currentPage: 1,
       pageSize: 10,
@@ -286,6 +308,16 @@ export default {
         if (res.code === 200) {
           this.form = res.data;
           this.checkModle = true;
+          console.log(res.data)
+        }
+      });
+       Tagshop({
+        storeId: row.id
+      }).then(res => {
+        if (res.code === 200) {
+          // this.form = res.data;
+          // this.checkModle = true;
+          this.tags = res.data
         }
       });
     },
