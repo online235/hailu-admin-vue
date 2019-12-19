@@ -6,7 +6,6 @@ const initState = {
 
 function appendToRouter(menuArray, callback) {
     menuArray.forEach(menuItem => {
-        console.info(menuItem)
         for (let routeIdx = 0; routeIdx < asyncRoutes.length; routeIdx++) {
             let routeMenu = asyncRoutes[routeIdx]
             if (routeMenu.path !== menuItem.url) {

@@ -81,6 +81,13 @@ service.interceptors.response.use(
             // router.push(location.href.substring(location.href.indexOf('/#') + 2))
           })
         })
+      }else{
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 3 * 1000
+        })
+        return Promise.reject(error)
       }
     } else {
       let msg = error.message

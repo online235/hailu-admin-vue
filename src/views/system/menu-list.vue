@@ -231,7 +231,6 @@ export default {
             this.showFormApiItem = false
             this.showFormRouteItem = true
         }
-        console.info(row)
     },
     delTreeItem(data) {
       let that = this
