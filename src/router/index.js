@@ -156,21 +156,6 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/openAccout',
-    component: Layout,
-    redirect: '/openAccout/openAccout',
-    name: 'openAccout',
-    meta: { title: '开放平台管理', icon: 'example' },
-    children: [
-      {
-        path: 'openAccout',
-        name: 'openAccout1',
-        component: () => import('@/views/openAccout/openAccout'),
-        meta: { title: '账号管理' }
-      }
-    ]
-  },
-  {
     path: '/Tag',
     component: Layout,
     redirect: '/Tag/Tag',
