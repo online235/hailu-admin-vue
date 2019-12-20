@@ -32,6 +32,7 @@
                 border
                 :data="tableData"
                 style="width: 100%"
+                :span-method="queryTableSpanMethod"
         >
             <el-table-column label="分类">
                 <template slot-scope="scope">
@@ -199,6 +200,8 @@
                 tableData: [],
                 addDialogVisible: false,
                 updateDialogVisible: false,
+                // 存储单元格合并信息
+                spanArr: []
             }
         },
         created() {
@@ -211,6 +214,7 @@
                 dictList({
                     code: this.queryForm.code
                 }).then(res => {
+                    this.getSpanArr(res.data)
                     this.tableData = res.data;
                 })
             },
@@ -243,6 +247,34 @@
             clearUpdateFormCategory() {
                 this.updateForm.code = ''
                 this.updateForm.desc = ''
+            },
+            getSpanArr(data) {
+                console.log(data)
+                for (var i = 0; i < data.length; i++) {
+                    if (i === 0) {
+                        this.spanArr.push(1);
+                        this.pos = 0
+                    } else {
+                        // 判断当前元素与上一个元素是否相同,因合并第一个所以[0]
+                        if (data[i].code === data[i - 1].code) {
+                            this.spanArr[this.pos] += 1;
+                            this.spanArr.push(0);
+                        } else {
+                            this.spanArr.push(1);
+                            this.pos = i;
+                        }
+                    }
+                }
+            },
+            queryTableSpanMethod({rowIndex, columnIndex}){
+                if (columnIndex === 0 || columnIndex === 1) {
+                    const _row = this.spanArr[rowIndex];
+                    const _col = _row > 0 ? 1 : 0;
+                    return {
+                        rowspan: _row,
+                        colspan: _col
+                    }
+                }
             },
             showAddDialog() {
                 this.addDialogVisible = true
