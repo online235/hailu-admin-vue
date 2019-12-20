@@ -101,7 +101,8 @@
       title="修改信息"
       :visible.sync="dialogVisible"
       width="750px"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" :model="alterForm" label-width="150px">
         <el-form-item label="店铺名称：">
@@ -205,7 +206,8 @@
       title="详情审核"
       :visible.sync="checkModle"
       width="750px"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="店铺名称：">
@@ -356,14 +358,6 @@ export default {
           this.region = row.toExamine + "";
         }
       });
-    },
-    handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     },
     confirm() {
       //详情审核确认按钮

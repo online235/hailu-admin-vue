@@ -66,7 +66,7 @@
                        size="mini">删除</el-button>
           </el-popconfirm>
 
-          
+
         </template>
       </el-table-column>
     </el-table>
@@ -365,10 +365,6 @@ export default {
             }
           })
     },
-    // handleClose(done) { // 关闭模态框按钮
-    //       Object.keys(this.record).forEach(key => (this.record[key] = ''))
-    //       done()
-    // },
     handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {

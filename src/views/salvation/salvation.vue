@@ -65,7 +65,8 @@
   title="提示"
   :visible.sync="dialogVisible"
   width="40%"
-  :before-close="handleClose">
+  :close-on-press-escape="false"
+  :close-on-click-modal="false">
   <span>这是一段信息</span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -76,7 +77,8 @@
       title="详情审核"
       :visible.sync="checkModle"
       width="40%"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="标题：">
@@ -210,14 +212,6 @@ export default {
         }
       })
       this.checkModle = true
-    },
-    handleClose(done) {
-      // 关闭模态框按钮
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
     },
     confirm() {
       // 详情审核通过按钮

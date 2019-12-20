@@ -24,7 +24,8 @@
   title="??"
   :visible.sync="models"
   width="30%"
-  :before-close="handleClose"
+  :close-on-press-escape="false"
+  :close-on-click-modal="false"
   :modal='false'>
   <span>??????</span>
   <span slot="footer" class="dialog-footer">
@@ -71,13 +72,6 @@ export default {
     alterPwd(){
       this.models=true
     },
-    handleClose(done) {
-        this.$confirm('?????')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
   }
 }
 </script>

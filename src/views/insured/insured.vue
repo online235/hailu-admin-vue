@@ -70,7 +70,8 @@
       title="详情审核"
       :visible.sync="checkModle"
       width="40%"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="姓名：">
@@ -171,14 +172,6 @@ export default {
               this.insuredId=row.id
         }
       });
-    },
-    handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     },
     confirm() {
       //详情审核确认按钮

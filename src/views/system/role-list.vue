@@ -70,7 +70,8 @@
       title="添加角色"
       :visible.sync="dialogVisible"
       width="40%"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" label-width="150px">
         <el-form-item label="角色名称：">
@@ -97,7 +98,8 @@
       :visible.sync="linkMenuDialogVisible"
       width="50%"
       z-index="1000"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <div class="dialog-body-max-height">
         <el-form label-width="150px">
@@ -274,14 +276,6 @@ export default {
           this.fetchData();
         }
       });
-    },
-    handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     },
     handleCurrentChange(val) {
       //分页

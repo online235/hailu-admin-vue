@@ -110,8 +110,9 @@
     <el-dialog
   title="分配角色"
   :visible.sync="roleAmend"
-  width="30%"
-  :before-close="handleClose">
+  :close-on-press-escape="false"
+  :close-on-click-modal="false"
+  width="30%">
   <el-form ref="form" label-width="80px">
   <el-form-item label="角色选择">
     <el-checkbox-group v-model="roleid">
@@ -128,8 +129,9 @@
     <el-dialog
       title="重置密码"
       :visible.sync="resetModal"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       width="30%"
-      :before-close="handleClose"
     >
       <el-form ref="form" label-width="120px">
         <el-form-item label="新密码：">
@@ -144,8 +146,9 @@
     <el-dialog
       title="添加账号"
       :visible.sync="dialogVisible"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       width="40%"
-      :before-close="handleClose"
     >
       <el-form ref="form" label-width="120px">
         <el-form-item label="账号：">
@@ -190,8 +193,9 @@
     <el-dialog
       title="查看详情"
       :visible.sync="checkModle"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       width="40%"
-      :before-close="handleClose"
     >
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="账号昵称：">
@@ -317,15 +321,7 @@ export default {
           }
         })
       })
-    },
-    handleClose(done) {
-      // 关闭模态框按钮
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
-    },
+    }
     confirm() {
       // 详情审核确认按钮
     },

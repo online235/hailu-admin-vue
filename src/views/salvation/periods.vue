@@ -89,7 +89,8 @@
       title="提示"
       :visible.sync="insert"
       width="600px"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form
         :model="ruleForm"
@@ -229,17 +230,6 @@ export default {
       this.decide = false;
       this.insert = true;
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-          console.log(1)
-           
-        })
-        .catch(_ => {
-            console.log(2)
-        });
-    },
     submitForm(formName) {
       if (this.decide == false) {
         this.$refs[formName].validate(valid => {
@@ -292,7 +282,7 @@ export default {
       }).then(res =>{
           console.log(res)
           if(res.code === 200){
-            
+
             this.ruleForm=res.data
             this.ruleForm.sex = res.data.sex+''
           }

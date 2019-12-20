@@ -24,7 +24,8 @@
   :title="judge==true? '修改密码' : '重置密码'"
   :visible.sync="models"
   width="30%"
-  :before-close="handleClose"
+  :close-on-press-escape="false"
+  :close-on-click-modal="false"
   :modal='false'>
    <el-form ref="form" label-width="120px">
         <el-form-item label="旧密码：" v-if="judge">
@@ -99,13 +100,6 @@ export default {
         }
       });
     },
-    handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
   }
 }
 </script>

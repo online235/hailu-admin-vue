@@ -100,7 +100,8 @@
       title="详情审核"
       :visible.sync="checkModle"
       width="750px"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="编号：">
@@ -218,7 +219,7 @@ export default {
   created() {
      this.imghead= config.module_basic_prefix
     this.fangfa()
-    
+
   },
   mounted() {},
   methods: {
@@ -299,14 +300,6 @@ export default {
         this.total = res.data.total
         this.tableData = res.data.datas
       })
-    },
-     handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     },
     confirm(){
        const params = new URLSearchParams()

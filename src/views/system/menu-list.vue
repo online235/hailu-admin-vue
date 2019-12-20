@@ -87,7 +87,8 @@
               title="添加菜单"
               :visible.sync="dialogVisible"
               width="40%"
-              :before-close="handleClose"
+              :close-on-press-escape="false"
+              :close-on-click-modal="false"
       >
         <el-form ref="addForm" label-width="150px">
           <el-form-item label="菜单名称">
@@ -273,14 +274,6 @@ export default {
           })
         }
       });
-    },
-    handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     },
     save(){
       let that = this;

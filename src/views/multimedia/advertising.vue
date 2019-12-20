@@ -65,8 +65,9 @@
     <el-dialog
       :title="modeltype == false? '添加广告' : '编辑广告'"
       :visible.sync="checkModle"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       width="850px"
-      :before-close="handleClose"
     >
       <el-form
         :model="ruleForm"
@@ -314,27 +315,6 @@ export default {
         }
       });
     },
-    handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    },
-    // confirm() {
-    //   //详情审核确认按钮
-    //   this.checkModle = false;
-    //   insuredCheck(params).then(res => {
-    //     if (res.code === 200) {
-    //       this.fetchData();
-    //       this.$message({
-    //         message: "操作成功",
-    //         type: "success"
-    //       });
-    //     }
-    //   });
-    // },
     handleCurrentChange(val) {
       // 分页
       this.currentPage = val;
@@ -370,7 +350,7 @@ export default {
                     }
                 });
             }
-          
+
         } else {
           console.log("error submit!!");
           return false;

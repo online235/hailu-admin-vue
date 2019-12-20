@@ -124,7 +124,8 @@
       title="操作版本"
       :visible.sync="addType"
       width="50%"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       class="amendcss"
     >
       <el-form ref="versionForm" :rules="rules" :model="versionModel" label-width="85px">

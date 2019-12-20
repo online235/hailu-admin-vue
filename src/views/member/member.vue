@@ -66,7 +66,8 @@
       title="详情审核"
       :visible.sync="checkModle"
       width="800px"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="会员名称：">
@@ -248,14 +249,6 @@ export default {
           // a=res.data.registTime+''
           // var s = a.substring(0, 8);  //截取字符串从第0位开始截取4位
       })
-    },
-    handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     },
     srcListimg(form) {
       this.srcList[0] = this.imghead + form.idcardImgx;

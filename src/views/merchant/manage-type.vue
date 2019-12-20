@@ -52,7 +52,8 @@
       title="添加类型"
       :visible.sync="addType"
       width="30%"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       class="amendcss"
     >
       <div>
@@ -84,7 +85,8 @@
       title="修改类型"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="handleClose"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       class="amendcss"
     >
       <div>
@@ -209,14 +211,7 @@ export default {
         }
       })
       }
-      
-    },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
+
     },
     amend() {
       if (this.modelinput === '') {
