@@ -65,6 +65,12 @@ export const asyncRoutes = [
         name: 'role',
         component: () => import('@/views/system/role-list'),
         meta: { title: '角色', icon: 'role' }
+      },
+      {
+        path: 'dict',
+        name: 'dict',
+        component: () => import('@/views/system/dict-list'),
+        meta: { title: '字典', icon: 'dict' }
       }
     ]
   },

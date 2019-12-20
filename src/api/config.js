@@ -74,6 +74,17 @@ export const admin_reset_pwd = admin_prefix + '/reset-pwd'// 重置密码
 export const admin_delete = admin_prefix + '/del-account'// 重置密码
 // endregion
 
+// region 系统管理-字典管理
+export const dict_prefix = module_basic_prefix + '/system/dict'
+export const dict_list = dict_prefix + '/list'// 查询字典列表
+export const dict_category = dict_prefix + '/category'// 字典分类列表
+export const dict_add = dict_prefix + '/add'// 新增字典项
+export const dict_update = dict_prefix + '/update'// 更新字典数据
+export const dict_detail = dict_prefix + '/detail'// 查询字典详情
+export const dict_delete = dict_prefix + '/delete'// 查询字典详情
+export const dict_re_cache_redis = dict_prefix + '/re-cache-redis'// 把所有字典数据重新加载到Redis
+// endregion
+
 // region 系统管理-菜单列表
 export const menu_prefix = module_admin_prefix + '/system/menu'
 export const menu_list = menu_prefix + '/list'// 列表
