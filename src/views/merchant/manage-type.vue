@@ -12,11 +12,13 @@
             data =>
               !search ||
               data.managementName.toLowerCase().includes(search.toLowerCase())
-          )" style="width: 100%">
+          )"
+        style="width: 100%"
+      >
         <el-table-column
           label="经营类型"
           prop="managementName"
-        ></el-table-column>
+        />
         <el-table-column align="right">
           <template slot="header" slot-scope="scope">
             <el-input
@@ -58,23 +60,23 @@
     >
       <div>
         经营类型：
-        <el-input v-model="modelinput"></el-input>
+        <el-input v-model="modelinput" />
       </div>
       <div>
         类型备注：
-        <el-input v-model="remarks"></el-input>
+        <el-input v-model="remarks" />
       </div>
       <div>
         图标颜色：
-        <el-input v-model="pictureColour"></el-input>
+        <el-input v-model="pictureColour" />
       </div>
       <div>
         图标代码：
-        <el-input v-model="pictureCode"></el-input>
+        <el-input v-model="pictureCode" />
       </div>
       <div>
         链接地址：
-        <el-input v-model="url"></el-input>
+        <el-input v-model="url" />
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addType = false">取 消</el-button>
@@ -91,23 +93,23 @@
     >
       <div>
         经营类型：
-        <el-input v-model="modelinput"></el-input>
+        <el-input v-model="modelinput" />
       </div>
       <div>
         类型备注：
-        <el-input v-model="remarks"></el-input>
+        <el-input v-model="remarks" />
       </div>
       <div>
         图标颜色：
-        <el-input v-model="pictureColour"></el-input>
+        <el-input v-model="pictureColour" />
       </div>
       <div>
         图标代码：
-        <el-input v-model="pictureCode"></el-input>
+        <el-input v-model="pictureCode" />
       </div>
       <div>
         链接地址：
-        <el-input v-model="url"></el-input>
+        <el-input v-model="url" />
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -129,12 +131,12 @@ export default {
     return {
       grade: false,
       modelinput: '', // 类目名称
-      remarks:'', // 备注
+      remarks: '', // 备注
       pictureColour: '', // 图标颜色
       pictureCode: '', // 图标代码
       url: '', // 链接地址
       dialogVisible: false,
-      addType:false,
+      addType: false,
       children: '',
       search: '',
       parentId: '0',
@@ -183,55 +185,54 @@ export default {
     handleAdd(index, row) {
     },
     handAdd() {
-      this.modelinput= '' // 类目名称
+      this.modelinput = '' // 类目名称
       this.remarks = ''
-      this.pictureColour= '' // 图标颜色
-      this.pictureCode= '' // 图标代码
-      this.url= '' // 链接地址
-      this.addType=true
+      this.pictureColour = '' // 图标颜色
+      this.pictureCode = '' // 图标代码
+      this.url = '' // 链接地址
+      this.addType = true
     },
-    addAmend(){
-      if(this.modelinput==''){
-        this.$message.error('经营类型不能为空');
-      }else{
+    addAmend() {
+      if (this.modelinput == '') {
+        this.$message.error('经营类型不能为空')
+      } else {
         ManageAdd({
-        parentId: this.parentId,
-        managementName:this.modelinput,
-        pictureColour:this.pictureColour,
-        url:this.url,
-        pictureCode:this.pictureCode
-      }).then(res => {
-        if (res.code === 200) {
-          this.$message({
-                        message: "操作成功",
-                        type: "success"
-                    });
-          this.fetchData()
-          this.addType=false
-        }
-      })
+          parentId: this.parentId,
+          managementName: this.modelinput,
+          pictureColour: this.pictureColour,
+          url: this.url,
+          pictureCode: this.pictureCode
+        }).then(res => {
+          if (res.code === 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+            this.fetchData()
+            this.addType = false
+          }
+        })
       }
-
     },
     amend() {
       if (this.modelinput === '') {
-        this.$message.error('类目名称不能为空');
+        this.$message.error('类目名称不能为空')
       } else {
         this.dialogVisible = false
         ManageCheck({
           managementId: this.managementId,
           parentId: this.parentId,
           managementName: this.modelinput,
-          remarks:this.remarks,
+          remarks: this.remarks,
           url: this.url,
           pictureColour: this.pictureColour,
           pictureCode: this.pictureCode
         }).then(res => {
           if (res.code === 200) {
             this.$message({
-                        message: "操作成功",
-                        type: "success"
-                    });
+              message: '操作成功',
+              type: 'success'
+            })
             this.fetchData()
           }
         })

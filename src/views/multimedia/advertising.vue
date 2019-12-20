@@ -7,9 +7,11 @@
         </el-input>
       </div> -->
       <div>
-        <el-button size="medium" type="success" @click="addUser"
-          >添加广告</el-button
-        >
+        <el-button
+          size="medium"
+          type="success"
+          @click="addUser"
+        >添加广告</el-button>
       </div>
     </div>
     <el-table border :data="tableData" style="width: 100%">
@@ -36,7 +38,7 @@
             scope.row.bannerSpace == 1
               ? "心安"
               : scope.row.bannerSpace == 2
-              ? "商城" : "美食"
+                ? "商城" : "美食"
           }}</span>
         </template>
       </el-table-column>
@@ -47,20 +49,18 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
-          >
+          >编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
     <el-dialog
       :title="modeltype == false? '添加广告' : '编辑广告'"
@@ -70,52 +70,54 @@
       width="850px"
     >
       <el-form
+        ref="ruleForm"
         :model="ruleForm"
         :rules="rules"
-        ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
       >
-      <el-form-item label="广告位置" prop="spaceContent">
+        <el-form-item label="广告位置" prop="spaceContent">
           <el-select v-model="ruleForm.spaceContent" placeholder="请选择广告位置">
-            <el-option label="首页banner" value="1"></el-option>
-            <el-option label="首页内容广告" value="2"></el-option>
+            <el-option label="首页banner" value="1" />
+            <el-option label="首页内容广告" value="2" />
           </el-select>
         </el-form-item>
         <el-form-item label="标题" prop="title">
-          <el-input v-model="ruleForm.title"></el-input>
+          <el-input v-model="ruleForm.title" />
         </el-form-item>
         <el-form-item label="副标题" prop="subtitle">
-          <el-input v-model="ruleForm.subtitle"></el-input>
+          <el-input v-model="ruleForm.subtitle" />
         </el-form-item>
         <el-form-item label="所属版块" prop="bannerSpace">
           <el-select v-model="ruleForm.bannerSpace" placeholder="请选择所属版块">
-            <el-option label="心安" value="1"></el-option>
-            <el-option label="商城" value="2"></el-option>
-            <el-option label="美食" value="3"></el-option>
+            <el-option label="心安" value="1" />
+            <el-option label="商城" value="2" />
+            <el-option label="美食" value="3" />
           </el-select>
         </el-form-item>
         <el-form-item label="标题图片" prop="titleImage">
-           <el-upload
-  class="avatar-uploader"
-  :action="imghead+upSite"
-  :show-file-list="false"
-  :on-success="upTitleImage"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="ruleForm.titleImage" :src="imghead+ruleForm.titleImage" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
+          <el-upload
+            class="avatar-uploader"
+            :action="imghead+upSite"
+            :show-file-list="false"
+            :on-success="upTitleImage"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="ruleForm.titleImage" :src="imghead+ruleForm.titleImage" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
         </el-form-item>
         <el-form-item label="广告图片" prop="bannerImage">
-           <el-upload
-  class="avatar-uploader"
-  :action="imghead+upSite"
-  :show-file-list="false"
-  :on-success="upImage"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="ruleForm.bannerImage" :src="imghead+ruleForm.bannerImage" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
+          <el-upload
+            class="avatar-uploader"
+            :action="imghead+upSite"
+            :show-file-list="false"
+            :on-success="upImage"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="ruleForm.bannerImage" :src="imghead+ruleForm.bannerImage" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
         </el-form-item>
         <el-form-item label="广告时间" required>
           <el-col :span="11">
@@ -125,8 +127,7 @@
                   v-model="ruleForm.startTime"
                   type="datetime"
                   placeholder="选择开始时间"
-                >
-                </el-date-picker>
+                />
               </div>
             </el-form-item>
           </el-col>
@@ -138,33 +139,33 @@
                   v-model="ruleForm.endTime"
                   type="datetime"
                   placeholder="选择结束时间"
-                >
-                </el-date-picker>
+                />
               </div>
             </el-form-item>
           </el-col>
         </el-form-item>
         <el-form-item label="类型" prop="type">
           <el-select v-model="ruleForm.type" placeholder="请选择类型">
-            <el-option label="链接" value="1"></el-option>
-            <el-option label="图文详情" value="2"></el-option>
-            <el-option label="商品详情" value="3"></el-option>
+            <el-option label="链接" value="1" />
+            <el-option label="图文详情" value="2" />
+            <el-option label="商品详情" value="3" />
           </el-select>
         </el-form-item>
         <el-form-item v-if="ruleForm.type==1" label="外部链接" prop="bannerUrl">
-          <el-input v-model="ruleForm.bannerUrl"></el-input>
+          <el-input v-model="ruleForm.bannerUrl" />
         </el-form-item>
         <el-form-item v-if="ruleForm.type==2" label="图文详情" prop="content">
-          <editor-bar v-model="ruleForm.content" :is-clear="isClear"/>
+          <editor-bar v-model="ruleForm.content" :is-clear="isClear" />
         </el-form-item>
         <!-- <el-form-item v-if="ruleForm.type==3" label="商品详情" prop="bannerUrl">
           <el-input v-model="ruleForm.bannerUrl"></el-input>
         </el-form-item> -->
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
-            >{{modeltype==false? '立即创建' : '修改'}}</el-button
-          >
-          <el-button @click="resetForm('ruleForm')">{{modeltype==false? '重置' : '取消'}}</el-button>
+          <el-button
+            type="primary"
+            @click="submitForm('ruleForm')"
+          >{{ modeltype==false? '立即创建' : '修改' }}</el-button>
+          <el-button @click="resetForm('ruleForm')">{{ modeltype==false? '重置' : '取消' }}</el-button>
         </el-form-item>
       </el-form>
       <!-- <span slot="footer" class="dialog-footer">
@@ -182,100 +183,100 @@ import {
   BannerDel,
   BannerAdd,
   BannerAlter
-} from "@/api/advertising";
+} from '@/api/advertising'
 import * as config from '@/api/config'
 import EditorBar from '@/components/editur/index'
 export default {
-    components: { EditorBar },
+  components: { EditorBar },
   data() {
     return {
-      form: "",
-    //   bannerSpace: "",
-      insuredId: "",
+      form: '',
+      //   bannerSpace: "",
+      insuredId: '',
       choose: [
-        { id: "1", name: "代付款" },
-        { id: "2", name: "待审核" },
-        { id: "3", name: "观察期" },
-        { id: "4", name: "驳回" }
+        { id: '1', name: '代付款' },
+        { id: '2', name: '待审核' },
+        { id: '3', name: '观察期' },
+        { id: '4', name: '驳回' }
       ],
       memberStatus: [],
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
+      search: '',
       checkModle: false,
-      //1111
+      // 1111
       //
       //
       //
       //
-      imghead:'', // 图片上传请求前缀
-      upSite:'/upload/single/goods', // 请求地址
-      dialogImage:false, // 查看大图model
-      isClear: false,       // 富文本
-      modeltype:false,
+      imghead: '', // 图片上传请求前缀
+      upSite: '/upload/single/goods', // 请求地址
+      dialogImage: false, // 查看大图model
+      isClear: false, // 富文本
+      modeltype: false,
       ruleForm: {
-        //表单
-        id:'',
-        title: "",
-        subtitle: "",
-        spaceContent: "",
-        bannerSpace: "",
-        startTime: "",
-        endTime: "",
+        // 表单
+        id: '',
+        title: '',
+        subtitle: '',
+        spaceContent: '',
+        bannerSpace: '',
+        startTime: '',
+        endTime: '',
         type: '',
-        bannerImage:'',
-        titleImage:'',
-        bannerUrl:'',
-        content:'',
-        targetName:''
+        bannerImage: '',
+        titleImage: '',
+        bannerUrl: '',
+        content: '',
+        targetName: ''
       },
       rules: {
         // 表单验证
         title: [
-          { required: true, message: "请输入广告标题", trigger: "blur" }
+          { required: true, message: '请输入广告标题', trigger: 'blur' }
         ],
         subtitle: [
-          { required: true, message: "请输入副标题", trigger: "blur" }
+          { required: true, message: '请输入副标题', trigger: 'blur' }
         ],
         spaceContent: [
-          { required: true, message: "请选择广告位置", trigger: "change" }
+          { required: true, message: '请选择广告位置', trigger: 'change' }
         ],
-         bannerSpace: [
-          { required: true, message: "请选择所属版块", trigger: "change" }
+        bannerSpace: [
+          { required: true, message: '请选择所属版块', trigger: 'change' }
         ],
-         type: [
-          { required: true, message: "请选择类型", trigger: "change" }
+        type: [
+          { required: true, message: '请选择类型', trigger: 'change' }
         ],
-         bannerImage: [
-          { required: true, message: "请上传一张广告图片", trigger: "change" }
+        bannerImage: [
+          { required: true, message: '请上传一张广告图片', trigger: 'change' }
         ],
         titleImage: [
-          { required: true, message: "请上传一张标题图片", trigger: "change" }
+          { required: true, message: '请上传一张标题图片', trigger: 'change' }
         ],
         startTime: [
           {
-            type: "string",
+            type: 'string',
             required: true,
-            message: "请选择日期",
-            trigger: "change"
+            message: '请选择日期',
+            trigger: 'change'
           }
         ],
         endTime: [
           {
-            type: "string",
+            type: 'string',
             required: true,
-            message: "请选择时间",
-            trigger: "change"
+            message: '请选择时间',
+            trigger: 'change'
           }
         ]
       }
-    };
+    }
   },
   created() {
-    this.imghead = config.module_basic_prefix;
-    this.fetchData(); //列表数据加载
+    this.imghead = config.module_basic_prefix
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
@@ -285,112 +286,111 @@ export default {
         size: this.pageSize
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-        console.log(res.data.datas)
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          console.log(res.data.datas)
+          this.total = res.data.total
         }
-      });
+      })
     },
     handleEdit(index, row) {
-      //详情按钮
-        this.modeltype=true
-        this.checkModle=true
-        this.ruleForm.id=row.id
-      let params = new URLSearchParams();
-      params.append("id", row.id);
+      // 详情按钮
+      this.modeltype = true
+      this.checkModle = true
+      this.ruleForm.id = row.id
+      const params = new URLSearchParams()
+      params.append('id', row.id)
       BannerDel(params).then(res => {
-        if (res.code == 200) {
-            this.ruleForm.title = res.data.title,
-            this.ruleForm.subtitle = res.data.subtitle,
-            this.ruleForm.spaceContent = res.data.spaceContent+'',
-            this.ruleForm.bannerSpace = res.data.bannerSpace+'',
-            this.ruleForm.startTime = res.data.startTime,
-            this.ruleForm.endTime = res.data.endTime,
-            this.ruleForm.type = res.data.type+'',
-            this.ruleForm.bannerImage = res.data.bannerImage,
-            this.ruleForm.titleImage = res.data.titleImage,
-            this.ruleForm.bannerUrl = res.data.bannerUrl,
-            this.ruleForm.content = res.data.content,
-            this.ruleForm.targetName = res.data.targetName
+        if (res.code === 200) {
+          this.ruleForm.title = res.data.title
+          this.ruleForm.subtitle = res.data.subtitle
+          this.ruleForm.spaceContent = res.data.spaceContent + ''
+          this.ruleForm.bannerSpace = res.data.bannerSpace + ''
+          this.ruleForm.startTime = res.data.startTime
+          this.ruleForm.endTime = res.data.endTime
+          this.ruleForm.type = res.data.type + ''
+          this.ruleForm.bannerImage = res.data.bannerImage
+          this.ruleForm.titleImage = res.data.titleImage
+          this.ruleForm.bannerUrl = res.data.bannerUrl
+          this.ruleForm.content = res.data.content
+          this.ruleForm.targetName = res.data.targetName
         }
-      });
+      })
     },
     handleCurrentChange(val) {
       // 分页
-      this.currentPage = val;
-      this.fetchData();
+      this.currentPage = val
+      this.fetchData()
     },
     addUser() {
       // 添加广告
       this.modeltype = false
-      this.checkModle = true;
+      this.checkModle = true
     //   console.log(77);
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-            if(this.modeltype==false){
-                BannerAdd(this.ruleForm).then(res => {
-                if (res.code === 200) {
-                    this.$message({
-                        message: "操作成功",
-                        type: "success"
-                    });
-                    this.checkModle = false;
-                    this.fetchData()
-                    }
-                });
-            }else{
-                BannerAlter(this.ruleForm).then(res => {
-                if (res.code === 200) {
-                    this.$message({
-                        message: "操作成功",
-                        type: "success"
-                    });
-                    this.checkModle = false;
-                    this.fetchData()
-                    }
-                });
-            }
-
+          if (this.modeltype === false) {
+            BannerAdd(this.ruleForm).then(res => {
+              if (res.code === 200) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.checkModle = false
+                this.fetchData()
+              }
+            })
+          } else {
+            BannerAlter(this.ruleForm).then(res => {
+              if (res.code === 200) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.checkModle = false
+                this.fetchData()
+              }
+            })
+          }
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     resetForm(formName) {
-        if(this.modeltype == false){
-            this.$refs[formName].resetFields();
-        }else{
-            this.checkModle=false
-            this.$refs[formName].resetFields();
-        }
+      if (this.modeltype === false) {
+        this.$refs[formName].resetFields()
+      } else {
+        this.checkModle = false
+        this.$refs[formName].resetFields()
+      }
     },
     beforeAvatarUpload(file) {
-        // const isJPG = file.type === 'image/jpeg';
-        // const isLt2M = file.size / 1024 / 1024 < 2;
+      // const isJPG = file.type === 'image/jpeg';
+      // const isLt2M = file.size / 1024 / 1024 < 2;
 
-        // if (!isJPG) {
-        //   this.$message.error('上传头像图片只能是 JPG 格式!');
-        // }
-        // if (!isLt2M) {
-        //   this.$message.error('上传头像图片大小不能超过 2MB!');
-        // }
-        // return isJPG && isLt2M;
-      },
-       upImage(res,file){
-        //  console.log(file.response.data)
-        this.ruleForm.bannerImage=file.response.data
-        // console.log(fileList)
-        // this.album.push(file.data)
-        console.log(this.ruleForm.bannerImage)
-      },
-      upTitleImage(res,file){
-          this.ruleForm.titleImage=file.response.data
-      }
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!');
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!');
+      // }
+      // return isJPG && isLt2M;
+    },
+    upImage(res, file) {
+      //  console.log(file.response.data)
+      this.ruleForm.bannerImage = file.response.data
+      // console.log(fileList)
+      // this.album.push(file.data)
+      console.log(this.ruleForm.bannerImage)
+    },
+    upTitleImage(res, file) {
+      this.ruleForm.titleImage = file.response.data
+    }
   }
-};
+}
 </script>
 <style scoped>
 .guarantee {

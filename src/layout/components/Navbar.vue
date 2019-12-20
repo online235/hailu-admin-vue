@@ -21,18 +21,19 @@
       </el-dropdown>
     </div>
     <el-dialog
-  title="??"
-  :visible.sync="models"
-  width="30%"
-  :close-on-press-escape="false"
-  :close-on-click-modal="false"
-  :modal='false'>
-  <span>??????</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="models = false">? ?</el-button>
-    <el-button type="primary" @click="models = false">? ?</el-button>
-  </span>
-</el-dialog>
+      title="??"
+      :visible.sync="models"
+      width="30%"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      :modal="false"
+    >
+      <span>??????</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="models = false">? ?</el-button>
+        <el-button type="primary" @click="models = false">? ?</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,9 +70,9 @@ export default {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
-    alterPwd(){
-      this.models=true
-    },
+    alterPwd() {
+      this.models = true
+    }
   }
 }
 </script>

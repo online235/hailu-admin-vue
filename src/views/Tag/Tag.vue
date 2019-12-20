@@ -3,13 +3,14 @@
     <div class="treeHead">
       <div><h2>标签列表</h2></div>
       <div>
-        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
-        </el-input>
+        <el-input v-model="search" placeholder="可根据关键字查询" clearable />
       </div>
       <div>
-        <el-button size="medium" type="success" @click="addUser"
-          >添加标签</el-button
-        >
+        <el-button
+          size="medium"
+          type="success"
+          @click="addUser"
+        >添加标签</el-button>
       </div>
     </div>
     <el-table
@@ -25,7 +26,7 @@
     >
       <el-table-column label="日期">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.updateTime }}</span>
         </template>
       </el-table-column>
@@ -52,26 +53,23 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >修改</el-button
-          >
+          >修改</el-button>
           <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
     <el-dialog
       :title="decide == false ? '添加': '修改'"
@@ -79,15 +77,15 @@
       width="40%"
       :before-close="handleClose"
     >
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="标签名称" prop="tagName">
-    <el-input v-model="ruleForm.tagName"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">{{decide == false? '立即添加' : '立即修改'}}</el-button>
-    <el-button @click="resetForm('ruleForm')">{{decide == false? '重置' : '取消'}}</el-button>
-  </el-form-item>
-</el-form>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="标签名称" prop="tagName">
+          <el-input v-model="ruleForm.tagName" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">{{ decide == false? '立即添加' : '立即修改' }}</el-button>
+          <el-button @click="resetForm('ruleForm')">{{ decide == false? '重置' : '取消' }}</el-button>
+        </el-form-item>
+      </el-form>
       <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="checkModle = false">取 消</el-button>
         <el-button type="primary" @click="confirm">确 定</el-button>
@@ -97,141 +95,140 @@
 </template>
 
 <script>
-import { TagList,TagDel,TagAdd,Taglter,TagDetails } from "@/api/tag";
+import { TagList, TagDel, TagAdd, Taglter, TagDetails } from '@/api/tag'
 export default {
   data() {
     return {
-       ruleForm: {
-           id:'',
-          tagName: '',
-          state: '',
-        },
-         rules: {
-          tagName: [
-            { required: true, message: '请输入标签名称', trigger: 'blur' }
-          ],
-        },
+      ruleForm: {
+        id: '',
+        tagName: '',
+        state: ''
+      },
+      rules: {
+        tagName: [
+          { required: true, message: '请输入标签名称', trigger: 'blur' }
+        ]
+      },
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
+      search: '',
       checkModle: false,
-      decide: false, // 判断插入还是修改
-    };
+      decide: false // 判断插入还是修改
+    }
   },
   created() {
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
     fetchData() {
-      //列表数据加载
+      // 列表数据加载
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
       TagList({
-        page:this.currentPage,
-        size:this.pageSize
+        page: this.currentPage,
+        size: this.pageSize
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          this.total = res.data.total
         }
-      });
+      })
     },
-    addUser(){ // 添加
-        this.checkModle = true
-        this.decide = false
+    addUser() { // 添加
+      this.checkModle = true
+      this.decide = false
     },
-    handleDelete(index, row){
-        let params = new URLSearchParams();
-                params.append("deleteType", '2');
-                params.append("id", row.id);
-               TagDetails(params).then(res => {
-                if (res.code === 200) {
-                    this.$message({
-                        message: '操作成功',
-                        type: 'success'
-                    })
-                    this.fetchData()
-                }
-            });
+    handleDelete(index, row) {
+      const params = new URLSearchParams()
+      params.append('deleteType', '2')
+      params.append('id', row.id)
+      TagDetails(params).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+          this.fetchData()
+        }
+      })
     },
     handleEdit(index, row) {
-        // this.checkModle = true;
-        
-      //审核按钮
-      let params = new URLSearchParams();
-      params.append("id", row.id);
+      // this.checkModle = true;
+
+      // 审核按钮
+      const params = new URLSearchParams()
+      params.append('id', row.id)
       TagDel(params).then(res => {
-        if(res.code==200){
+        if (res.code === 200) {
           // this.form = res.data;
-            this.checkModle = true;
-            this.decide = true
-           this.ruleForm.tagName=res.data.tagName
-           this.ruleForm.id = res.data.id
+          this.checkModle = true
+          this.decide = true
+          this.ruleForm.tagName = res.data.tagName
+          this.ruleForm.id = res.data.id
         }
-      });
+      })
     },
     handleClose(done) {
-      //关闭模态框按钮
-      this.$confirm("确认关闭？")
+      // 关闭模态框按钮
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
           this.ruleForm.tagName = ''
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-           if(this.decide == false){
-               let params = new URLSearchParams();
-                params.append("tagName", this.ruleForm.tagName);
-               TagAdd(params).then(res => {
-                if (res.code === 200) {
-                    this.$message({
-                        message: '操作成功',
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.checkModle = false
-                }
-            });
-           }else{
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (this.decide == false) {
+            const params = new URLSearchParams()
+            params.append('tagName', this.ruleForm.tagName)
+            TagAdd(params).then(res => {
+              if (res.code === 200) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.fetchData()
+                this.checkModle = false
+              }
+            })
+          } else {
             //    let params = new URLSearchParams();
             //     params.append("tagName", this.ruleForm.tagName);
-               Taglter(this.ruleForm).then(res => {
-                if (res.code === 200) {
-                    this.$message({
-                        message: '操作成功',
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.checkModle = false
-                }
-            });
-           }
-          } else {
-            
-            return false;
+            Taglter(this.ruleForm).then(res => {
+              if (res.code === 200) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.fetchData()
+                this.checkModle = false
+              }
+            })
           }
-        });
-      },
-      resetForm(formName) {
-          if(this.decide== false){
-              this.$refs[formName].resetFields();
-          }else{
-              this.$refs[formName].resetFields();
-              this.checkModle = false
-              this.ruleForm.tagName = ''
-          }
-      },
+        } else {
+          return false
+        }
+      })
+    },
+    resetForm(formName) {
+      if (this.decide == false) {
+        this.$refs[formName].resetFields()
+      } else {
+        this.$refs[formName].resetFields()
+        this.checkModle = false
+        this.ruleForm.tagName = ''
+      }
+    },
     confirm() {
-      //详情审核确认按钮
+      // 详情审核确认按钮
       this.checkModle = false
-    
+
     //   insuredCheck(params).then(res => {
     //     if (res.code===200) {
     //       this.fetchData()

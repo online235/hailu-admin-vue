@@ -3,21 +3,22 @@
     <div class="treeHead">
       <div><h3>服务商列表</h3></div>
       <div>
-        <el-input placeholder="服务商名称" v-model="serviceName"  style="width:30%;min-width:200px;">
-        </el-input>
-        <el-select v-model="isService" placeholder="请选择是否服务商"  style="width:30%;min-width:200px;">
+        <el-input v-model="serviceName" placeholder="服务商名称" style="width:30%;min-width:200px;" />
+        <el-select v-model="isService" placeholder="请选择是否服务商" style="width:30%;min-width:200px;">
           <el-option
             v-for="item in isServiceChoose"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
-          </el-option>
+            :value="item.value"
+          />
         </el-select>
       </div>
-      <el-button type = "primary" icon="el-icon-search" @click="sreach"
-      >搜索</el-button
-      >
-      <el-button @click="cancel" v-if="sreachs">重置</el-button>
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="sreach"
+      >搜索</el-button>
+      <el-button v-if="sreachs" @click="cancel">重置</el-button>
     </div>
     <el-table
       border
@@ -49,8 +50,8 @@
             scope.row.isService == 1
               ? "是"
               : scope.row.isService == 2
-              ? "否"
-              : ""
+                ? "否"
+                : ""
           }}</span>
         </template>
       </el-table-column>
@@ -64,19 +65,18 @@
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { serviceProvidersList } from '@/api/serviceProviders';
+import { serviceProvidersList } from '@/api/serviceProviders'
 export default {
   data() {
     return {
@@ -90,7 +90,7 @@ export default {
       tableData: [],
       serviceName: '',
       isService: '',
-      sreachs: false,
+      sreachs: false
     }
   },
   created() {
@@ -112,8 +112,8 @@ export default {
         this.tableData = res.data.datas
       })
     },
-     cancel() {
-       this.sreach()
+    cancel() {
+      this.sreach()
     },
     handleCurrentChange(val) {
       // 分页

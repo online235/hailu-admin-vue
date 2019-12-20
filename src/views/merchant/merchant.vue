@@ -1,31 +1,31 @@
 <template>
   <div class="app-container">
     <div class="treeHead">
-    <div>
-      <h2>百货入驻列表</h2>
-    </div>
-    <div>
-      <el-input
-        v-model="membername"
-        placeholder="请输入店铺名称"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-input
-        v-model="membermobile"
-        placeholder="请输入手机号码"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-button
-        type="primary"
-        icon="el-icon-search"
-        @click="sreach"
-      >搜索</el-button>
-      <el-button v-if="sreachs" @click="cancel">重置</el-button>
-    </div>
+      <div>
+        <h2>百货入驻列表</h2>
+      </div>
+      <div>
+        <el-input
+          v-model="membername"
+          placeholder="请输入店铺名称"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-input
+          v-model="membermobile"
+          placeholder="请输入手机号码"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          @click="sreach"
+        >搜索</el-button>
+        <el-button v-if="sreachs" @click="cancel">重置</el-button>
+      </div>
     </div>
     <!-- 表格 -->
     <template>
@@ -61,7 +61,7 @@
         </el-table-column>
         <el-table-column label="审核时间">
           <template slot-scope="scope">
-            <span style="margin-left: 12px">{{ scope.row.createTime}}</span>
+            <span style="margin-left: 12px">{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
@@ -96,7 +96,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-   <el-dialog
+    <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
       width="750px"
@@ -119,10 +119,10 @@
         <el-form-item label="手机号码：">
           <div>{{ form.phone }}</div>
         </el-form-item>
-         <el-form-item label="营业执照注册号：">
+        <el-form-item label="营业执照注册号：">
           <div>{{ form.businessLicenseNumber }}</div>
         </el-form-item>
-         <!-- <el-form-item label="创建时间：">
+        <!-- <el-form-item label="创建时间：">
           <div>{{ form.dateTime }}</div>
         </el-form-item> -->
         <el-form-item label="身份证号码：">
@@ -133,19 +133,17 @@
             <el-image
               style="width: 200px; height: 150px"
               :src="imghead + form.idcardImgx"
-              @click="srcListimg(form)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="srcListimg(form)"
+            />
           </div>
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
               :src="imghead + form.idcardImgy"
-              @click="srcListimgy(form)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="srcListimgy(form)"
+            />
           </div>
         </el-form-item>
         <el-form-item label="营业执照：">
@@ -153,10 +151,9 @@
             <el-image
               style="width: 200px; height: 150px"
               :src="imghead + form.licensePositive"
-              @click="business(form)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="business(form)"
+            />
           </div>
         </el-form-item>
         <el-form-item label="状态：">
@@ -166,7 +163,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -200,26 +197,25 @@ export default {
       name: '1231231',
       sreachs: false,
       box: false,
-      checkModle:false,
-      form:'',
+      checkModle: false,
+      form: '',
       total: 0,
-      region:'', // 审核状态
-     imghead: "",
+      region: '', // 审核状态
+      imghead: '',
       srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
       ],
       choose: [
-        { id: "1", name: "审核中" },
-        { id: "2", name: "审核通过" },
-        { id: "3", name: "审核不通过" }
+        { id: '1', name: '审核中' },
+        { id: '2', name: '审核通过' },
+        { id: '3', name: '审核不通过' }
       ],
-      numberId:'',
+      numberId: ''
     }
   },
   created() {
-     this.imghead= config.module_basic_prefix
+    this.imghead = config.module_basic_prefix
     this.fangfa()
-
   },
   mounted() {},
   methods: {
@@ -262,7 +258,7 @@ export default {
       this.membermobile = ''
     },
     handleCurrentChange(val) {
-      console.log(this.page,val)
+      console.log(this.page, val)
       const params = new URLSearchParams()
       params.append('pageSize', this.page)
       params.append('pageNum', val)
@@ -280,10 +276,9 @@ export default {
         console.log(res.data)
         this.form = res.data
         this.checkModle = true
-        this.region = row.toExamine + "";
-        this.numberId=res.numberId
+        this.region = row.toExamine + ''
+        this.numberId = res.numberId
       })
-
     },
     // handleDelete(index, row) {
     //   this.$message({
@@ -301,33 +296,33 @@ export default {
         this.tableData = res.data.datas
       })
     },
-    confirm(){
-       const params = new URLSearchParams()
+    confirm() {
+      const params = new URLSearchParams()
       params.append('numberId', this.numberId)
       params.append('toExamine', this.region)
       merchantcheck(params).then(res => {
-        if(res.code===200){
+        if (res.code === 200) {
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
-          this.checkModle=false
+            message: '操作成功',
+            type: 'success'
+          })
+          this.checkModle = false
           this.fangfa()
         }
       })
     },
     srcListimg(form) {
       // 身份证正面
-      this.srcList[0] = this.imghead + form.idcardImgx;
+      this.srcList[0] = this.imghead + form.idcardImgx
     },
     srcListimgy(form) {
       // 身份证背面
-      this.srcList[0] = this.imghead + form.idcardImgy;
+      this.srcList[0] = this.imghead + form.idcardImgy
     },
     business(form) {
       // 营业执照
-      this.srcList[0] = this.imghead + form.licensePositive;
-    },
+      this.srcList[0] = this.imghead + form.licensePositive
+    }
   }
 }
 </script>

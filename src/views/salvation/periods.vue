@@ -3,37 +3,39 @@
     <div class="treeHead">
       <div><h2>心安期数统计</h2></div>
       <div>
-      <el-input
-        v-model="periods"
-        placeholder="可根据期数查询"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-input
-        v-model="timeDate"
-        placeholder="可根据时间查询"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-button
-        type="primary"
-        icon="el-icon-search"
-        @click="sreach"
-      >搜索</el-button>
-      <el-button v-if="sreachs" @click="cancel">重置</el-button>
-    </div>
-      <div>
-        <el-button size="medium" type="success" @click="addUser"
-          >插入期数</el-button
+        <el-input
+          v-model="periods"
+          placeholder="可根据期数查询"
+          style="width:20%;min-width:150px;"
         >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-input
+          v-model="timeDate"
+          placeholder="可根据时间查询"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          @click="sreach"
+        >搜索</el-button>
+        <el-button v-if="sreachs" @click="cancel">重置</el-button>
+      </div>
+      <div>
+        <el-button
+          size="medium"
+          type="success"
+          @click="addUser"
+        >插入期数</el-button>
       </div>
     </div>
     <el-table border :data="tableData" style="width: 100%">
       <el-table-column label="时间">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.timeDate }}</span>
         </template>
       </el-table-column>
@@ -70,8 +72,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >详情</el-button
-          >
+          >详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,8 +83,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+      />
     </div>
     <el-dialog
       title="提示"
@@ -93,37 +93,37 @@
       :close-on-click-modal="false"
     >
       <el-form
+        ref="ruleForm"
         :model="ruleForm"
         :rules="rules"
-        ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
       >
         <el-form-item label="预筹集互助金" prop="preMutualCapital">
-          <el-input v-model="ruleForm.preMutualCapital"></el-input>
+          <el-input v-model="ruleForm.preMutualCapital" />
         </el-form-item>
-       <el-form-item label="期数" prop="periodsNumber">
-          <el-input v-model="ruleForm.periodsNumber"></el-input>
+        <el-form-item label="期数" prop="periodsNumber">
+          <el-input v-model="ruleForm.periodsNumber" />
         </el-form-item>
         <el-form-item label="全员每人预分摊" prop="averageMoney">
-          <el-input v-model="ruleForm.averageMoney"></el-input>
+          <el-input v-model="ruleForm.averageMoney" />
         </el-form-item>
         <el-form-item label="分摊人数" prop="apportionmentNum">
-          <el-input v-model="ruleForm.apportionmentNum"></el-input>
+          <el-input v-model="ruleForm.apportionmentNum" />
         </el-form-item>
         <el-form-item label="帮助会员" prop="helpMenber">
-          <el-input v-model="ruleForm.helpMenber"></el-input>
+          <el-input v-model="ruleForm.helpMenber" />
         </el-form-item>
         <el-form-item label="本期时间" required>
-          <el-col class="line" :span="2"></el-col>
+          <el-col class="line" :span="2" />
           <el-col :span="11">
             <el-form-item prop="timeDate">
               <el-date-picker
+                v-model="ruleForm.timeDate"
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.timeDate"
                 style="width: 100%;"
-              ></el-date-picker>
+              />
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -146,69 +146,70 @@ import {
   periodsDel,
   periodsAdd,
   periodsAlter
-} from "@/api/periods";
+} from '@/api/periods'
 export default {
   data() {
     var checkAge = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("年龄不能为空"));
+        return callback(new Error('年龄不能为空'))
       }
       setTimeout(() => {
         if (!Number.isInteger(value)) {
-          callback(new Error("请输入数字值"));
+          callback(new Error('请输入数字值'))
         } else {
-          callback();
+          callback()
         }
-      }, 1000);
-    };
+      }, 1000)
+    }
 
     return {
-      search: "",
-      sreachs:false,
+      search: '',
+      sreachs: false,
       decide: false, // 判断插入还是修改
       tableData: [], // 列表数据
       insert: false, // 模态框
       periods: '', // 名称查询
-      timeDate: '',// 手机号码查询
+      timeDate: '', // 手机号码查询
       page: 1,
       size: 10,
       total: 0,
       ruleForm: {
-        id:'',
-        preMutualCapital: "",
-        apportionmentNum: "",
-        helpMenber: "",
-        periodsNumber: "",
-        averageMoney: "",
-        timeDate: ""
+        id: '',
+        preMutualCapital: '',
+        apportionmentNum: '',
+        helpMenber: '',
+        periodsNumber: '',
+        averageMoney: '',
+        timeDate: ''
       },
       rules: {
         preMutualCapital: [
-          { required: true, message: "请输入预筹集互助金", trigger: "blur" }
+          { required: true, message: '请输入预筹集互助金', trigger: 'blur' }
         ],
-        apportionmentNum: [{ required: true, message: "请输入分摊人数", trigger: "blur" }],
+        apportionmentNum: [{ required: true, message: '请输入分摊人数', trigger: 'blur' }],
         helpMenber: [
-          { required: true, message: "请输入帮助会员人数", trigger: "blur" }
+          { required: true, message: '请输入帮助会员人数', trigger: 'blur' }
         ],
         periodsNumber: [
-          { required: true, message: "请输入期数", trigger: "blur" }
+          { required: true, message: '请输入期数', trigger: 'blur' }
         ],
         timeDate: [
           {
-            type: "date",
+            type: 'date',
             required: true,
-            message: "请选择时间",
-            trigger: "change"
+            message: '请选择时间',
+            trigger: 'change'
           }
         ],
-        averageMoney: [{ required: true, message: "请输入预分摊金额", trigger: "blur" }],
+        averageMoney: [{ required: true, message: '请输入预分摊金额', trigger: 'blur' }]
       }
-    };
+    }
   },
   created() {
     // this.imghead = axios.defaults.baseURL + '/basic';
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
+  mounted() {},
   methods: {
     fetchData() {
       periodsList({
@@ -217,81 +218,80 @@ export default {
         // timeDate: this.timeDate,
         // periodsNumber: this.periodsNumber
       }).then(res => {
-        console.log(res);
+        console.log(res)
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          this.total = res.data.total
         //   console.log(res.data.datas);
         }
-      });
+      })
     },
     addUser() {
       // 插入模态框
-      this.decide = false;
-      this.insert = true;
+      this.decide = false
+      this.insert = true
     },
     submitForm(formName) {
       if (this.decide == false) {
         this.$refs[formName].validate(valid => {
           if (valid) {
             periodsAdd(this.ruleForm).then(res => {
-              console.log(res);
+              console.log(res)
               if (res.code === 200) {
                 this.$message({
-                  message: "操作成功",
-                  type: "success"
-                });
-                this.insert=false
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.insert = false
               }
-            });
+            })
           } else {
-            return false;
+            return false
           }
-        });
+        })
       } else {
-          periodsAlter(this.ruleForm).then(res =>{
-              if(res.code===200){
-                  this.$message({
-                  message: "操作成功",
-                  type: "success"
-                });
-                this.insert=false
-                this.fetchData();
-              }
-          })
+        periodsAlter(this.ruleForm).then(res => {
+          if (res.code === 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+            this.insert = false
+            this.fetchData()
+          }
+        })
         //  console.log(this.ruleForm)
       }
     },
     resetForm(formName) {
-        if(this.decide==false){
-            this.$refs[formName].resetFields();
-        }else{
-            this.insert = false
-            this.$refs[formName].resetFields();
-            this.ruleForm.id = ''
-        }
+      if (this.decide == false) {
+        this.$refs[formName].resetFields()
+      } else {
+        this.insert = false
+        this.$refs[formName].resetFields()
+        this.ruleForm.id = ''
+      }
     },
     handleEdit(index, row) {
       // 详情修改
-      this.decide = true;
-      this.insert = true;
+      this.decide = true
+      this.insert = true
       this.ruleForm.id = row.id
       // console.log(row.id)
       periodsDel({
-          id:row.id
-      }).then(res =>{
-          console.log(res)
-          if(res.code === 200){
-
-            this.ruleForm=res.data
-            this.ruleForm.sex = res.data.sex+''
-          }
+        id: row.id
+      }).then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          this.ruleForm = res.data
+          this.ruleForm.sex = res.data.sex + ''
+        }
       })
     },
 
     handleCurrentChange(val) {
-      this.page = val;
-      this.fetchData();
+      this.page = val
+      this.fetchData()
     },
     sreach() {
       if (
@@ -304,27 +304,26 @@ export default {
         })
       } else {
         periodsList({
-        page: this.currentPage,
-        size: this.pageSize,
-        periodsNumber:this.periods,
-        timeDate:this.timeDate
-      }).then(res => {
-        if (res.code == 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
-        }
-      });
+          page: this.currentPage,
+          size: this.pageSize,
+          periodsNumber: this.periods,
+          timeDate: this.timeDate
+        }).then(res => {
+          if (res.code === 200) {
+            this.tableData = res.data.datas
+            this.total = res.data.total
+          }
+        })
         this.sreachs = true
       }
     },
     cancel() {
       this.fetchData()
-      this.periods=''
-      this.timeDate=''
-    },
-  },
-  mounted() {}
-};
+      this.periods = ''
+      this.timeDate = ''
+    }
+  }
+}
 </script>
 <style scoped>
 .treeHead {

@@ -3,13 +3,14 @@
     <div class="treeHead">
       <div><h2>管理员列表</h2></div>
       <div>
-        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
-        </el-input>
+        <el-input v-model="search" placeholder="可根据关键字查询" clearable />
       </div>
       <div>
-        <el-button size="medium" type="success" @click="addUser"
-          >添加账号</el-button
-        >
+        <el-button
+          size="medium"
+          type="success"
+          @click="addUser"
+        >添加账号</el-button>
       </div>
     </div>
     <el-table
@@ -68,64 +69,59 @@
             size="mini"
             type="success"
             @click="handleEdit(scope.$index, scope.row)"
-            >查看</el-button
-          >
+          >查看</el-button>
           <el-button
             size="mini"
             type="primary"
             @click="amend(scope.$index, scope.row)"
-            >变更状态</el-button
-          >
+          >变更状态</el-button>
           <el-button
             size="mini"
             type="primary"
             @click="amendRole(scope.$index, scope.row)"
-            >分配角色</el-button
-          >
+          >分配角色</el-button>
           <el-button
             size="mini"
             type="danger"
             @click="resetPwd(scope.$index, scope.row)"
-            >重置密码</el-button
-          >
+          >重置密码</el-button>
           <el-button
             size="mini"
             type="danger"
             @click="delAccount(scope.$index, scope.row)"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
     <el-dialog
-  title="分配角色"
-  :visible.sync="roleAmend"
-  :close-on-press-escape="false"
-  :close-on-click-modal="false"
-  width="30%">
-  <el-form ref="form" label-width="80px">
-  <el-form-item label="角色选择">
-    <el-checkbox-group v-model="roleid">
-    <el-checkbox v-for="(item,index) in roleSelect" :key="index" :checked="item.checked" :label="item.roleName" @change="roleSum($event,item,index)"></el-checkbox>
-  </el-checkbox-group>
-  </el-form-item>
+      title="分配角色"
+      :visible.sync="roleAmend"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      width="30%"
+    >
+      <el-form ref="form" label-width="80px">
+        <el-form-item label="角色选择">
+          <el-checkbox-group v-model="roleid">
+            <el-checkbox v-for="(item,index) in roleSelect" :key="index" :checked="item.checked" :label="item.roleName" @change="roleSum($event,item,index)" />
+          </el-checkbox-group>
+        </el-form-item>
 
-</el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="roleAmend = false">取 消</el-button>
-    <el-button type="primary" @click="roleAllot">确 定</el-button>
-  </span>
-</el-dialog>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleAmend = false">取 消</el-button>
+        <el-button type="primary" @click="roleAllot">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-dialog
       title="重置密码"
       :visible.sync="resetModal"
@@ -135,7 +131,7 @@
     >
       <el-form ref="form" label-width="120px">
         <el-form-item label="新密码：">
-          <el-input v-model="resepwd" type="password"></el-input>
+          <el-input v-model="resepwd" type="password" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -152,16 +148,16 @@
     >
       <el-form ref="form" label-width="120px">
         <el-form-item label="账号：">
-          <el-input v-model="account"></el-input>
+          <el-input v-model="account" />
         </el-form-item>
         <el-form-item label="账号昵称：">
-          <el-input v-model="nickName"></el-input>
+          <el-input v-model="nickName" />
         </el-form-item>
         <el-form-item label="手机号：">
-          <el-input v-model="phone"></el-input>
+          <el-input v-model="phone" />
         </el-form-item>
         <el-form-item label="密码：">
-          <el-input v-model="pwdss" type="password"></el-input>
+          <el-input v-model="pwdss" type="password" />
         </el-form-item>
         <el-form-item label="启用状态：">
           <el-select v-model="region" placeholder="请选择启用状态">
@@ -170,7 +166,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="账号类型：">
@@ -180,7 +176,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -228,14 +224,14 @@ import {
   adminRoles,
   adminReset,
   deleteAccount
-} from '@/api/admin';
+} from '@/api/admin'
 import { roleList } from '@/api/role'
 import { MessageBox } from 'element-ui'
 export default {
   data() {
     return {
       form: [],
-      type:'',
+      type: '',
       region: '1',
       accountTypes: [
         { id: '1', name: '管理员' },
@@ -245,9 +241,9 @@ export default {
         { id: '0', name: '禁用' },
         { id: '1', name: '启用' }
       ],
-      roleid:[],
-      roleData:[],
-      roleSelect:'',// 角色选择
+      roleid: [],
+      roleData: [],
+      roleSelect: '', // 角色选择
       insuredId: '',
       memberStatus: [],
       currentPage: 1,
@@ -267,7 +263,7 @@ export default {
       phone: '', // 手机号
       pwdss: '', // 密码
       resepwd: '', // 重置密码
-      roleIds:'',//角色id
+      roleIds: ''// 角色id
     }
   },
   created() {
@@ -285,8 +281,8 @@ export default {
         pageSize: this.pageSize
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          this.total = res.data.total
         }
       })
     },
@@ -297,13 +293,13 @@ export default {
         enableStatus: row.enableStatus
       }).then(res => {
         if (res.code === 200) {
-          this.form = res.data;
-          this.checkModle = true;
+          this.form = res.data
+          this.checkModle = true
         }
       })
     },
-    delAccount(index, row){
-      let that = this
+    delAccount(index, row) {
+      const that = this
       MessageBox.confirm('确定要删除【' + row.nickName + '】吗？', '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
@@ -343,8 +339,8 @@ export default {
     amendRole(index, row) { // 分配角色
       this.roleSelect = []
       this.roleid = []
-      let checkIds = [];
-      row.roles.forEach(item=>{
+      const checkIds = []
+      row.roles.forEach(item => {
         checkIds.push(item.id)
       })
       roleList({
@@ -353,15 +349,15 @@ export default {
       }).then(res => {
         if (res.code === 200) {
           this.roleAmend = true
-          res.data.datas.forEach(item=>{
-            if( checkIds.indexOf(item.id) >= 0 ){
+          res.data.datas.forEach(item => {
+            if (checkIds.indexOf(item.id) >= 0) {
               item.checked = true
-            }else{
+            } else {
               item.checked = false
             }
           })
-          this.roleSelect=res.data.datas
-          this.zhId=row.id
+          this.roleSelect = res.data.datas
+          this.zhId = row.id
         }
       })
     },
@@ -401,7 +397,7 @@ export default {
           enableStatus: this.region // 启用状态
         }).then(res => {
           if (res.code === 200) {
-            this.dialogVisible = false;
+            this.dialogVisible = false
             this.$message({
               message: '操作成功',
               type: 'success'
@@ -443,20 +439,20 @@ export default {
         }
       })
     },
-    roleSum(e,item,index){
-      if(e===true){
+    roleSum(e, item, index) {
+      if (e === true) {
         this.roleData.push(item.id)
-      }else{
-        for(var i=0;i<this.roleData.length;i++){
-          if(this.roleData[i]==item.id){
-            this.roleData.splice(i,1)
+      } else {
+        for (var i = 0; i < this.roleData.length; i++) {
+          if (this.roleData[i] == item.id) {
+            this.roleData.splice(i, 1)
           }
         }
       }
 
-      this.roleIds = this.roleData.join(',');
+      this.roleIds = this.roleData.join(',')
     },
-    roleAllot(){
+    roleAllot() {
       adminRoles({
         id: this.zhId,
         roleIds: this.roleIds
@@ -466,7 +462,7 @@ export default {
             message: '操作成功',
             type: 'success'
           })
-          this.roleAmend=false
+          this.roleAmend = false
           this.fetchData()
         }
       })

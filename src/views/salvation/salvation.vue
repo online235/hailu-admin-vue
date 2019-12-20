@@ -3,13 +3,14 @@
     <div class="treeHead">
       <div><h2>救助列表</h2></div>
       <div>
-        <el-input v-model="search" clearable placeholder="可根据名称查询">
-        </el-input>
+        <el-input v-model="search" clearable placeholder="可根据名称查询" />
       </div>
       <div>
-        <el-button size="medium" type="success" @click="addUser"
-          >添加</el-button
-        >
+        <el-button
+          size="medium"
+          type="success"
+          @click="addUser"
+        >添加</el-button>
       </div>
     </div>
     <el-table
@@ -24,7 +25,7 @@
     >
       <el-table-column label="日期">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.updatedat }}</span>
         </template>
       </el-table-column>
@@ -58,21 +59,21 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+      />
     </div>
     <el-dialog
-  title="提示"
-  :visible.sync="dialogVisible"
-  width="40%"
-  :close-on-press-escape="false"
-  :close-on-click-modal="false">
-  <span>这是一段信息</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  </span>
-</el-dialog>
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="40%"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+    >
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-dialog
       title="详情审核"
       :visible.sync="checkModle"
@@ -109,8 +110,7 @@
               style="width: 100px; height: 100px"
               :src="imghead+item"
               @click="srcListimg(item)"
-            >
-            </el-image>
+            />
           </div>
         </el-form-item>
         <el-form-item label="日期：">
@@ -119,8 +119,8 @@
         <el-form-item label="状态：">
           <!-- <div>{{ form.examine==2?'审核通过':'审核不通过' }}</div> -->
           <el-select v-model="form.examine" placeholder="请选择审核状态：">
-            <el-option label="审核通过" value="2"></el-option>
-            <el-option label="审核不通过" value="3"></el-option>
+            <el-option label="审核通过" value="2" />
+            <el-option label="审核不通过" value="3" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -151,7 +151,7 @@ export default {
       tableData: [], // 列表数据
       search: '', // 搜索框
       checkModle: false, // 模态框
-      dialogVisible:false,// 添加模态框
+      dialogVisible: false, // 添加模态框
       examine: '', // 审核(2-审核通过、3-审核不通过)
       numberId: '',
       total: 0, // 总数
@@ -200,15 +200,15 @@ export default {
     // *
     // *
     handleEdit(index, row) {
-      this.numberId = row.numberId;
+      this.numberId = row.numberId
       // let params = new URLSearchParams();
       // params.append("numberId", this.numberId);
       salvationDetail({
         numberId: this.numberId
       }).then(res => {
-        if (res.code == 200) {
-           this.form = res.data;
-           this.url=res.data.imageList
+        if (res.code === 200) {
+          this.form = res.data
+          this.url = res.data.imageList
         }
       })
       this.checkModle = true
@@ -246,14 +246,14 @@ export default {
     // *
     // 审核按钮
     srcListimg(item) {
-      this.srcList[0] = item;
+      this.srcList[0] = item
     },
     handleCurrentChange(val) {
       // 分页
       this.currentPage = val
       this.fetchData()
     },
-    addUser(){
+    addUser() {
       this.dialogVisible = true
     }
   }

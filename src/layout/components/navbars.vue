@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar">
+  <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
@@ -21,25 +21,26 @@
       </el-dropdown>
     </div>
     <el-dialog
-  :title="judge==true? '修改密码' : '重置密码'"
-  :visible.sync="models"
-  width="30%"
-  :close-on-press-escape="false"
-  :close-on-click-modal="false"
-  :modal='false'>
-   <el-form ref="form" label-width="120px">
-        <el-form-item label="旧密码：" v-if="judge">
-          <el-input v-model="formerPwd" type="password"></el-input>
+      :title="judge==true? '修改密码' : '重置密码'"
+      :visible.sync="models"
+      width="30%"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      :modal="false"
+    >
+      <el-form ref="form" label-width="120px">
+        <el-form-item v-if="judge" label="旧密码：">
+          <el-input v-model="formerPwd" type="password" />
         </el-form-item>
         <el-form-item label="新密码：">
-          <el-input v-model="newPwd" type="password"></el-input>
+          <el-input v-model="newPwd" type="password" />
         </el-form-item>
       </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="models = false">取 消</el-button>
-    <el-button type="primary" @click="confirm">确 定</el-button>
-  </span>
-</el-dialog>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="models = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -55,7 +56,7 @@ import {
   adminRoles,
   adminModify,
   adminReset
-} from "@/api/admin";
+} from '@/api/admin'
 export default {
   components: {
     Breadcrumb,
@@ -65,9 +66,9 @@ export default {
     return {
       avatar: '',
       models: false,
-      formerPwd:'',// 旧密码
-      newPwd:'',// 新密码
-      judge:true,
+      formerPwd: '', // 旧密码
+      newPwd: '', // 新密码
+      judge: true
     }
   },
   computed: {
@@ -86,20 +87,19 @@ export default {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
-    alterPwd(){
-      this.models=true
+    alterPwd() {
+      this.models = true
     },
-    confirm(){
-
-        adminModify({
+    confirm() {
+      adminModify({
         newPwd: this.newPwd,
         oldPwd: this.formerPwd
       }).then(res => {
         if (res.code === 200) {
-         this.models=false
+          this.models = false
         }
-      });
-    },
+      })
+    }
   }
 }
 </script>

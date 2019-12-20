@@ -28,14 +28,14 @@ router.beforeEach((to, from, next) => {
     } else {
       const menus = store.getters.menus
       if (menus) {
-        if( !dynamicRoute.initState.menuInit ){
-          let menuArray = menus instanceof Array ? menus : JSON.parse(menus)
-          let accessRoutes = []
-          dynamicRoute.appendToRouter(menuArray, menu=> accessRoutes.push(menu))
+        if (!dynamicRoute.initState.menuInit) {
+          const menuArray = menus instanceof Array ? menus : JSON.parse(menus)
+          const accessRoutes = []
+          dynamicRoute.appendToRouter(menuArray, menu => accessRoutes.push(menu))
           resetRouter(accessRoutes)
           dynamicRoute.initState.menuInit = true
-          next(location.href.substring(location.href.indexOf("/#") + 2))
-        }else{
+          next(location.href.substring(location.href.indexOf('/#') + 2))
+        } else {
           next()
         }
         // try{
@@ -47,14 +47,13 @@ router.beforeEach((to, from, next) => {
         // }
         // next()
         NProgress.done()
-      }else{
+      } else {
         dynamicRoute.initState.menuInit = false
         next(`/login?redirect=${to.path}`)
         NProgress.done()
       }
     }
   } else {
-
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {

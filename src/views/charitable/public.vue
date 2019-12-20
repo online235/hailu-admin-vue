@@ -55,17 +55,19 @@
           >查看详情</el-button>
 
           <el-popconfirm
-            confirmButtonText='确定'
-            cancelButtonText='取消'
+            confirm-button-text="确定"
+            cancel-button-text="取消"
             icon="el-icon-info"
-            iconColor="red"
+            icon-color="red"
             title="确定删除吗？"
             @onConfirm="btnDelete(scope.$index, scope.row)"
           >
-            <el-button slot="reference" type="danger"
-                       size="mini">删除</el-button>
+            <el-button
+              slot="reference"
+              type="danger"
+              size="mini"
+            >删除</el-button>
           </el-popconfirm>
-
 
         </template>
       </el-table-column>
@@ -86,31 +88,33 @@
       width="850px"
       :before-close="handleClose"
     >
-      <el-form :model="record" :rules="rules" ref="versionForm" label-width="110px" class="demo-ruleForm">
+      <el-form ref="versionForm" :model="record" :rules="rules" label-width="110px" class="demo-ruleForm">
         <el-form-item v-if="accountType == 1" label="政府编号：" prop="adminId">
-          <el-select v-model="record.adminId" placeholder="请选择政府" ref="major">
-            <el-option  v-for="(major,index) in adminList" :label="major.nickName" :value="major.id" :key="index"></el-option>
+          <el-select ref="major" v-model="record.adminId" placeholder="请选择政府">
+            <el-option v-for="(major,index) in adminList" :key="index" :label="major.nickName" :value="major.id" />
           </el-select>
         </el-form-item>
 
         <el-form-item label="公益标题：" prop="commonwealTitle">
-          <el-input v-model="record.commonwealTitle"></el-input>
+          <el-input v-model="record.commonwealTitle" />
         </el-form-item>
 
         <el-form-item label="相关图片：" prop="defaultPicture">
-          <el-upload class="avatar-uploader"
-          :action="imghead+upSite"
-          :show-file-list="false"
-          :on-preview="handlePictureCardPreview"
-          :on-success="upImage"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="record.defaultPicture" :src="imghead+record.defaultPicture" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
-        </el-upload>
+          <el-upload
+            class="avatar-uploader"
+            :action="imghead+upSite"
+            :show-file-list="false"
+            :on-preview="handlePictureCardPreview"
+            :on-success="upImage"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="record.defaultPicture" :src="imghead+record.defaultPicture" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
         </el-form-item>
 
         <el-form-item label="公益文章内容：" prop="article">
-          <editor-bar v-model="record.article" :is-clear="isClear"/>
+          <editor-bar v-model="record.article" :is-clear="isClear" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('versionForm')">确 定</el-button>
@@ -127,14 +131,14 @@
     >
       <el-form ref="form" :model="records" label-width="110px">
         <el-form-item label="政府编号：">
-          <div>{{adminId}}</div>
+          <div>{{ adminId }}</div>
         </el-form-item>
         <el-form-item label="标题：">
           <!-- <div>{{records.commonwealTitle}}</div> -->
-          <el-input v-model="records.commonwealTitle"></el-input>
+          <el-input v-model="records.commonwealTitle" />
         </el-form-item>
         <el-form-item label="日期：">
-          <div>{{cratedat}}</div>
+          <div>{{ cratedat }}</div>
         </el-form-item>
 
         <el-form-item label="相关图片：">
@@ -145,29 +149,31 @@
     :preview-src-list="srcList">
   </el-image>
 </div> -->
-        <el-upload class="avatar-uploader"
-          :action="imghead+upSite"
-          :show-file-list="false"
-          :on-preview="handlePictureCardPreviews"
-          :on-success="upImages"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="records.defaultPicture" :src="imghead+records.defaultPicture" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon" ></i>
-        </el-upload>
-        <el-button size="mini" type="primary" @click="examines">查看大图</el-button>
+          <el-upload
+            class="avatar-uploader"
+            :action="imghead+upSite"
+            :show-file-list="false"
+            :on-preview="handlePictureCardPreviews"
+            :on-success="upImages"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="records.defaultPicture" :src="imghead+records.defaultPicture" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
+          <el-button size="mini" type="primary" @click="examines">查看大图</el-button>
         </el-form-item>
 
         <el-form-item label="公益文章内容：">
           <!-- <div v-html="records.article"></div> -->
-          <editor-bar v-model="records.article" :is-clear="isClear"/>
+          <editor-bar v-model="records.article" :is-clear="isClear" />
         </el-form-item>
         <el-form-item>
           <el-button @click="cancelForms()">取消</el-button>
-          <el-button v-if="accountType == 2" @click="modification()" type="primary">保存</el-button>
+          <el-button v-if="accountType == 2" type="primary" @click="modification()">保存</el-button>
         </el-form-item>
         <el-dialog :visible.sync="examine" append-to-body>
-  <img width="100%" :src="imghead+records.defaultPicture" alt="">
-</el-dialog>
+          <img width="100%" :src="imghead+records.defaultPicture" alt="">
+        </el-dialog>
       </el-form>
     </el-dialog>
   </div>
@@ -177,11 +183,7 @@
 import {
   charityList,
   PublicAdd,
-  ArticleAdd,
   charityDetails,
-  article,
-  modify,
-  detailedInfor,
   adminList,
   ArticleDelete
 } from '@/api/Charitable'
@@ -192,60 +194,59 @@ export default {
   components: { EditorBar },
   data() {
     return {
-      accountType: '',        //账号类型
-      form: '',              // 详情数据
-      currentPage: 1,       // 默认页码
-      pageSize: 10,         // 默认页数
-      total: 0,             // 总数
-      tableData: [],        // 列表数据
-      search: '',           // 查询双向绑定
-      checkModle: false,    // 详情模态框
+      accountType: '', // 账号类型
+      form: '', // 详情数据
+      currentPage: 1, // 默认页码
+      pageSize: 10, // 默认页数
+      total: 0, // 总数
+      tableData: [], // 列表数据
+      search: '', // 查询双向绑定
+      checkModle: false, // 详情模态框
       dialogVisible: false, // 添加模态框
       // 相关图片
-      imghead: '',          // 图片请求头
-      upSite:'/upload/single/goods', // 请求地址
+      imghead: '', // 图片请求头
+      upSite: '/upload/single/goods', // 请求地址
       srcList: [],
       // srcListimg: [],
       dialogImg: false,
-      examine:false,
+      examine: false,
       imageUrl: '',
       adminList: [],
-      isClear: false,       // 富文本
-      detail: '',           // 添加-富文本内容
-      details: '',          // 详情-富文本内容
-      cratedat: '',         // 公益创建时间
-      adminId: '',          //政府编号
+      isClear: false, // 富文本
+      detail: '', // 添加-富文本内容
+      details: '', // 详情-富文本内容
+      cratedat: '', // 公益创建时间
+      adminId: '', // 政府编号
       // 富文本
       record: { // 添加post的数据
-        adminId: '',          // 政府编号
-        article: '',          // 公益内容
-        commonwealTitle: '',  // 公益标题
-        defaultPicture: ''    //图片路径
+        adminId: '', // 政府编号
+        article: '', // 公益内容
+        commonwealTitle: '', // 公益标题
+        defaultPicture: '' // 图片路径
       },
       rules: {
         adminId: [
-          { required: true, message: "请选择政府", trigger: 'change' }
+          { required: true, message: '请选择政府', trigger: 'change' }
         ],
         article: [
-          { required: true, message: "内容不能为空", trigger: 'change' }
+          { required: true, message: '内容不能为空', trigger: 'change' }
         ],
         commonwealTitle: [
-          { required: true, message: "标题不能为空", trigger: 'change' }
+          { required: true, message: '标题不能为空', trigger: 'change' }
         ],
         defaultPicture: [
-          { required: true, message: "图片不能为空", trigger: 'change' }
+          { required: true, message: '图片不能为空', trigger: 'change' }
         ]
       },
       records: { // 修改post的数据
-        adminId:'',
+        adminId: '',
         article: '',
         commonwealTitle: '',
         defaultPicture: '',
-        id:'',
+        id: ''
       }
     }
   },
-
 
   created() {
     // console.log(this.editor)
@@ -275,7 +276,7 @@ export default {
         Id: row.id
       }).then(res => {
         console.log(res)
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.form = res.data
           this.checkModle = true
           this.records.article = res.data.article
@@ -283,21 +284,21 @@ export default {
           this.records.defaultPicture = res.data.defaultPicture
           this.cratedat = res.data.cratedat
           this.adminId = res.data.adminId
-          this.srcList[0] = this.imghead+res.data.defaultPicture
+          this.srcList[0] = this.imghead + res.data.defaultPicture
         }
       })
     },
-    btnDelete(index, row){
+    btnDelete(index, row) {
       ArticleDelete({
         id: row.id
       }).then(res => {
         console.log(res)
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
-              this.fetchData()
+            message: '操作成功',
+            type: 'success'
+          })
+          this.fetchData()
         }
       })
     },
@@ -305,16 +306,16 @@ export default {
       const type = this.accountType = getAccountType()
       console.log(this.accountType)
       this.dialogVisible = true
-      if (type != 2){
-      let params = new URLSearchParams();
-      params.append("accountType", '2')
-      adminList(params).then( res => {
-        if (res.code == 200){
+      if (type !== 2) {
+        const params = new URLSearchParams()
+        params.append('accountType', '2')
+        adminList(params).then(res => {
+          if (res.code === 200) {
             this.adminList = res.data.datas
-        }
-      }).catch( res => {
-        this.$message.error("查询政府账号产生错误")
-      })
+          }
+        }).catch(res => {
+          this.$message.error('查询政府账号产生错误')
+        })
       }
     },
     handleCurrentChange(val) {
@@ -327,11 +328,11 @@ export default {
         if (valid) {
           PublicAdd(this.record).then(res => {
             console.log(res)
-            if (res.code = 200) {
+            if (res.code === 200) {
               this.$message({
                 message: '操作成功',
                 type: 'success'
-              });
+              })
               Object.keys(this.record).forEach(key => (this.record[key] = ''))
               this.dialogVisible = false
               this.fetchData()
@@ -340,67 +341,67 @@ export default {
         }
       })
     },
-    cancelForm(formName) {  // 取消按钮
-      this.$nextTick(()=>{
+    cancelForm(formName) { // 取消按钮
+      this.$nextTick(() => {
         this.$refs[formName].resetFields()
       })
       Object.keys(this.record).forEach(key => (this.record[key] = ''))
       this.dialogVisible = false
     },
-    cancelForms() {  // 取消按钮
+    cancelForms() { // 取消按钮
       this.checkModle = false
     },
-    modification(){
+    modification() {
       console.log(this.records)
       PublicAdd(this.records).then(res => {
-            console.log(res)
-            if (res.code = 200) {
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
-              // Object.keys(this.record).forEach(key => (this.record[key] = ''))
-              this.checkModle = false
-              this.fetchData()
-            }
+        console.log(res)
+        if (res.code === 200) {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
           })
+          // Object.keys(this.record).forEach(key => (this.record[key] = ''))
+          this.checkModle = false
+          this.fetchData()
+        }
+      })
     },
     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            Object.keys(this.record).forEach(key => (this.record[key] = ''))
-            done();
-          })
-          .catch(_ => {});
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = this.imghead+file.response.data;
-        this.dialogImg= true;
-      },
-       handlePictureCardPreviews(file) {
-        this.dialogImageUrl = this.imghead+file.response.data;
-        this.dialogImg= true;
-      },
-      upImage(file){
-        this.record.defaultPicture = file.data
-      },
-       upImages(file){
-        this.records.defaultPicture = file.data
-      },
-      examines(){
-        this.examine = true
-      },
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          Object.keys(this.record).forEach(key => (this.record[key] = ''))
+          done()
+        })
+        .catch(_ => {})
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = this.imghead + file.response.data
+      this.dialogImg = true
+    },
+    handlePictureCardPreviews(file) {
+      this.dialogImageUrl = this.imghead + file.response.data
+      this.dialogImg = true
+    },
+    upImage(file) {
+      this.record.defaultPicture = file.data
+    },
+    upImages(file) {
+      this.records.defaultPicture = file.data
+    },
+    examines() {
+      this.examine = true
+    },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     }
 
   }

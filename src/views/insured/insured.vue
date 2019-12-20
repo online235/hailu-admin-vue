@@ -3,8 +3,7 @@
     <div class="treeHead">
       <div><h2>参保人列表</h2></div>
       <div>
-        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
-        </el-input>
+        <el-input v-model="search" placeholder="可根据关键字查询" clearable />
       </div>
     </div>
     <el-table
@@ -20,7 +19,7 @@
     >
       <el-table-column label="日期">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.createDate }}</span>
         </template>
       </el-table-column>
@@ -37,10 +36,10 @@
             scope.row.memberStatus == 1
               ? "代付款"
               : scope.row.memberStatus == 2
-              ? "待审核"
-              : scope.row.memberStatus == 3
-              ? "观察期"
-              : "驳回"
+                ? "待审核"
+                : scope.row.memberStatus == 3
+                  ? "观察期"
+                  : "驳回"
           }}</span>
         </template>
       </el-table-column>
@@ -51,20 +50,18 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >审核</el-button
-          >
+          >审核</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
     <el-dialog
       title="详情审核"
@@ -90,7 +87,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -103,84 +100,84 @@
 </template>
 
 <script>
-import { insuredList,insuredDetail,insuredCheck } from "@/api/insured";
+import { insuredList, insuredDetail, insuredCheck } from '@/api/insured'
 export default {
   data() {
     return {
-      form: "",
-      region: "",
-      insuredId:'',
+      form: '',
+      region: '',
+      insuredId: '',
       choose: [
-        { id: "1", name: "代付款" },
-        { id: "2", name: "待审核" },
-        { id: "3", name: "观察期" },
-        { id: "4", name: "驳回" }
+        { id: '1', name: '代付款' },
+        { id: '2', name: '待审核' },
+        { id: '3', name: '观察期' },
+        { id: '4', name: '驳回' }
       ],
       memberStatus: [],
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
+      search: '',
       checkModle: false
-    };
+    }
   },
   created() {
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
     fetchData() {
-      //列表数据加载
+      // 列表数据加载
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
       insuredList({
-        page:this.currentPage,
-        size:this.pageSize
+        page: this.currentPage,
+        size: this.pageSize
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.list;
-          this.total = res.data.total;
+          this.tableData = res.data.list
+          this.total = res.data.total
           for (var i = 0; i < this.tableData.length; i++) {
-            var dataee = new Date(this.tableData[i].createDate).toJSON();
+            var dataee = new Date(this.tableData[i].createDate).toJSON()
             var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
               .toISOString()
-              .replace(/T/g, " ")
-              .replace(/\.[\d]{3}Z/, "");
-            this.tableData[i].createDate = date;
+              .replace(/T/g, ' ')
+              .replace(/\.[\d]{3}Z/, '')
+            this.tableData[i].createDate = date
           }
         }
-      });
+      })
     },
     handleEdit(index, row) {
-      //审核按钮
-      let params = new URLSearchParams();
-      params.append("id", row.id);
+      // 审核按钮
+      const params = new URLSearchParams()
+      params.append('id', row.id)
       insuredDetail(params).then(res => {
-        if(res.code==200){
-          this.form = res.data;
-          this.checkModle = true;
+        if (res.code === 200) {
+          this.form = res.data
+          this.checkModle = true
 
-            var dataee = new Date(this.form.createDate).toJSON();
-            var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
-              .toISOString()
-              .replace(/T/g, " ")
-              .replace(/\.[\d]{3}Z/, "");
-            this.form.createDate = date;
-              this.region=this.choose[this.form.memberStatus-1].id
-              this.insuredId=row.id
+          var dataee = new Date(this.form.createDate).toJSON()
+          var date = new Date(+new Date(dataee) + 8 * 3600 * 1000)
+            .toISOString()
+            .replace(/T/g, ' ')
+            .replace(/\.[\d]{3}Z/, '')
+          this.form.createDate = date
+          this.region = this.choose[this.form.memberStatus - 1].id
+          this.insuredId = row.id
         }
-      });
+      })
     },
     confirm() {
-      //详情审核确认按钮
+      // 详情审核确认按钮
       this.checkModle = false
-      let params = new URLSearchParams()
+      const params = new URLSearchParams()
       params.append('id', this.insuredId)
       params.append('memberStatus', this.region)
       insuredCheck(params).then(res => {
-        if (res.code===200) {
+        if (res.code === 200) {
           this.fetchData()
           this.$message({
             message: '操作成功',

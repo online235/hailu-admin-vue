@@ -2,23 +2,25 @@
   <div class="app-container">
     <div>
       <el-input
-        placeholder="请输入会员名称"
         v-model="membername"
+        placeholder="请输入会员名称"
         style="width:20%;min-width:150px;"
       >
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <i slot="prefix" class="el-input__icon el-icon-search" />
       </el-input>
       <el-input
-        placeholder="请输入手机号码"
         v-model="membermobile"
+        placeholder="请输入手机号码"
         style="width:20%;min-width:150px;"
       >
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <i slot="prefix" class="el-input__icon el-icon-search" />
       </el-input>
-      <el-button type="primary" icon="el-icon-search" @click="sreach"
-        >搜索</el-button
-      >
-      <el-button @click="cancel" v-if="sreachs">重置</el-button>
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="sreach"
+      >搜索</el-button>
+      <el-button v-if="sreachs" @click="cancel">重置</el-button>
     </div>
     <!-- 表格 -->
     <template>
@@ -57,177 +59,171 @@
               size="mini"
               type="primary"
               @click="handleExamine(scope.row)"
-              >查看详情</el-button
-            >
+            >查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-dialog
-      title="详情审核"
-      :visible.sync="checkModle"
-      width="800px"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-    >
-      <el-form ref="form" :model="form" label-width="150px">
-        <el-form-item label="会员名称：">
-          <div>{{ form.memberName }}</div>
-        </el-form-item>
-        <el-form-item label="登陆名称：">
-          <div>{{ form.loginName }}</div>
-        </el-form-item>
-        <el-form-item label="手机号码：">
-          <div>{{ form.memberMobile }}</div>
-        </el-form-item>
-        <el-form-item label="用户编号：">
-          <div>{{ form.memberId }}</div>
-        </el-form-item>
-        <el-form-item label="商户类型：">
-          <div>{{ form.merchantType==0? '无':(form.merchantType==1? '区域代理':'服务商') }}</div>
-        </el-form-item>
-        <el-form-item label="是否为海露会员：">
-          <div>{{ form.hlMember==0? '否' : '是' }}</div>
-        </el-form-item>
-        <!-- <el-form-item label="说明：">
+        title="详情审核"
+        :visible.sync="checkModle"
+        width="800px"
+        :close-on-press-escape="false"
+        :close-on-click-modal="false"
+      >
+        <el-form ref="form" :model="form" label-width="150px">
+          <el-form-item label="会员名称：">
+            <div>{{ form.memberName }}</div>
+          </el-form-item>
+          <el-form-item label="登陆名称：">
+            <div>{{ form.loginName }}</div>
+          </el-form-item>
+          <el-form-item label="手机号码：">
+            <div>{{ form.memberMobile }}</div>
+          </el-form-item>
+          <el-form-item label="用户编号：">
+            <div>{{ form.memberId }}</div>
+          </el-form-item>
+          <el-form-item label="商户类型：">
+            <div>{{ form.merchantType==0? '无':(form.merchantType==1? '区域代理':'服务商') }}</div>
+          </el-form-item>
+          <el-form-item label="是否为海露会员：">
+            <div>{{ form.hlMember==0? '否' : '是' }}</div>
+          </el-form-item>
+          <!-- <el-form-item label="说明：">
           <div>{{ form.idcardImgx }}</div>
         </el-form-item> -->
-        <el-form-item label="证件照片">
-          <div class="demo-image__preview">
-            <el-image
-              style="width: 200px; height: 150px"
-              :src="imghead+form.idcardImgx"
-              @click="srcListimg(form)"
-              :preview-src-list="srcList"
-            >
-            </el-image>
-          </div>
-          <div class="demo-image__preview">
-            <el-image
-              style="width: 200px; height: 150px"
-              :src="form.idcardImgy"
-              @click="srcListimgy(form)"
-              :preview-src-list="srcList"
-            >
-            </el-image>
-          </div>
-        </el-form-item>
-        <el-form-item label="日期：">
-          <div>{{ form.registTime }}</div>
-        </el-form-item>
+          <el-form-item label="证件照片">
+            <div class="demo-image__preview">
+              <el-image
+                style="width: 200px; height: 150px"
+                :src="imghead+form.idcardImgx"
+                :preview-src-list="srcList"
+                @click="srcListimg(form)"
+              />
+            </div>
+            <div class="demo-image__preview">
+              <el-image
+                style="width: 200px; height: 150px"
+                :src="form.idcardImgy"
+                :preview-src-list="srcList"
+                @click="srcListimgy(form)"
+              />
+            </div>
+          </el-form-item>
+          <el-form-item label="日期：">
+            <div>{{ form.registTime }}</div>
+          </el-form-item>
         <!-- <el-form-item label="状态：">
           <div>{{ form.examine }}</div>
         </el-form-item> -->
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="checkModle = false">取 消</el-button>
-        <el-button type="primary" @click="checkModle = false">确定</el-button>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="checkModle = false">取 消</el-button>
+          <el-button type="primary" @click="checkModle = false">确定</el-button>
         <!-- <el-button type="danger" @click="failure">审核不通过</el-button> -->
-      </span>
-    </el-dialog>
+        </span>
+      </el-dialog>
     </template>
 
     <!-- 分页 -->
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
 
   </div>
 </template>
 
 <script>
-import { memberList,memberDetail } from '@/api/member'
+import { memberList, memberDetail } from '@/api/member'
 import * as config from '@/api/config'
 export default {
   data() {
     return {
-      membername: "",
-      membermobile: "",
+      membername: '',
+      membermobile: '',
       currentPage: 1,
       page: 10,
       tableData: [],
-      name: "1231231",
+      name: '1231231',
       sreachs: false,
       total: 0,
       xiangqing: [],
-      checkModle:false,
-       form: "",
-       imghead: "",
+      checkModle: false,
+      form: '',
+      imghead: '',
       srcList: []
-    };
+    }
   },
 
   created() {
-    this.imghead=config.module_basic_prefix
-    this.fangfa();
+    this.imghead = config.module_basic_prefix
+    this.fangfa()
   },
   mounted() {},
   methods: {
 
     sreach() {
       if (
-        (this.membername.length == 0 || this.membername == "") &&
-        (this.membermobile.length == 0 || this.membermobile == "")
+        (this.membername.length == 0 || this.membername == '') &&
+        (this.membermobile.length == 0 || this.membermobile == '')
       ) {
         this.$message({
-          type: "warning",
-          message: "请输入搜索内容"
-        });
+          type: 'warning',
+          message: '请输入搜索内容'
+        })
       } else {
         // let params = new URLSearchParams();
         // params.append("limit", this.page);
         // params.append("membermobile", this.membermobile);
         // params.append("membername", this.membername);
         memberList({
-          limit:this.page,
-          membermobile:this.membermobile,
-          membername:this.membername
+          limit: this.page,
+          membermobile: this.membermobile,
+          membername: this.membername
         }).then(res => {
-          this.total = res.data.total;
-          this.tableData = res.data.datas;
-      })
-        this.sreachs = true;
+          this.total = res.data.total
+          this.tableData = res.data.datas
+        })
+        this.sreachs = true
       }
     },
     // 取消搜索
     cancel() {
-      let params = new URLSearchParams();
-      params.append("limit", this.page);
-      params.append("page", this.currentPage);
+      const params = new URLSearchParams()
+      params.append('limit', this.page)
+      params.append('page', this.currentPage)
       memberList({
-        limit:this.page,
-        page:this.currentPage
+        limit: this.page,
+        page: this.currentPage
       }).then(res => {
-
-          this.total = res.data.total;
-          this.tableData = res.data.datas;
+        this.total = res.data.total
+        this.tableData = res.data.datas
       })
-      this.sreachs = false;
-      this.membername=''
-      this.membermobile=''
+      this.sreachs = false
+      this.membername = ''
+      this.membermobile = ''
     },
-    handleCurrentChange(val) {//分页
+    handleCurrentChange(val) { // 分页
       memberList({
-        limit:this.page,
-        page:val
+        limit: this.page,
+        page: val
       }).then(res => {
-
-          this.total = res.data.total;
-          this.tableData = res.data.datas;
+        this.total = res.data.total
+        this.tableData = res.data.datas
       })
     },
     handleExamine(row) {
       // let params = new URLSearchParams();
       // params.append("memberid", row.memberId);
-      memberDetail({userId:row.userId}).then(res => {
-       this.form=res.data
-          this.checkModle = true;
+      memberDetail({ userId: row.userId }).then(res => {
+        this.form = res.data
+        this.checkModle = true
       })
     },
     fangfa() {
@@ -238,26 +234,25 @@ export default {
         limit: this.page,
         page: this.currentPage
       }).then(res => {
-
-          this.total = res.data.total;
-          this.tableData = res.data.datas;
-          for(var i=0;i<this.tableData.length;i++){
-            var a =this.tableData[i].registTime+''
-            this.tableData[i].registTime=a.substring(0, 8)
-          }
-          // var a=''
-          // a=res.data.registTime+''
-          // var s = a.substring(0, 8);  //截取字符串从第0位开始截取4位
+        this.total = res.data.total
+        this.tableData = res.data.datas
+        for (var i = 0; i < this.tableData.length; i++) {
+          var a = this.tableData[i].registTime + ''
+          this.tableData[i].registTime = a.substring(0, 8)
+        }
+        // var a=''
+        // a=res.data.registTime+''
+        // var s = a.substring(0, 8);  //截取字符串从第0位开始截取4位
       })
     },
     srcListimg(form) {
-      this.srcList[0] = this.imghead + form.idcardImgx;
+      this.srcList[0] = this.imghead + form.idcardImgx
     },
     srcListimgy(form) {
-      this.srcList[0] = this.imghead + form.idcardImgy;
-    },
+      this.srcList[0] = this.imghead + form.idcardImgy
+    }
   }
-};
+}
 </script>
 <style scoped>
 [v-cloak] {

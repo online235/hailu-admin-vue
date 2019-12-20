@@ -3,27 +3,27 @@
     <div class="treeHead">
       <div><h2>商家入驻列表</h2></div>
       <div>
-      <el-input
-        v-model="membername"
-        placeholder="请输入店铺名称"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-input
-        v-model="membermobile"
-        placeholder="请输入手机号码"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-button
-        type="primary"
-        icon="el-icon-search"
-        @click="sreach"
-      >搜索</el-button>
-      <el-button v-if="sreachs" @click="cancel">重置</el-button>
-    </div>
+        <el-input
+          v-model="membername"
+          placeholder="请输入店铺名称"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-input
+          v-model="membermobile"
+          placeholder="请输入手机号码"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          @click="sreach"
+        >搜索</el-button>
+        <el-button v-if="sreachs" @click="cancel">重置</el-button>
+      </div>
     </div>
     <el-table
       border
@@ -32,7 +32,7 @@
     >
       <el-table-column label="日期">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
@@ -70,32 +70,28 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >审核</el-button
-          >
+          >审核</el-button>
           <el-button
             size="mini"
             type="warning"
             @click="alterBtn(scope.$index, scope.row)"
-            >修改信息</el-button
-          >
+          >修改信息</el-button>
           <el-button
             size="mini"
             type="danger"
             @click="deleteBtn(scope.$index, scope.row)"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
     <el-dialog
       title="修改信息"
@@ -106,51 +102,55 @@
     >
       <el-form ref="form" :model="alterForm" label-width="150px">
         <el-form-item label="店铺名称：">
-          <el-input v-model="alterForm.shopName"></el-input>
+          <el-input v-model="alterForm.shopName" />
         </el-form-item>
         <el-form-item label="营业者姓名：">
-          <el-input v-model="alterForm.nameOfLegalPerson"></el-input>
+          <el-input v-model="alterForm.nameOfLegalPerson" />
         </el-form-item>
         <el-form-item label="店铺手机号码：">
-          <el-input v-model="alterForm.phone"></el-input>
+          <el-input v-model="alterForm.phone" />
         </el-form-item>
         <el-form-item label="身份证号码：">
-          <el-input v-model="alterForm.idCard"></el-input>
+          <el-input v-model="alterForm.idCard" />
         </el-form-item>
         <el-form-item label="身份证照片：">
           <!-- 图片上传 -->
           <div class="Certificates">
             <div class="upImg">
               <span v-if="onesrc.length == 0">身份证正面</span>
-              <img :src="onesrc" v-if="onesrc.length != 0" />
+              <img v-if="onesrc.length != 0" :src="onesrc">
               <input
+                id="file"
                 type="file"
                 class="dsfafd"
-                @change="getFile"
                 multiple
                 accept="image/png,image/jpeg,image/gif,image/jpg"
-                id="file"
-              />
-              <label for="file" class="upImgbtn" v-if="onesrc.length == 0"
-                >点击上传</label
+                @change="getFile"
               >
-              <label for="file" class="upseccs" v-else>上传成功</label>
+              <label
+                v-if="onesrc.length == 0"
+                for="file"
+                class="upImgbtn"
+              >点击上传</label>
+              <label v-else for="file" class="upseccs">上传成功</label>
             </div>
             <div class="upImg">
               <span v-if="trwosrc.length == 0">身份证背面</span>
-              <img :src="trwosrc" v-if="trwosrc.length != 0" />
+              <img v-if="trwosrc.length != 0" :src="trwosrc">
               <input
+                id="files"
                 type="file"
                 class="dsfafd"
-                @change="getFiless"
                 multiple
                 accept="image/png,image/jpeg,image/gif,image/jpg"
-                id="files"
-              />
-              <label for="files" class="upImgbtn" v-if="trwosrc.length == 0"
-                >点击上传</label
+                @change="getFiless"
               >
-              <label for="files" class="upseccs" v-else>上传成功</label>
+              <label
+                v-if="trwosrc.length == 0"
+                for="files"
+                class="upImgbtn"
+              >点击上传</label>
+              <label v-else for="files" class="upseccs">上传成功</label>
             </div>
           </div>
           <!-- 图片上传 -->
@@ -158,19 +158,21 @@
         <el-form-item label="营业执照：">
           <div class="upImg">
             <span v-if="strwisrc.length == 0">工商营业执照</span>
-            <img :src="strwisrc" v-if="strwisrc.length != 0" />
+            <img v-if="strwisrc.length != 0" :src="strwisrc">
             <input
+              id="filesss"
               type="file"
               class="dsfafd"
-              @change="getFilesss"
               multiple
               accept="image/png,image/jpeg,image/gif,image/jpg"
-              id="filesss"
-            />
-            <label for="filesss" class="upImgbtn" v-if="strwisrc.length == 0"
-              >点击上传</label
+              @change="getFilesss"
             >
-            <label for="filesss" class="upseccs" v-else>上传成功</label>
+            <label
+              v-if="strwisrc.length == 0"
+              for="filesss"
+              class="upImgbtn"
+            >点击上传</label>
+            <label v-else for="filesss" class="upseccs">上传成功</label>
           </div>
         </el-form-item>
         <el-form-item label="主营类目：">
@@ -180,8 +182,7 @@
               :key="index"
               :label="item.managementName"
               :value="item.managementId"
-            >
-            </el-option>
+            />
           </el-select>
           <el-select v-model="secondManagementTypeId" filterable placeholder="请选择">
             <el-option
@@ -189,12 +190,11 @@
               :key="index"
               :label="item.managementName"
               :value="item.managementId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="详细地址：">
-          <el-input v-model="alterForm.detailAddress"></el-input>
+          <el-input v-model="alterForm.detailAddress" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -227,19 +227,17 @@
             <el-image
               style="width: 200px; height: 150px"
               :src="imghead + form.idcardImgx"
-              @click="srcListimg(form)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="srcListimg(form)"
+            />
           </div>
           <div class="demo-image__preview">
             <el-image
               style="width: 200px; height: 150px"
               :src="imghead + form.idcardImgy"
-              @click="srcListimgy(form)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="srcListimgy(form)"
+            />
           </div>
         </el-form-item>
         <el-form-item label="营业执照：">
@@ -247,10 +245,9 @@
             <el-image
               style="width: 200px; height: 150px"
               :src="imghead + form.licensePositive"
-              @click="business(form)"
               :preview-src-list="srcList"
-            >
-            </el-image>
+              @click="business(form)"
+            />
           </div>
         </el-form-item>
         <el-form-item label="状态：">
@@ -260,7 +257,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -279,46 +276,46 @@ import {
   McLocalCheck,
   McLocalChange,
   McLocalDelete
-} from "@/api/McLocal";
-import { UploadSingle } from "@/api/FileUpload";
-import { ManageList } from "@/api/management";
+} from '@/api/McLocal'
+import { UploadSingle } from '@/api/FileUpload'
+import { ManageList } from '@/api/management'
 import * as config from '@/api/config'
 export default {
   data() {
     return {
       membername: '', // 名称查询
-      membermobile: '',// 手机号码查询
+      membermobile: '', // 手机号码查询
       sreachs: false, // 重置按钮
-      onesrc: [], //身份证正面
+      onesrc: [], // 身份证正面
       trwosrc: [], // 身份证背面
-      strwisrc: [], //营业执照照片
-      onesrcurl: "", //身份证正面照url
-      trwosrcurl: "", //身份证背面照url
-      strwisrcurl: "", //营业执照url
+      strwisrc: [], // 营业执照照片
+      onesrcurl: '', // 身份证正面照url
+      trwosrcurl: '', // 身份证背面照url
+      strwisrcurl: '', // 营业执照url
       options: [], // 一级主营类目
-      secondoptions:[],// 二级主营类目
-      firstManagementTypeId: "",// 一级经营类型
-      secondManagementTypeId: "",// 二级经营类型
-      form: "",
-      alterForm: "",
-      region: "",
-      numberId: "",
+      secondoptions: [], // 二级主营类目
+      firstManagementTypeId: '', // 一级经营类型
+      secondManagementTypeId: '', // 二级经营类型
+      form: '',
+      alterForm: '',
+      region: '',
+      numberId: '',
       choose: [
-        { id: "1", name: "审核中" },
-        { id: "2", name: "审核通过" },
-        { id: "3", name: "审核不通过" }
+        { id: '1', name: '审核中' },
+        { id: '2', name: '审核通过' },
+        { id: '3', name: '审核不通过' }
       ],
       memberStatus: [],
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
-      checkModle: false, //审核模态框
-      dialogVisible: false, //修改模态框
-      imghead: "",
+      search: '',
+      checkModle: false, // 审核模态框
+      dialogVisible: false, // 修改模态框
+      imghead: '',
       srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg"
+        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
       ]
       //   // 修改数据
       //   shopName:'',//店铺名称
@@ -326,153 +323,153 @@ export default {
       //   phone:'',// 手机号
       //   idCard:'',//身份证号
       //   detailAddress:'',// 地址
-    };
+    }
   },
   created() {
-    this.imghead=config.module_basic_prefix
-    this.fetchData(); //列表数据加载
+    this.imghead = config.module_basic_prefix
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
     fetchData() {
-      //列表数据加载
+      // 列表数据加载
       McLocalList({
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
-        if (res.code == 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+        if (res.code === 200) {
+          this.tableData = res.data.datas
+          this.total = res.data.total
         }
-      });
+      })
     },
     handleEdit(index, row) {
-      //审核按钮
-      this.numberId = row.numberId;
-      let params = new URLSearchParams();
-      params.append("numberId", row.numberId);
+      // 审核按钮
+      this.numberId = row.numberId
+      const params = new URLSearchParams()
+      params.append('numberId', row.numberId)
       McLocalDetail(params).then(res => {
-        if (res.code == 200) {
-          this.form = res.data;
-          this.checkModle = true;
-          this.region = row.toExamine + "";
+        if (res.code === 200) {
+          this.form = res.data
+          this.checkModle = true
+          this.region = row.toExamine + ''
         }
-      });
+      })
     },
     confirm() {
-      //详情审核确认按钮
-      this.checkModle = false;
-      let params = new URLSearchParams();
-      params.append("numberId", this.numberId);
-      params.append("toExamine", this.region);
+      // 详情审核确认按钮
+      this.checkModle = false
+      const params = new URLSearchParams()
+      params.append('numberId', this.numberId)
+      params.append('toExamine', this.region)
       McLocalChange(params).then(res => {
-        if (res.code == 200) {
-          this.fetchData();
+        if (res.code === 200) {
+          this.fetchData()
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
+            message: '操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
     handleCurrentChange(val) {
-      //分页
-      this.currentPage = val;
-      this.fetchData();
+      // 分页
+      this.currentPage = val
+      this.fetchData()
     },
     srcListimg(form) {
       // 身份证正面
-      this.srcList[0] = this.imghead + form.idcardImgx;
+      this.srcList[0] = this.imghead + form.idcardImgx
     },
     srcListimgy(form) {
       // 身份证背面
-      this.srcList[0] = this.imghead + form.idcardImgy;
+      this.srcList[0] = this.imghead + form.idcardImgy
     },
     business(form) {
       // 营业执照
-      this.srcList[0] = this.imghead + form.licensePositive;
+      this.srcList[0] = this.imghead + form.licensePositive
     },
     alterBtn(index, row) {
-        this.alterForm = row;
+      this.alterForm = row
       // 修改信息
       ManageList({
-        parentId: "0"
+        parentId: '0'
       }).then(res => {
-        if (res.code == 200) {
-          this.options = res.data;
+        if (res.code === 200) {
+          this.options = res.data
         }
-      });
+      })
       ManageList({
         parentId: this.alterForm.firstManagementTypeId
       }).then(res => {
-        if (res.code == 200) {
-          this.secondoptions = res.data;
+        if (res.code === 200) {
+          this.secondoptions = res.data
         }
-      });
+      })
 
-      this.dialogVisible = true;
-      this.numberId = row.numberId;
-      this.onesrc = this.imghead + this.alterForm.idcardImgx;
-      this.trwosrc = this.imghead + this.alterForm.idcardImgy;
-      this.strwisrc = this.imghead + this.alterForm.licensePositive;
-      this.onesrcurl = this.alterForm.idcardImgx;
-      this.trwosrcurl = this.alterForm.idcardImgy;
-      this.strwisrcurl = this.alterForm.licensePositive;
-      this.firstManagementTypeId= this.alterForm.firstManagementTypeId
-      this.secondManagementTypeId= this.alterForm.secondManagementTypeId
+      this.dialogVisible = true
+      this.numberId = row.numberId
+      this.onesrc = this.imghead + this.alterForm.idcardImgx
+      this.trwosrc = this.imghead + this.alterForm.idcardImgy
+      this.strwisrc = this.imghead + this.alterForm.licensePositive
+      this.onesrcurl = this.alterForm.idcardImgx
+      this.trwosrcurl = this.alterForm.idcardImgy
+      this.strwisrcurl = this.alterForm.licensePositive
+      this.firstManagementTypeId = this.alterForm.firstManagementTypeId
+      this.secondManagementTypeId = this.alterForm.secondManagementTypeId
     },
     deleteBtn(index, row) {
       // 删除
       McLocalDelete({
         numberId: row.numberId
       }).then(res => {
-        if (res.code == 200) {
-          this.fetchData();
+        if (res.code === 200) {
+          this.fetchData()
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
+            message: '操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
     getFile(e) {
-      let _this = this;
-      var files = e.target.files[0];
-      let params = new FormData();
-      params.append("file", files, files.name);
+      const _this = this
+      var files = e.target.files[0]
+      const params = new FormData()
+      params.append('file', files, files.name)
       UploadSingle(params).then(res => {
         // console.log(res)
-        if (res.code == 200) {
-          this.onesrcurl = res.data;
-          this.onesrc = this.imghead+res.data;
+        if (res.code === 200) {
+          this.onesrcurl = res.data
+          this.onesrc = this.imghead + res.data
         }
-      });
+      })
     },
     getFiless(e) {
-      let _this = this;
-      let filess = e.target.files[0];
-      let params = new FormData();
-      params.append("file", filess, filess.name);
+      const _this = this
+      const filess = e.target.files[0]
+      const params = new FormData()
+      params.append('file', filess, filess.name)
       UploadSingle(params).then(res => {
         // console.log(res)
-        if (res.code == 200) {
-          this.trwosrcurl = res.data;
-          this.trwosrc = this.imghead+res.data;
+        if (res.code === 200) {
+          this.trwosrcurl = res.data
+          this.trwosrc = this.imghead + res.data
         }
-      });
+      })
     },
     getFilesss(e) {
-      let _this = this;
-      var filesss = e.target.files[0];
-      let params = new FormData();
-      params.append("file", filesss, filesss.name);
-       UploadSingle(params).then(res => {
+      const _this = this
+      var filesss = e.target.files[0]
+      const params = new FormData()
+      params.append('file', filesss, filesss.name)
+      UploadSingle(params).then(res => {
         // console.log(res)
-        if (res.code == 200) {
-          this.strwisrcurl = res.data;
-          this.strwisrc = this.imghead+res.data;
+        if (res.code === 200) {
+          this.strwisrcurl = res.data
+          this.strwisrc = this.imghead + res.data
         }
-      });
+      })
     },
     upLoad() {
       McLocalCheck({
@@ -484,28 +481,28 @@ export default {
         phone: this.alterForm.phone,
         idCard: this.idCard,
         licensePositive: this.strwisrcurl,
-        firstManagementTypeId:this.firstManagementTypeId,
-        secondManagementTypeId:this.secondManagementTypeId
+        firstManagementTypeId: this.firstManagementTypeId,
+        secondManagementTypeId: this.secondManagementTypeId
       }).then(res => {
-        if (res.code == 200) {
-          this.dialogVisible = false;
-          this.fetchData();
+        if (res.code === 200) {
+          this.dialogVisible = false
+          this.fetchData()
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
+            message: '操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
-    firstSele(){
-        this.secondManagementTypeId=''
-         ManageList({
+    firstSele() {
+      this.secondManagementTypeId = ''
+      ManageList({
         parentId: this.firstManagementTypeId
       }).then(res => {
-        if (res.code == 200) {
-          this.secondoptions = res.data;
+        if (res.code === 200) {
+          this.secondoptions = res.data
         }
-      });
+      })
     },
     sreach() {
       if (
@@ -518,16 +515,16 @@ export default {
         })
       } else {
         McLocalList({
-        pageNum: this.currentPage,
-        pageSize: this.pageSize,
-        shopName:this.membername,
-        phone:this.membermobile
-      }).then(res => {
-        if (res.code == 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
-        }
-      });
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          shopName: this.membername,
+          phone: this.membermobile
+        }).then(res => {
+          if (res.code === 200) {
+            this.tableData = res.data.datas
+            this.total = res.data.total
+          }
+        })
         this.sreachs = true
       }
     },
@@ -536,17 +533,17 @@ export default {
         pageNum: this.currentPage,
         pageSize: this.pageSize
       }).then(res => {
-        if (res.code == 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+        if (res.code === 200) {
+          this.tableData = res.data.datas
+          this.total = res.data.total
           this.sreachs = false
           this.membername = ''
           this.membermobile = ''
         }
-      });
-    },
+      })
+    }
   }
-};
+}
 </script>
 <style scoped>
 .guarantee {

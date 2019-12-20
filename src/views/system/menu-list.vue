@@ -4,77 +4,81 @@
       <el-form :inline="true">
         <el-form-item label="只显示启用的菜单">
           <el-switch
-                  v-model="onlyShowEnable"
-                  @change="onlyShowEnableChange"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949">
-          </el-switch>
+            v-model="onlyShowEnable"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="onlyShowEnableChange"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button size="mini" type="success" @click="appendTreeItem(null)"
-          >添加菜单</el-button
-          >
+          <el-button
+            size="mini"
+            type="success"
+            @click="appendTreeItem(null)"
+          >添加菜单</el-button>
         </el-form-item>
       </el-form>
       <el-row :gutter="20">
         <el-col :span="10">
-          <el-tree class="menu-tree"
-                  :data="menuTreeData"
-                  node-key="id"
-                  :expand-on-click-node="false"
-                  @node-click="treeItemClick"
-                  default-expand-all>
-          <span class="custom-tree-node" slot-scope="{ node, data }">
-            <span>{{ data.menuName }}</span>
-            <span>
-              <el-button
-                      type="text"
-                      size="mini"
-                      @click="() => appendTreeItem(data)"
-              >
-                添加下级
-              </el-button>
-              <el-button
-                      type="text"
-                      style="color: red;"
-                      size="mini"
-                      @click="() => delTreeItem(data)"
-              >
-                删除
-              </el-button>
+          <el-tree
+            class="menu-tree"
+            :data="menuTreeData"
+            node-key="id"
+            :expand-on-click-node="false"
+            default-expand-all
+            @node-click="treeItemClick"
+          >
+            <span slot-scope="{ node, data }" class="custom-tree-node">
+              <span>{{ data.menuName }}</span>
+              <span>
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => appendTreeItem(data)"
+                >
+                  添加下级
+                </el-button>
+                <el-button
+                  type="text"
+                  style="color: red;"
+                  size="mini"
+                  @click="() => delTreeItem(data)"
+                >
+                  删除
+                </el-button>
+              </span>
             </span>
-          </span>
           </el-tree>
         </el-col>
         <el-col :span="14">
           <el-form ref="form" :model="updateForm" label-width="80px" size="mini">
             <el-form-item label="菜单名称">
-              <el-input v-model="updateForm.menuName"></el-input>
+              <el-input v-model="updateForm.menuName" />
             </el-form-item>
-            <el-form-item label="前端路由" v-show="showFormRouteItem">
-              <el-input v-model="updateForm.url"></el-input>
+            <el-form-item v-show="showFormRouteItem" label="前端路由">
+              <el-input v-model="updateForm.url" />
             </el-form-item>
-            <el-form-item label="后端接口" v-show="showFormApiItem">
-              <el-input v-model="updateForm.api"></el-input>
+            <el-form-item v-show="showFormApiItem" label="后端接口">
+              <el-input v-model="updateForm.api" />
             </el-form-item>
             <el-form-item label="菜单类型">
-              <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型" @change="changeMenuType" >
+              <el-select v-model="updateForm.menuType" placeholder="请选择菜单类型" @change="changeMenuType">
                 <el-option
-                        v-for="(item, index) in menuTypes"
-                        :key="index"
-                        :label="item.name"
-                        :value="item.id"
-                ></el-option>
+                  v-for="(item, index) in menuTypes"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="启用状态">
               <el-select v-model="updateForm.enableStatus" placeholder="请选择启用状态">
                 <el-option
-                        v-for="(item, index) in chooses"
-                        :key="index"
-                        :label="item.name"
-                        :value="item.id"
-                ></el-option>
+                  v-for="(item, index) in chooses"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -84,47 +88,47 @@
         </el-col>
       </el-row>
       <el-dialog
-              title="添加菜单"
-              :visible.sync="dialogVisible"
-              width="40%"
-              :close-on-press-escape="false"
-              :close-on-click-modal="false"
+        title="添加菜单"
+        :visible.sync="dialogVisible"
+        width="40%"
+        :close-on-press-escape="false"
+        :close-on-click-modal="false"
       >
         <el-form ref="addForm" label-width="150px">
           <el-form-item label="菜单名称">
-            <el-input v-model="addForm.menuName"></el-input>
+            <el-input v-model="addForm.menuName" />
           </el-form-item>
-          <el-form-item label="前端路由" v-show="showFormRouteItem">
-            <el-input v-model="addForm.url"></el-input>
+          <el-form-item v-show="showFormRouteItem" label="前端路由">
+            <el-input v-model="addForm.url" />
           </el-form-item>
-          <el-form-item label="后端接口" v-show="showFormApiItem">
-            <el-input v-model="addForm.api"></el-input>
+          <el-form-item v-show="showFormApiItem" label="后端接口">
+            <el-input v-model="addForm.api" />
           </el-form-item>
           <el-form-item label="菜单类型">
-            <el-select v-model="addForm.menuType" placeholder="请选择菜单类型" @change="changeMenuType" >
+            <el-select v-model="addForm.menuType" placeholder="请选择菜单类型" @change="changeMenuType">
               <el-option
-                      v-for="(item, index) in menuTypes"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.id"
-              ></el-option>
+                v-for="(item, index) in menuTypes"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="启用状态">
-            <el-select v-model="addForm.enableStatus" placeholder="请选择启用状态" >
+            <el-select v-model="addForm.enableStatus" placeholder="请选择启用状态">
               <el-option
-                      v-for="(item, index) in chooses"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-              ></el-option>
+                v-for="(item, index) in chooses"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="affirm">确 定</el-button>
-      </span>
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="affirm">确 定</el-button>
+        </span>
       </el-dialog>
     </el-main>
 
@@ -132,115 +136,115 @@
 </template>
 
 <script>
-import { menuAdd, menuTreeList, menuUpdate, menuDel } from "@/api/menu";
+import { menuAdd, menuTreeList, menuUpdate, menuDel } from '@/api/menu'
 import { MessageBox } from 'element-ui'
 export default {
   data() {
     return {
-      menuTypes:[
-        {id:'0',name:'前端路由'},
-        {id:'2',name:'后端接口'}
+      menuTypes: [
+        { id: '0', name: '前端路由' },
+        { id: '2', name: '后端接口' }
       ],
-      chooses:[
-        {id:'0',name:'禁用'},
-        {id:'1',name:'启用'}
+      chooses: [
+        { id: '0', name: '禁用' },
+        { id: '1', name: '启用' }
       ],
-      onlyShowEnable:false,
-      dialogVisible:false,
+      onlyShowEnable: false,
+      dialogVisible: false,
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
+      search: '',
       // region 添加表单
-      updateForm:{
-        id: "",
+      updateForm: {
+        id: '',
         parentId: 0,
-        menuName:'',// 菜单名称
-        url:'',// 菜单URL路径
-        api:'',// 后端接口
-        menuType:'0',
-        enableStatus: "1",
+        menuName: '', // 菜单名称
+        url: '', // 菜单URL路径
+        api: '', // 后端接口
+        menuType: '0',
+        enableStatus: '1'
       },
-      addForm:{
-        id: "",
+      addForm: {
+        id: '',
         parentId: 0,
-        menuName:'',// 菜单名称
-        url:'',// 菜单URL路径
-        api:'',// 后端接口
-        menuType:'0',
-        enableStatus: "1",
+        menuName: '', // 菜单名称
+        url: '', // 菜单URL路径
+        api: '', // 后端接口
+        menuType: '0',
+        enableStatus: '1'
       },
       // endregion
       menuTreeData: [],
       menuTreeItemChoose: null,
-      showFormRouteItem: true,// 是否显示路由表单项
-      showFormApiItem: false, // 是否显示后端接口表单项
-    };
+      showFormRouteItem: true, // 是否显示路由表单项
+      showFormApiItem: false // 是否显示后端接口表单项
+    }
   },
   created() {
-    this.searchTreeList();
+    this.searchTreeList()
   },
   methods: {
-    onlyShowEnableChange(){
-      this.searchTreeList();
+    onlyShowEnableChange() {
+      this.searchTreeList()
     },
-    searchTreeList(){
-      let that = this
+    searchTreeList() {
+      const that = this
       const loading = that.$loading({
         lock: true,
         text: '正在加载数据，请稍候',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      menuTreeList({onlyShowEnable: this.onlyShowEnable}).then(res => {
+      menuTreeList({ onlyShowEnable: this.onlyShowEnable }).then(res => {
         loading.close()
         if (res.code === 200) {
-          this.menuTreeData = res.data;
+          this.menuTreeData = res.data
         }
       })
     },
-    treeItemClick(data, node, target){
+    treeItemClick(data, node, target) {
       this.menuTreeItemChoose = data
       this.updateForm.id = data.id
       this.updateForm.menuName = data.menuName
       this.updateForm.parentId = data.parentId
-      this.updateForm.menuType = data.menuType + ""
-      this.updateForm.enableStatus = data.enableStatus + ""
+      this.updateForm.menuType = data.menuType + ''
+      this.updateForm.enableStatus = data.enableStatus + ''
       this.updateForm.url = data.url
       this.updateForm.api = data.api
       this.changeMenuType(this.updateForm.menuType)
     },
     appendTreeItem(data) {
-      this.menuTreeItemChoose = data;
-      this.dialogVisible = true;
+      this.menuTreeItemChoose = data
+      this.dialogVisible = true
       // 清空添加表单
-      this.addForm.id = ""
-      this.addForm.menuName = ""
-      this.addForm.url = ""
-      this.addForm.api = ""
-      this.addForm.enableStatus = "1"
-      this.addForm.menuType = "0"
+      this.addForm.id = ''
+      this.addForm.menuName = ''
+      this.addForm.url = ''
+      this.addForm.api = ''
+      this.addForm.enableStatus = '1'
+      this.addForm.menuType = '0'
       this.showFormApiItem = false
       this.showFormRouteItem = true
     },
     changeMenuType(row) {
-        if( row === "2" ){
-            this.showFormApiItem = true
-            this.showFormRouteItem = false
-        }else{
-            this.showFormApiItem = false
-            this.showFormRouteItem = true
-        }
+      if (row === '2') {
+        this.showFormApiItem = true
+        this.showFormRouteItem = false
+      } else {
+        this.showFormApiItem = false
+        this.showFormRouteItem = true
+      }
     },
     delTreeItem(data) {
-      let that = this
+      const that = this
       MessageBox.confirm('确定要删除【' + data.menuName + '】以及所有下级菜单吗？', '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        menuDel({menuIds:data.id}).then(res => {
+        menuDel({ menuIds: data.id }).then(res => {
           if (res != null && res.code === 200) {
             that.$message({
               message: '删除成功',
@@ -248,36 +252,36 @@ export default {
             })
             that.searchTreeList()
           }
-        });
+        })
       })
     },
-    affirm(){
-      let that = this;
+    affirm() {
+      const that = this
       menuAdd({
-        menuName:this.addForm.menuName,
+        menuName: this.addForm.menuName,
         parentId: this.menuTreeItemChoose == null ? 0 : this.menuTreeItemChoose.id,
-        url:this.addForm.url,
-        api:this.addForm.api,
-        menuType:this.addForm.menuType,
-        enableStatus:this.addForm.enableStatus
+        url: this.addForm.url,
+        api: this.addForm.api,
+        menuType: this.addForm.menuType,
+        enableStatus: this.addForm.enableStatus
       }).then(res => {
         if (res != null && res.code === 200) {
-          if( that.menuTreeItemChoose == null ){
+          if (that.menuTreeItemChoose == null) {
             that.menuTreeData.push(res.data)
-          }else{
+          } else {
             that.menuTreeItemChoose.children.push(res.data)
           }
-          this.dialogVisible=false
+          this.dialogVisible = false
           that.$message({
-              message: '添加成功',
-              type: 'success'
+            message: '添加成功',
+            type: 'success'
           })
         }
-      });
+      })
     },
-    save(){
-      let that = this;
-      if( that.menuTreeItemChoose == null ){
+    save() {
+      const that = this
+      if (that.menuTreeItemChoose == null) {
         this.$message({
           message: '请选择要编辑的菜单',
           type: 'warning'
@@ -307,8 +311,8 @@ export default {
           that.menuTreeItemChoose.menuType = that.updateForm.menuType
           that.menuTreeItemChoose.enableStatus = that.updateForm.enableStatus
           that.$message({
-              message: '保存成功',
-              type: 'success'
+            message: '保存成功',
+            type: 'success'
           })
         }
       })

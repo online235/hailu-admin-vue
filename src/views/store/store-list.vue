@@ -3,27 +3,27 @@
     <div class="treeHead">
       <div><h2>店铺-列表</h2></div>
       <div>
-      <el-input
-        v-model="membername"
-        placeholder="请输入店铺名称"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-input
-        v-model="membermobile"
-        placeholder="请输入手机号码"
-        style="width:20%;min-width:150px;"
-      >
-        <i slot="prefix" class="el-input__icon el-icon-search" />
-      </el-input>
-      <el-button
-        type="primary"
-        icon="el-icon-search"
-        @click="sreach"
-      >搜索</el-button>
-      <el-button v-if="sreachs" @click="cancel">重置</el-button>
-    </div>
+        <el-input
+          v-model="membername"
+          placeholder="请输入店铺名称"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-input
+          v-model="membermobile"
+          placeholder="请输入手机号码"
+          style="width:20%;min-width:150px;"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search" />
+        </el-input>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          @click="sreach"
+        >搜索</el-button>
+        <el-button v-if="sreachs" @click="cancel">重置</el-button>
+      </div>
     </div>
     <el-table
       border
@@ -32,7 +32,7 @@
     >
       <el-table-column label="创建日期">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.createdat }}</span>
         </template>
       </el-table-column>
@@ -63,8 +63,8 @@
             scope.row.toExamine == 1
               ? "审核中"
               : scope.row.toExamine == 2
-              ? "审核通过"
-              : "审核不通过"
+                ? "审核通过"
+                : "审核不通过"
           }}</span>
         </template>
       </el-table-column>
@@ -75,14 +75,12 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >审核</el-button
-          >
+          >审核</el-button>
           <el-button
             size="mini"
             type="warning"
             @click="change(scope.$index, scope.row)"
-            >更改店铺信息</el-button
-          >
+          >更改店铺信息</el-button>
           <!-- <el-button
             size="mini"
             type="danger"
@@ -94,13 +92,12 @@
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
     <el-dialog
       title="提示"
@@ -111,13 +108,13 @@
     >
       <el-form ref="form" label-width="150px">
         <el-form-item label="店铺名称：">
-          <el-input v-model="shopName"></el-input>
+          <el-input v-model="shopName" />
         </el-form-item>
         <el-form-item label="店铺详细地址：">
-          <el-input v-model="detailAddress"></el-input>
+          <el-input v-model="detailAddress" />
         </el-form-item>
         <el-form-item label="店铺联系电话：">
-          <el-input v-model="phone"></el-input>
+          <el-input v-model="phone" />
         </el-form-item>
         <el-form-item label="开店时间：">
           <!-- <el-input v-model="openingTime"></el-input> -->
@@ -129,8 +126,7 @@
               end: '24:00'
             }"
             placeholder="选择时间"
-          >
-          </el-time-select>
+          />
         </el-form-item>
         <el-form-item label="关闭时间：">
           <!-- <el-input v-model="closingTime"></el-input> -->
@@ -142,8 +138,7 @@
               end: '24:00'
             }"
             placeholder="选择时间"
-          >
-          </el-time-select>
+          />
         </el-form-item>
         <el-form-item label="营业状态：">
           <el-select v-model="operate" placeholder="请选择营业状态">
@@ -152,7 +147,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="审核状态：">
@@ -162,7 +157,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -191,7 +186,7 @@
         <el-form-item label="营业状态：">
           <div>{{ form.businessStateDisplay }}</div>
         </el-form-item>
-         <el-form-item label="营业时间：">
+        <el-form-item label="营业时间：">
           <div>{{ form.weekDayDisplay }}</div>
         </el-form-item>
         <el-form-item label="店铺详细地址：">
@@ -199,11 +194,12 @@
         </el-form-item>
         <el-form-item label="标签：">
           <el-tag
-  v-for="tag in tags"
-  :key="tag.tagName"
-  :type="tag.type">
-  {{tag.tagName}}
-</el-tag>
+            v-for="tag in tags"
+            :key="tag.tagName"
+            :type="tag.type"
+          >
+            {{ tag.tagName }}
+          </el-tag>
         </el-form-item>
         <el-form-item label="审核状态：">
           <el-select v-model="region" placeholder="请选择审核状态">
@@ -212,7 +208,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -231,59 +227,59 @@ import {
   lifeCircleCheck,
   lifeCircleChange,
   lifeCircleDelete
-} from "@/api/life-circle";
-import { Tagshop } from "@/api/tag";
+} from '@/api/life-circle'
+import { Tagshop } from '@/api/tag'
 export default {
   data() {
     return {
       membername: '', // 名称查询
-      membermobile: '',// 手机号码查询
+      membermobile: '', // 手机号码查询
       sreachs: false, // 重置按钮
-      form: "",
-      region: "",
-      insuredId: "",
+      form: '',
+      region: '',
+      insuredId: '',
       choose: [
-        { id: "1", name: "审核中" },
-        { id: "2", name: "审核通过" },
-        { id: "3", name: "审核不通过" }
+        { id: '1', name: '审核中' },
+        { id: '2', name: '审核通过' },
+        { id: '3', name: '审核不通过' }
       ],
-      operate: "",
+      operate: '',
       business: [
-        { id: "1", name: "营业中" },
-        { id: "2", name: "休息中" }
+        { id: '1', name: '营业中' },
+        { id: '2', name: '休息中' }
       ],
       tags: [
-          { name: '标签一', type: '' },
-          // { name: '标签二', type: 'success' },
-          // { name: '标签三', type: 'info' },
-          // { name: '标签四', type: 'warning' },
-          // { name: '标签五', type: 'danger' }
-        ],
+        { name: '标签一', type: '' }
+        // { name: '标签二', type: 'success' },
+        // { name: '标签三', type: 'info' },
+        // { name: '标签四', type: 'warning' },
+        // { name: '标签五', type: 'danger' }
+      ],
       memberStatus: [],
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
-      search: "",
+      search: '',
       checkModle: false,
-      id: "", // 店铺id
-      toExamine: "", // 店铺审核状态
+      id: '', // 店铺id
+      toExamine: '', // 店铺审核状态
       dialogVisible: false,
-      shopName: "", // 店铺名称
-      detailAddress: "", // 店铺详细地址
-      phone: "", // 店铺联系电话
-      openingTime: "", // 开店时间
-      closingTime: "", // 关闭时间
-      mcNumberId: ""
-    };
+      shopName: '', // 店铺名称
+      detailAddress: '', // 店铺详细地址
+      phone: '', // 店铺联系电话
+      openingTime: '', // 开店时间
+      closingTime: '', // 关闭时间
+      mcNumberId: ''
+    }
   },
   created() {
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
 
   methods: {
     fetchData() {
-      //列表数据加载
+      // 列表数据加载
       // let params = new URLSearchParams();
       // params.append("page", this.currentPage);
       // params.append("size", this.pageSize);
@@ -292,28 +288,28 @@ export default {
         pageSize: this.pageSize
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          this.total = res.data.total
           this.sreachs = false
           this.membername = ''
           this.membermobile = ''
         }
-      });
+      })
     },
     handleEdit(index, row) {
-      this.id = row.id;
-      this.toExamine = row.toExamine;
-      this.region = row.toExamine + "";
+      this.id = row.id
+      this.toExamine = row.toExamine
+      this.region = row.toExamine + ''
       lifeCircleDetail({
         id: row.id
       }).then(res => {
         if (res.code === 200) {
-          this.form = res.data;
-          this.checkModle = true;
+          this.form = res.data
+          this.checkModle = true
           console.log(res.data)
         }
-      });
-       Tagshop({
+      })
+      Tagshop({
         storeId: row.id
       }).then(res => {
         if (res.code === 200) {
@@ -321,41 +317,41 @@ export default {
           // this.checkModle = true;
           this.tags = res.data
         }
-      });
+      })
     },
     confirm() {
-      //详情审核确认按钮
+      // 详情审核确认按钮
       lifeCircleChange({
         id: this.id,
         toExamine: this.region
       }).then(res => {
         if (res.code === 200) {
-          this.checkModle = false;
-          this.fetchData();
+          this.checkModle = false
+          this.fetchData()
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
+            message: '操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
     handleCurrentChange(val) {
-      //分页
-      this.currentPage = val;
-      this.fetchData();
+      // 分页
+      this.currentPage = val
+      this.fetchData()
     },
     change(index, row) {
       // 修改信息
-      this.id = row.id;
-      this.mcNumberId = row.mcNumberId;
-      this.dialogVisible = true;
-      this.shopName = row.shopName;
-      this.detailAddress = row.detailAddress;
-      this.phone = row.phone;
-      this.region = row.toExamine + "";
+      this.id = row.id
+      this.mcNumberId = row.mcNumberId
+      this.dialogVisible = true
+      this.shopName = row.shopName
+      this.detailAddress = row.detailAddress
+      this.phone = row.phone
+      this.region = row.toExamine + ''
     },
     delShop(index, row) {
-      let that = this;
+      const that = this
       that.$confirm('是否删除该店铺?', '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
@@ -366,15 +362,14 @@ export default {
           id: row.id
         }).then(res => {
           if (res.code === 200) {
-            that.fetchData();
+            that.fetchData()
             that.$message({
-              message: "操作成功",
-              type: "success"
-            });
+              message: '操作成功',
+              type: 'success'
+            })
           }
-        });
+        })
       })
-
     },
     putin() {
       lifeCircleCheck({
@@ -389,14 +384,14 @@ export default {
         region: this.region
       }).then(res => {
         if (res.code === 200) {
-          this.dialogVisible = false;
-          this.fetchData();
+          this.dialogVisible = false
+          this.fetchData()
           this.$message({
-            message: "操作成功",
-            type: "success"
-          });
+            message: '操作成功',
+            type: 'success'
+          })
         }
-      });
+      })
     },
     sreach() {
       if (
@@ -409,24 +404,24 @@ export default {
         })
       } else {
         lifeCircleList({
-        pageNum: this.currentPage,
-        pageSize: this.pageSize,
-        shopName:this.membername,
-        phone:this.membermobile
-      }).then(res => {
-        if (res.code == 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
-        }
-      });
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          shopName: this.membername,
+          phone: this.membermobile
+        }).then(res => {
+          if (res.code === 200) {
+            this.tableData = res.data.datas
+            this.total = res.data.total
+          }
+        })
         this.sreachs = true
       }
     },
     cancel() {
-      this.fetchData();
-    },
+      this.fetchData()
+    }
   }
-};
+}
 </script>
 <style scoped>
 .guarantee {

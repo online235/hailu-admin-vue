@@ -81,7 +81,7 @@ service.interceptors.response.use(
             // router.push(location.href.substring(location.href.indexOf('/#') + 2))
           })
         })
-      }else{
+      } else {
         Message({
           message: res.message,
           type: 'error',

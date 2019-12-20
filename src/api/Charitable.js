@@ -11,7 +11,6 @@ export function charityList(data) {
 
 // 添加公益
 export function PublicAdd(data) {
-  console.log(data)
   return request({
     url: config.Charitable_addPublic,
     method: 'post',

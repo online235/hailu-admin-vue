@@ -8,37 +8,35 @@
       </div> -->
       <div>
         <el-button
+          v-if="commonwealArticle == '' ? true : false"
           size="medium"
           type="success"
           @click="addUser"
-          v-if="commonwealArticle == '' ? true : false"
-          >添加文章</el-button
-        >
+        >添加文章</el-button>
       </div>
     </div>
-    <div class="content" v-if="commonwealArticle == '' ? false : true">
+    <div v-if="commonwealArticle == '' ? false : true" class="content">
       <editor-bar
         v-model="commonwealArticle"
-        :isClear="isClear"
+        :is-clear="isClear"
         @change="change"
-      ></editor-bar>
+      />
       <div class="update">
-      <div>
+        <div>
           <el-tooltip
-        class="item"
-        effect="dark"
-        content="最近一次修改的时间"
-        placement="top-start"
-      >
-        <!-- <el-button style="border: none;">更新时间</el-button> -->
-        <div>更新时间：</div>
-      </el-tooltip>
+            class="item"
+            effect="dark"
+            content="最近一次修改的时间"
+            placement="top-start"
+          >
+            <!-- <el-button style="border: none;">更新时间</el-button> -->
+            <div>更新时间：</div>
+          </el-tooltip>
+        </div>
+        <div>{{ tableData.updatedat }}</div>
+        <div style="float: right;"><el-button type="primary" @click="amend">修改</el-button></div>
       </div>
-      <div>{{tableData.updatedat}}</div>
-      <div style="float: right;"><el-button type="primary" @click="amend">修改</el-button></div>
     </div>
-    </div>
-
 
     <el-dialog
       title="添加文章"
@@ -51,9 +49,9 @@
         <el-form-item label="文章内容：">
           <editor-bar
             v-model="detail"
-            :isClear="isClear"
+            :is-clear="isClear"
             @change="change"
-          ></editor-bar>
+          />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -65,7 +63,7 @@
 </template>
 
 <script>
-import { UploadSingle } from "@/api/FileUpload";
+import { UploadSingle } from '@/api/FileUpload'
 import {
   charityList,
   PublicAdd,
@@ -75,75 +73,74 @@ import {
   modify,
   detailedInfor,
   govern
-} from "@/api/Charitable";
-import EditorBar from "@/components/editur/index";
-import axios from "axios";
+} from '@/api/Charitable'
+import EditorBar from '@/components/editur/index'
+import axios from 'axios'
 export default {
   components: { EditorBar },
   data() {
     return {
       dialogVisible: false, // 添加模态框
-      tableData:'',
+      tableData: '',
       // 富文本
       isClear: false,
-      detail: "", //添加-富文本内容
-      details: "", // 详情-富文本内容
+      detail: '', // 添加-富文本内容
+      details: '', // 详情-富文本内容
       // 富文本
-      commonwealArticle: '',
-    };
+      commonwealArticle: ''
+    }
   },
   created() {
     // this.imghead = axios.defaults.baseURL + "/basic";
-    this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
   },
+  mounted() {},
   methods: {
     fetchData() {
-      //列表数据加载
+      // 列表数据加载
       detailedInfor().then(res => {
-        console.log(res);
-        if (res.code == 200) {
-          this.tableData = res.data;
-          this.commonwealArticle = res.data.commonwealArticle;
+        console.log(res)
+        if (res.code === 200) {
+          this.tableData = res.data
+          this.commonwealArticle = res.data.commonwealArticle
         }
-      });
+      })
     },
     addUser() {
       // 添加按钮
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     change(val) {
-      //console.log(val)
+      // console.log(val)
     },
     addBenefit() {
-
       ArticleAdd(this.detail).then(res => {
-          console.log(res)
+        console.log(res)
         if (res.code === 200) {
-            this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
-            this.fetchData(); //列表数据加载
-            this.dialogVisible = false;
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+          this.fetchData() // 列表数据加载
+          this.dialogVisible = false
         }
-      });
+      })
     },
     amend() {
-      let params = new URLSearchParams();
+      const params = new URLSearchParams()
       modify(this.commonwealArticle).then(res => {
-        console.log(res);
+        console.log(res)
         if (res.code === 200) {
-            this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
-              this.fetchData();
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+          this.fetchData()
         }
-      });
-    },
-  },
-  mounted() {}
-};
+      })
+    }
+  }
+}
 </script>
 <style scoped>
 .treeHead {

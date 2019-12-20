@@ -3,9 +3,10 @@
     <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
       upload
     </el-button>
-    <el-dialog :visible.sync="dialogVisible"
-               :close-on-press-escape="false"
-               :close-on-click-modal="false"
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <el-upload
         :multiple="true"

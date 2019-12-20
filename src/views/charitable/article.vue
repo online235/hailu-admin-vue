@@ -1,10 +1,9 @@
 <template>
   <div class="app-container">
-     <div class="treeHead">
+    <div class="treeHead">
       <div><h2>文章列表</h2></div>
       <div>
-        <el-input placeholder="可根据关键字查询" v-model="search" clearable>
-        </el-input>
+        <el-input v-model="search" placeholder="可根据关键字查询" clearable />
       </div>
       <!-- <div>
         <el-button size="medium" type="success" @click="addUser"
@@ -26,7 +25,7 @@
     >
       <el-table-column label="日期">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          <i class="el-icon-time" />
           <span style="margin-left: 10px">{{ scope.row.cratedat }}</span>
         </template>
       </el-table-column>
@@ -44,8 +43,7 @@
             size="mini"
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
-            >查看详情</el-button
-          >
+          >查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -58,14 +56,15 @@
     >
       <el-form ref="form" label-width="100px">
         <el-form-item label="文章内容：">
-          <editor-bar v-model="detail" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar v-model="detail" :is-clear="isClear" @change="change" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addBenefit"
-          >确 定</el-button
-        >
+        <el-button
+          type="primary"
+          @click="addBenefit"
+        >确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -80,7 +79,7 @@
           <div>{{ form.cratedat }}</div>
         </el-form-item>
         <el-form-item label="内容：">
-          <editor-bar v-model="details" :isClear="isClear"></editor-bar>
+          <editor-bar v-model="details" :is-clear="isClear" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -92,7 +91,7 @@
 </template>
 
 <script>
-import { UploadSingle } from "@/api/FileUpload";
+import { UploadSingle } from '@/api/FileUpload'
 import {
   charityList,
   PublicAdd,
@@ -102,15 +101,15 @@ import {
   modify,
   detailedInfor,
   govern
-} from "@/api/Charitable";
+} from '@/api/Charitable'
 import EditorBar from '@/components/editur/index'
 import axios from 'axios'
 export default {
   components: { EditorBar },
   data() {
     return {
-      form: "", // 详情数据
-      search: "", // 查询双向绑定
+      form: '', // 详情数据
+      search: '', // 查询双向绑定
       tableData: [], // 列表数据
       currentPage: 1, // 默认页码
       pageSize: 10, // 默认页数
@@ -118,65 +117,65 @@ export default {
       checkModle: false, // 详情模态框
       dialogVisible: false, // 添加模态框
       // 富文本
-        isClear: false,
-        detail:'',//添加-富文本内容
-        details:'',// 详情-富文本内容
-        // 富文本
-    };
+      isClear: false,
+      detail: '', // 添加-富文本内容
+      details: ''// 详情-富文本内容
+      // 富文本
+    }
   },
   created() {
     // this.imghead = axios.defaults.baseURL + "/basic";
-     this.fetchData(); //列表数据加载
+    this.fetchData() // 列表数据加载
+  },
+  mounted() {
+
   },
   methods: {
     fetchData() {
-      //列表数据加载
-      let params = new URLSearchParams();
-      params.append("page", this.currentPage);
-      params.append("size", this.pageSize);
+      // 列表数据加载
+      const params = new URLSearchParams()
+      params.append('page', this.currentPage)
+      params.append('size', this.pageSize)
       article(params).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.datas;
-          this.total = res.data.total;
+          this.tableData = res.data.datas
+          this.total = res.data.total
         }
-      });
+      })
     },
     // addUser() { // 添加按钮
     //   this.dialogVisible = true;
     // },
     change(val) {
-      //console.log(val)
+      // console.log(val)
     },
-    addBenefit(){
-      let params = new URLSearchParams();
-      params.append("commonwealArticle", this.detail);
+    addBenefit() {
+      const params = new URLSearchParams()
+      params.append('commonwealArticle', this.detail)
       ArticleAdd(params).then(res => {
         if (res.code === 200) {
 
         }
-      });
+      })
     },
     handleEdit(index, row) { // 查看详情
-      this.form=row
-      this.checkModle=true
-      this.details=row.commonwealArticle
+      this.form = row
+      this.checkModle = true
+      this.details = row.commonwealArticle
       // console.log(this.details)
     },
-    amend(){
-      let params = new URLSearchParams();
-      params.append("commonwealArticle", this.details);
+    amend() {
+      const params = new URLSearchParams()
+      params.append('commonwealArticle', this.details)
       modify(params).then(res => {
         console.log(res)
         if (res.code === 200) {
 
         }
-      });
-    },
-  },
-  mounted() {
-
+      })
+    }
   }
-};
+}
 </script>
 <style scoped>
 .treeHead {

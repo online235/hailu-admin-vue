@@ -68,8 +68,11 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="版本内容" :show-tooltip-when-overflow="true"
-        :show-overflow-tooltip='true'>
+      <el-table-column
+        label="版本内容"
+        :show-tooltip-when-overflow="true"
+        :show-overflow-tooltip="true"
+      >
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.content }}</span>
@@ -285,13 +288,13 @@ export default {
         if (valid) {
           saveVersion(this.versionModel).then(res => {
             // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
+            if (res.code === 200) {
               // 关闭弹窗，并刷新table
               this.addType = false
               this.$message({
                 message: '操作成功',
                 type: 'success'
-              });
+              })
               this.sreach()
             }
           })

@@ -54,8 +54,8 @@ const actions = {
         commit('SET_MENUS', data.menus)
         setMenus(data.menus)
 
-        let accessRoutes = []
-        dynamicRoute.appendToRouter(data.menus, menu=> accessRoutes.push(menu))
+        const accessRoutes = []
+        dynamicRoute.appendToRouter(data.menus, menu => accessRoutes.push(menu))
         resetRouter(accessRoutes)
         dynamicRoute.initState.menuInit = true
 
