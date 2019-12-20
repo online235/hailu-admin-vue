@@ -46,25 +46,25 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/system/admin',
     name: 'system',
-    meta: { title: '系统管理', icon: 'example' },
+    meta: { title: '系统管理', icon: 'system_setting' },
     children: [
       {
         path: 'admin',
         name: 'admin',
         component: () => import('@/views/system/admin-list'),
-        meta: { title: '管理员' }
+        meta: { title: '管理员', icon: 'admin' }
       },
       {
         path: 'menu',
         name: 'menu',
         component: () => import('@/views/system/menu-list'),
-        meta: { title: '菜单' }
+        meta: { title: '菜单', icon: 'menu' }
       },
       {
         path: 'role',
         name: 'role',
         component: () => import('@/views/system/role-list'),
-        meta: { title: '角色' }
+        meta: { title: '角色', icon: 'role' }
       }
     ]
   },
@@ -73,31 +73,31 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/merchant/list',
     name: 'merchant',
-    meta: { title: '商户管理', icon: 'example' },
+    meta: { title: '商户管理', icon: 'merchant' },
     children: [
       {
         path: 'merchant',
         name: 'merchant1',
         component: () => import('@/views/merchant/merchant'),
-        meta: { title: '百货入驻审核' }
+        meta: { title: '百货入驻审核', icon: 'review' }
       },
       {
         path: 'store',
         name: 'store',
         component: () => import('@/views/store/store-list'),
-        meta: { title: '店铺审核' }
+        meta: { title: '店铺审核', icon: 'review' }
       },
       {
         path: 'McLocal',
         name: 'McLocal',
         component: () => import('@/views/McLocal/McLocal'),
-        meta: { title: '生活圈入驻审核' }
+        meta: { title: '生活圈入驻审核', icon: 'review' }
       },
       {
         path: 'merchant-type',
         name: 'merchant-type',
         component: () => import('@/views/merchant/manage-type'),
-        meta: { title: '经营类型' }
+        meta: { title: '经营类型', icon: 'type' }
       }
     ]
   },
@@ -106,19 +106,19 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/member/table',
     name: 'member',
-    meta: { title: '心安&海露会员', icon: 'example' },
+    meta: { title: '心安&海露会员', icon: 'xinan' },
     children: [
       {
         path: 'member',
         name: 'member1',
         component: () => import('@/views/member/member'),
-        meta: { title: '会员列表' }
+        meta: { title: '会员列表', icon: 'member' }
       },
       {
         path: 'insured',
         name: 'insured',
         component: () => import('@/views/insured/insured'),
-        meta: { title: '参保人列表' }
+        meta: { title: '参保人列表', icon: 'insured' }
       },
       {
         path: 'serviceProviders',
@@ -133,25 +133,25 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/salvation/salvation',
     name: 'salvation',
-    meta: { title: '心安救助管理', icon: 'example' },
+    meta: { title: '心安救助管理', icon: 'xinan' },
     children: [
       {
         path: 'salvation',
         name: 'salvation1',
         component: () => import('@/views/salvation/salvation'),
-        meta: { title: '救助列表' }
+        meta: { title: '救助列表', icon: 'list_query' }
       },
       {
         path: 'Casehistory',
         name: 'Casehistory',
         component: () => import('@/views/salvation/Casehistory'),
-        meta: { title: '救助案例' }
+        meta: { title: '救助案例', icon: 'case' }
       },
       {
         path: 'periods',
         name: 'periods',
         component: () => import('@/views/salvation/periods'),
-        meta: { title: '期数统计' }
+        meta: { title: '期数统计', icon: 'statistics' }
       }
     ]
   },
@@ -160,7 +160,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/Tag/Tag',
     name: 'Tag',
-    meta: { title: '标签管理', icon: 'example' },
+    meta: { title: '标签管理', icon: 'tag' },
     children: [
       {
         path: 'Tag',
@@ -175,7 +175,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/multimedia/multimedia',
     name: 'multimedia',
-    meta: { title: '多媒体管理', icon: 'example' },
+    meta: { title: '多媒体管理', icon: 'ad' },
     children: [
       {
         path: 'advertising',
@@ -190,25 +190,25 @@ export const asyncRoutes = [
     name: 'charitable',
     component: Layout,
     redirect: '/charitable/charitable',
-    meta: { title: '政府慈善公益', icon: 'example' },
+    meta: { title: '政府慈善公益', icon: 'public_welfare' },
     children: [
       {
         path: 'public',
         name: 'public',
         component: () => import('@/views/charitable/public'),
-        meta: { title: '公益列表' }
+        meta: { title: '公益列表', icon: 'list_query' }
       },
       {
         path: 'article',
         name: 'article',
         component: () => import('@/views/charitable/article'),
-        meta: { title: '文章列表' }
+        meta: { title: '文章列表', icon: 'list_query' }
       },
       {
         path: 'myEssay',
         name: 'myEssay',
         component: () => import('@/views/charitable/myEssay'),
-        meta: { title: '账号公益信息' }
+        meta: { title: '账号公益信息', icon: 'account_info' }
       }
     ]
   },
@@ -217,7 +217,7 @@ export const asyncRoutes = [
     name: 'version',
     component: Layout,
     redirect: '/version/versiontable',
-    meta: { title: 'App管理', icon: 'example' },
+    meta: { title: 'App管理', icon: 'version' },
     children: [
       {
         path: 'version',
