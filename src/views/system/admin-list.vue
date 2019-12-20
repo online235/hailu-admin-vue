@@ -321,7 +321,7 @@ export default {
           }
         })
       })
-    }
+    },
     confirm() {
       // 详情审核确认按钮
     },
