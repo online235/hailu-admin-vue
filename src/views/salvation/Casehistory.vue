@@ -11,7 +11,7 @@
         <i slot="prefix" class="el-input__icon el-icon-search" />
       </el-input>
       <el-input
-        v-model="timeDate"
+        v-model="timeDates"
         placeholder="可根据时间查询"
         style="width:20%;min-width:150px;"
       >
@@ -78,7 +78,7 @@
     <el-dialog
       :title='decide == false ? "插入救助案例" : "详情"'
       :visible.sync="insert"
-      width="600px"
+      width="860px"
       :before-close="handleClose"
     >
       <el-form
@@ -106,8 +106,86 @@
         <el-form-item label="病名" prop="disease">
           <el-input v-model="ruleForm.disease"></el-input>
         </el-form-item>
+        <el-form-item label="确诊病名" prop="diseaseName">
+          <el-input v-model="ruleForm.diseaseName"></el-input>
+        </el-form-item>
+        <el-form-item label="病历图片">
+          <!-- <el-input v-model="pictureImage"></el-input> -->
+          <div style="display: flex;">
+            <div v-if="decide">
+              <div class="thenImg" v-for="(item,index) in pictureImage" :key="index">
+              <img :src="imghead+item" alt="">
+              <div class="conceal"><i class="el-icon-delete" @click="remove(item,index)"></i></div>
+            </div>
+            </div>
+          <el-upload
+  :action="imghead+upSite"
+  list-type="picture-card"
+  :on-success="illImage"
+  :on-remove="handleRemove">
+  <i class="el-icon-plus"></i>
+</el-upload>
+<!-- <el-dialog :visible.sync="dialogVisible">
+  <img width="100%" :src="dialogImageUrl" alt="">
+</el-dialog> -->
+          </div>
+        </el-form-item>
+        <el-form-item label="医院名字" prop="hospitalName">
+          <el-input v-model="ruleForm.hospitalName"></el-input>
+        </el-form-item>
+        <el-form-item label="医院收款账号" prop="hospitalAccount">
+          <el-input v-model="ruleForm.hospitalAccount"></el-input>
+        </el-form-item>
+        <el-form-item label="救助类型" prop="rescueType">
+          <el-select v-model="ruleForm.rescueType" placeholder="请选择救助类型">
+            <el-option label="助学" value="1"></el-option>
+            <el-option label="助残" value="2"></el-option>
+            <el-option label="助老" value="3"></el-option>
+            <el-option label="疾病" value="4"></el-option>
+            <el-option label="扶贫" value="5"></el-option>
+            <el-option label="公益" value="6"></el-option>
+            <el-option label="救灾" value="7"></el-option>
+            <el-option label="医疗" value="8"></el-option>
+            <el-option label="就业" value="9"></el-option>
+            <el-option label="自然" value="10"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="筹款标题" prop="title">
+          <el-input v-model="ruleForm.title"></el-input>
+        </el-form-item>
+        <el-form-item label="救助说明" prop="content">
+          <editor-bar v-model="ruleForm.content" :is-clear="isClear"/>
+        </el-form-item>
+        <el-form-item label="目标金额" prop="targetAmount">
+          <el-input v-model="ruleForm.targetAmount"></el-input>
+        </el-form-item>
         <el-form-item label="获取金额" prop="gainMoney">
           <el-input v-model="ruleForm.gainMoney"></el-input>
+        </el-form-item>
+        <el-form-item label="现金额" prop="cash">
+          <el-input v-model="ruleForm.cash"></el-input>
+        </el-form-item>
+        <el-form-item label="互助者图片">
+          <!-- <el-input v-model="pictureImage"></el-input> -->
+          <div style="display: flex;">
+            
+            <div v-if="decide">
+              <div class="thenImg" v-for="(item,index) in pictureHelpImage" :key="index">
+              <img :src="imghead+item" alt="">
+              <div class="conceal"><i class="el-icon-delete" @click="removes(item,index)"></i></div>
+            </div>
+            </div>
+          <el-upload
+  :action="imghead+upSite"
+  list-type="picture-card"
+  :on-success="HelpImage"
+  :on-remove="HelpRemove">
+  <i class="el-icon-plus"></i>
+</el-upload>
+<!-- <el-dialog :visible.sync="dialogVisible">
+  <img width="100%" :src="dialogImageUrl" alt="">
+</el-dialog> -->
+          </div>
         </el-form-item>
         <el-form-item label="期数" prop="periodsNumber">
           <el-input v-model="ruleForm.periodsNumber"></el-input>
@@ -125,6 +203,9 @@
             </el-form-item>
           </el-col>
         </el-form-item>
+        <el-form-item label="帮助次数" prop="helpTimes">
+          <el-input v-model="ruleForm.helpTimes"></el-input>
+        </el-form-item>
         <el-form-item label="分摊次数" prop="shareTimes">
           <el-input v-model="ruleForm.shareTimes"></el-input>
         </el-form-item>
@@ -134,7 +215,7 @@
         <el-form-item label="互助天数" prop="helpDays">
           <el-input v-model="ruleForm.helpDays"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="相关图片">
           <el-upload
   class="avatar-uploader"
   :action="imghead+upSite"
@@ -184,7 +265,9 @@ import {
   caseHistoryAlter
 } from "@/api/caseHistory";
 import * as config from '@/api/config'
+import EditorBar from '@/components/editur/index'
 export default {
+  components: { EditorBar },
   data() {
     var checkAge = (rule, value, callback) => {
       if (!value) {
@@ -204,13 +287,13 @@ export default {
       album:[],
       fileList:[],
       imghead:'',
-      upSite:'/upload/single/goods', // 请求地址
+      upSite:'/upload/single/xinAn', // 请求地址
       sreachs:false,
       decide: false, // 判断插入还是修改
       tableData: [], // 列表数据
       insert: false, // 模态框
       periodsNumber: '', // 名称查询
-      timeDate: '',// 手机号码查询
+      timeDates: '',// 手机号码查询
       page: 1,
       size: 10,
       total: 0,
@@ -227,8 +310,22 @@ export default {
         helpDays: "",
         province: "",
         timeDate: "",
-        imageUrl:''
+        imageUrl:'',
+        hospitalName:'', // 医院名字
+        hospitalAccount:'', // 医院收款账号
+        diseaseName:'', // 确诊病名
+        rescueType:'',
+        title:'', // 筹款标题
+        cash:'', // 现金额
+        content:'', // 救助说明（富文本）
+        helpTimes:'', // 帮助次数
+        targetAmount:'', // 目标金额
+        pictureImage:[], // 病历图片
+        pictureHelpImage:[], // 互助者图片
       },
+      pictureImage:[], // 病历图片
+      pictureHelpImage:[], // 互助者图片
+      isClear: false,       // 富文本
       upModel: false,
       rules: {
         name: [
@@ -242,14 +339,14 @@ export default {
         periodsNumber: [
           { required: true, message: "请输入期数", trigger: "blur" }
         ],
-        timeDate: [
-          {
-            type: "string",
-            required: true,
-            message: "请选择时间",
-            trigger: "change"
-          }
-        ],
+        // timeDate: [
+        //   {
+        //     type: "string",
+        //     required: true,
+        //     message: "请选择时间",
+        //     trigger: "change"
+        //   }
+        // ],
         shareTimes: [
           { required: true, message: "请输入分摊次数", trigger: "blur" }
         ],
@@ -306,6 +403,9 @@ export default {
         this.$refs[formName].validate(valid => {
           if (valid) {
             // this.ruleForm.imageUrl = this.imageUrl
+            this.ruleForm.pictureImage = this.ruleForm.pictureImage.join(',')
+            this.ruleForm.pictureHelpImage = this.ruleForm.pictureHelpImage.join(',')
+            console.log(this.ruleForm)
             caseHistoryAdd(this.ruleForm).then(res => {
               console.log(res);
               if (res.code === 200) {
@@ -322,6 +422,19 @@ export default {
           }
         });
       } else {
+        // console.log(this.pictureImage[0])
+          for(var i=0;i<this.pictureImage.length;i++){
+            // console.log(1)
+            this.ruleForm.pictureImage.push(this.pictureImage[i])
+          }
+          for(var i=0;i<this.pictureHelpImage.length;i++){
+            this.ruleForm.pictureHelpImage.push(this.pictureHelpImage[i])
+          }
+          // console.log(this.ruleForm.pictureImage)
+          this.ruleForm.pictureImage = this.ruleForm.pictureImage.join(',')
+          this.ruleForm.pictureHelpImage = this.ruleForm.pictureHelpImage.join(',')
+          console.log(this.ruleForm.pictureImage)
+          console.log(this.ruleForm.pictureHelpImage)
           caseHistoryAlter(this.ruleForm).then(res =>{
               if(res.code===200){
                   this.$message({
@@ -357,9 +470,35 @@ export default {
       }).then(res =>{
           console.log(res)
           if(res.code === 200){
-            
-            this.ruleForm=res.data
-            this.ruleForm.sex = res.data.sex+''
+            this.ruleForm.id= res.data.xaHelpMemberModel.id,
+        this.ruleForm.name= res.data.xaHelpMemberModel.name,
+        this.ruleForm.sex= res.data.xaHelpMemberModel.sex,
+        this.ruleForm.age= res.data.xaHelpMemberModel.age,
+        this.ruleForm.disease= res.data.xaHelpMemberModel.disease,
+        this.ruleForm.gainMoney= res.data.xaHelpMemberModel.gainMoney,
+        this.ruleForm.periodsNumber= res.data.xaHelpMemberModel.periodsNumber,
+        this.ruleForm.shareTimes= res.data.xaHelpMemberModel.shareTimes,
+        this.ruleForm.apportionmentMoney= res.data.xaHelpMemberModel.apportionmentMoney,
+        this.ruleForm.helpDays= res.data.xaHelpMemberModel.helpDays,
+        this.ruleForm.province= res.data.xaHelpMemberModel.province,
+        this.ruleForm.timeDate= res.data.xaHelpMemberModel.timeDate,
+        this.ruleForm.imageUrl= res.data.xaHelpMemberModel.imageUrl,
+        this.ruleForm.hospitalName= res.data.xaHelpMemberModel.hospitalName,
+        this.ruleForm.hospitalAccount= res.data.xaHelpMemberModel.hospitalAccount,
+        this.ruleForm.diseaseName= res.data.xaHelpMemberModel.diseaseName,
+        this.ruleForm.rescueType= res.data.xaHelpMemberModel.rescueType,
+        this.ruleForm.title= res.data.xaHelpMemberModel.title,
+        this.ruleForm.cash= res.data.xaHelpMemberModel.cash,
+        this.ruleForm.content= res.data.xaHelpMemberModel.content,
+        this.ruleForm.helpTimes= res.data.xaHelpMemberModel.helpTimes,
+        this.ruleForm.targetAmount= res.data.xaHelpMemberModel.targetAmount,
+        this.ruleForm.pictureImage= []
+        this.ruleForm.pictureHelpImage= []
+            // this.ruleForm=res.data.xaHelpMemberModel
+            this.ruleForm.sex = res.data.xaHelpMemberModel.sex+''
+            this.ruleForm.rescueType = res.data.xaHelpMemberModel.rescueType+''
+            this.pictureImage = res.data.pictureImages
+            this.pictureHelpImage = res.data.pictureHelpImages
           }
       })
     },
@@ -371,7 +510,7 @@ export default {
     sreach() {
       if (
         (this.periodsNumber.length === 0 || this.periodsNumber === '') &&
-        (this.timeDate.length === 0 || this.timeDate === '')
+        (this.timeDates.length === 0 || this.timeDates === '')
       ) {
         this.$message({
           type: 'warning',
@@ -382,7 +521,7 @@ export default {
         page: this.page,
         size: this.size,
         periodsNumber:this.periodsNumber,
-        timeDate:this.timeDate
+        timeDate:this.timeDates
       }).then(res => {
         if (res.code == 200) {
           this.tableData = res.data.datas;
@@ -395,7 +534,7 @@ export default {
     cancel() {
       this.fetchData()
       this.periodsNumber = ''
-      this.timeDate = ''
+      this.timeDates = ''
     },
     //  handleRemove(file, fileList) {
     //    this.album=[]
@@ -427,7 +566,7 @@ export default {
       },
        upImage(res,file){
         //  console.log(file.response.data)
-         this.ruleForm.imageUrl=file.response.data
+        this.ruleForm.imageUrl=file.response.data
         // console.log(fileList)
         // this.album.push(file.data)
         console.log(this.ruleForm.imageUrl)
@@ -435,6 +574,51 @@ export default {
        examines(){
         this.upModel = true
       },
+      handleRemove(file, fileList) {
+        this.ruleForm.pictureImage=[]
+        // console.log(file, fileList);
+        for(var i=0;i<fileList.length;i++){
+          this.ruleForm.pictureImage.push(fileList[i].response.data)
+        }
+      },
+      handlePictureCardPreview(file) {
+        // this.dialogImageUrl = file.url;
+        // this.dialogVisible = true;
+      },
+      illImage(res,file){
+        this.ruleForm.pictureImage.push(file.response.data)
+        console.log(this.ruleForm.pictureImage)
+      },
+      HelpImage(res,file){
+        this.ruleForm.pictureHelpImage.push(file.response.data)
+        console.log(this.ruleForm.pictureHelpImage)
+      },
+      HelpRemove(file, fileList) {
+        this.ruleForm.pictureHelpImage=[]
+        // console.log(file, fileList);
+        for(var i=0;i<fileList.length;i++){
+          this.ruleForm.pictureHelpImage.push(fileList[i].response.data)
+        }
+        // console.log(this.ruleForm.pictureImage);
+      },
+      HelpPictureCardPreview(file) {
+        // this.dialogImageUrl = file.url;
+        // this.dialogVisible = true;
+        // console.log(fileList)
+      },
+      remove(item,index){
+        // console.log(item,index)
+        this.pictureImage.splice(index,1)
+        // pictureImage:[], // 病历图片
+        console.log(this.pictureImage)
+      },
+      removes(item,index){
+        // console.log(item,index)
+        this.pictureHelpImage.splice(index,1)
+        console.log(this.pictureHelpImage)
+        // this.pictureHelpImage=this.pictureHelpImage
+      // pictureHelpImage:[], // 互助者图片
+      }
   },
   mounted() {}
 };
@@ -477,5 +661,44 @@ white-space: nowrap;
     width: 178px;
     height: 178px;
     display: block;
+  }
+  .thenImg{
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #c0ccda;
+    border-radius: 6px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 148px;
+    height: 148px;
+    margin: 0 8px 8px 0;
+    display: inline-block;
+    position: relative;
+  }
+  .thenImg img{
+    width: 100%;
+    height: 100%;
+  }
+  .conceal{
+    position: absolute;
+    width: 146px;
+    height: 146px;
+    left: 0;
+    top: 0;
+    cursor: default;
+    text-align: center;
+    color: #fff;
+    opacity: 0;
+    font-size: 20px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+  .conceal:hover{
+    opacity: 1;
   }
 </style>

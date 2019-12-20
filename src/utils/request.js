@@ -90,7 +90,7 @@ service.interceptors.response.use(
         return Promise.reject(error)
       }
     } else {
-      let msg = error.message
+      const msg = error.message
       Message({
         message: msg,
         type: 'error',

@@ -336,6 +336,7 @@ export default {
                         message: "操作成功",
                         type: "success"
                     });
+                    this.checkModle = false;
                     this.fetchData()
                     }
                 });
@@ -346,6 +347,7 @@ export default {
                         message: "操作成功",
                         type: "success"
                     });
+                    this.checkModle = false;
                     this.fetchData()
                     }
                 });
