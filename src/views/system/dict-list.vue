@@ -91,7 +91,7 @@
       <el-form ref="addForm" label-width="120px">
         <el-form-item>
           <el-radio-group v-model="addForm.editType">
-            <el-radio :label="1">选择已存在的分类</el-radio>
+            <el-radio :label="1">选择已有分类</el-radio>
             <el-radio :label="2">添加新分类</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -140,7 +140,7 @@
       <el-form ref="updateForm" label-width="120px">
         <el-form-item>
           <el-radio-group v-model="updateForm.editType">
-            <el-radio :label="1">选择已存在的分类</el-radio>
+            <el-radio :label="1">选择已有分类</el-radio>
             <el-radio :label="2">添加新分类</el-radio>
           </el-radio-group>
         </el-form-item>
