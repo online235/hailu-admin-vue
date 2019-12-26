@@ -221,6 +221,19 @@ export const Tag_Details = Tag_prefix + '/delTag' // 删除标签
 export const Tag_alter = Tag_prefix + '/modifyTag' // 修改标签属性
 
 // endregion
+
+// coupon 到店卷
+
+export const Coupon_prefix = module_admin_prefix + '/app/coupon'
+export const Coupon_del = Coupon_prefix + '/delCoupon' // 删除到店卷
+export const Picture_del = Coupon_prefix + '/delPicture' // 删除单张图片
+export const Coupon_list = Coupon_prefix + '/findMcCouponList' // 到店卷列表
+export const Picture_list = Coupon_prefix + '/findPictureList' // 图片列表
+export const Coupon_state_upd = Coupon_prefix + '/updState' // 审核
+export const Coupon_details = Coupon_prefix + '/viewDetails' // 到店卷详细信息
+
+// endregion
+
 // 地址
 export const address_prefix = module_xinan_prefix + '/nation/findParentListByCode' // 获取地址信息
 

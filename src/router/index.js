@@ -106,6 +106,12 @@ export const asyncRoutes = [
         meta: { title: '经营类型', icon: 'type' }
       },
       {
+        path: 'coupon',
+        name: 'coupon',
+        component: () => import('@/views/merchant/coupon'),
+        meta: { title: '到店卷', icon: 'review' }
+      },
+      {
         path: 'store-information-examine',
         name: 'store-information-examine',
         component: () => import('@/views/store/store-information-examine'),

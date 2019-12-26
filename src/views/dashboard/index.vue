@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">
-      <div v-if="this.cityCodeName != ''">当前账号关联的城市为：{{ cityCodeName }}</div>
+      <div v-if="this.cityCodeName != '' && this.cityCodeName != null">当前账号关联的城市为：{{ cityCodeName }}</div>
     </div>
   </div>
 

@@ -39,7 +39,7 @@ module.exports = {
     },
     proxy: {
       '/api/v2': {
-        target: 'http://192.168.10.101:30000', // 对应自己的接口
+        target: 'http://192.168.10.135:30000', // 对应自己的接口
         changeOrigin: true
       }
     }
