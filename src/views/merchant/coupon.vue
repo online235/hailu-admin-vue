@@ -78,11 +78,21 @@
             type="primary"
             @click="handleEdit(scope.row.id)"
           >审核</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="deleteBtn(scope.$index, scope.row)"
-          >删除</el-button>
+
+          <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定删除吗？"
+            @onConfirm="deleteBtn(scope.$index, scope.row)"
+          >
+            <el-button
+              slot="reference"
+              type="danger"
+              size="mini"
+            >删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
