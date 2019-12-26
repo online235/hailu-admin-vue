@@ -104,6 +104,12 @@ export const asyncRoutes = [
         name: 'merchant-type',
         component: () => import('@/views/merchant/manage-type'),
         meta: { title: '经营类型', icon: 'type' }
+      },
+      {
+        path: 'store-information-examine',
+        name: 'store-information-examine',
+        component: () => import('@/views/store/store-information-examine'),
+        meta: { title: '店铺信息修改审核', icon: 'type' }
       }
     ]
   },

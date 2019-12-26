@@ -123,6 +123,14 @@ export const Management_change = Management_prefix + '/upd/industry'// 更改行
 export const Management_delete = Management_prefix + '/find/typeDetails'// 查询经营类型详细
 // endregion
 
+// region -修改店铺信息审核后台接口
+export const store_informationexamine = module_admin_prefix + '/pc/store-exanime'
+export const store_selectMcStoreExamineList = store_informationexamine + '/selectMcStoreExamineList' // 列表
+export const store_updateStoreToExamine = store_informationexamine + '/updateStoreToExamine' // 更改审核状态
+export const store_selectMcStoreExamineDetail = store_informationexamine + '/selectMcStoreExamineDetail' // 获取审批详情
+// endregion
+
+
 // region -商家入驻-生活圈后台
 export const McLocal_prefix = module_admin_prefix + '/pc/life-circle'
 export const McLocal_list = McLocal_prefix + '/localCircleEntryList'// 列表
