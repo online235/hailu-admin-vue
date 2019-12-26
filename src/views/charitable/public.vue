@@ -279,7 +279,7 @@ export default {
         if (res.code === 200) {
           this.form = res.data
           this.checkModle = true
-          this.records.article = res.data.article
+          this.records.article = this.appendImgPrefix(res.data.article)
           this.records.commonwealTitle = res.data.commonwealTitle
           this.records.defaultPicture = res.data.defaultPicture
           this.cratedat = res.data.cratedat
@@ -323,10 +323,22 @@ export default {
       this.currentPage = val
       this.fetchData()
     },
+    cleanImgPrefix(content){
+        // 清理图片前缀
+        let imgPrefixReg = new RegExp(this.imghead, "g")
+        return content.replace(imgPrefixReg, "").replace(/max-width/g, "width");
+    },
+    appendImgPrefix(content){
+        // 追加图片前缀
+        return content.replace(/src=\"/g, "src=\"" + this.imghead);
+    },
     submitForm(formName) { // 添加确定按钮
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          PublicAdd(this.record).then(res => {
+            let imgPrefixReg = new RegExp(this.imghead, "g")
+            let submitObject = Object.assign({}, this.record);
+            submitObject.article = this.cleanImgPrefix(submitObject.article);
+          PublicAdd(submitObject).then(res => {
             console.log(res)
             if (res.code === 200) {
               this.$message({

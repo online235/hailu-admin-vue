@@ -63,19 +63,13 @@
 </template>
 
 <script>
-import { UploadSingle } from '@/api/FileUpload'
 import {
-  charityList,
-  PublicAdd,
   ArticleAdd,
-  charityDetails,
-  article,
   modify,
   detailedInfor,
-  govern
 } from '@/api/Charitable'
 import EditorBar from '@/components/editur/index'
-import axios from 'axios'
+import * as config from '@/api/config'
 export default {
   components: { EditorBar },
   data() {
@@ -87,11 +81,12 @@ export default {
       detail: '', // 添加-富文本内容
       details: '', // 详情-富文本内容
       // 富文本
-      commonwealArticle: ''
+      commonwealArticle: '',
+        imghead: ''
     }
   },
   created() {
-    // this.imghead = axios.defaults.baseURL + "/basic";
+      this.imghead = config.module_basic_prefix
     this.fetchData() // 列表数据加载
   },
   mounted() {},
@@ -102,7 +97,7 @@ export default {
         console.log(res)
         if (res.code === 200) {
           this.tableData = res.data
-          this.commonwealArticle = res.data.commonwealArticle
+          this.commonwealArticle = this.appendImgPrefix(res.data.commonwealArticle)
         }
       })
     },
@@ -113,8 +108,18 @@ export default {
     change(val) {
       // console.log(val)
     },
+
+      cleanImgPrefix(content){
+          // 清理图片前缀
+          let imgPrefixReg = new RegExp(this.imghead, "g")
+          return content.replace(imgPrefixReg, "").replace(/max-width/g, "width");
+      },
+      appendImgPrefix(content){
+          // 追加图片前缀
+          return content.replace(/src=\"/g, "src=\"" + this.imghead);
+      },
     addBenefit() {
-      ArticleAdd(this.detail).then(res => {
+      ArticleAdd(this.cleanImgPrefix(this.detail)).then(res => {
         console.log(res)
         if (res.code === 200) {
           this.$message({
@@ -128,7 +133,7 @@ export default {
     },
     amend() {
       const params = new URLSearchParams()
-      modify(this.commonwealArticle).then(res => {
+      modify(this.cleanImgPrefix(this.commonwealArticle)).then(res => {
         console.log(res)
         if (res.code === 200) {
           this.$message({

@@ -56,7 +56,7 @@
     >
       <el-form ref="form" label-width="100px">
         <el-form-item label="文章内容：">
-          <editor-bar v-model="detail" :is-clear="isClear" @change="change" />
+          <editor-bar v-model="detail" :is-clear="isClear" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -91,19 +91,13 @@
 </template>
 
 <script>
-import { UploadSingle } from '@/api/FileUpload'
 import {
-  charityList,
-  PublicAdd,
   ArticleAdd,
-  charityDetails,
   article,
-  modify,
-  detailedInfor,
-  govern
+  modify
 } from '@/api/Charitable'
 import EditorBar from '@/components/editur/index'
-import axios from 'axios'
+import * as config from '@/api/config'
 export default {
   components: { EditorBar },
   data() {
@@ -119,18 +113,29 @@ export default {
       // 富文本
       isClear: false,
       detail: '', // 添加-富文本内容
-      details: ''// 详情-富文本内容
+      details: '',// 详情-富文本内容
+        imghead: ''
       // 富文本
     }
   },
   created() {
-    // this.imghead = axios.defaults.baseURL + "/basic";
+      this.imghead = config.module_basic_prefix
     this.fetchData() // 列表数据加载
   },
   mounted() {
 
   },
   methods: {
+
+      cleanImgPrefix(content){
+          // 清理图片前缀
+          let imgPrefixReg = new RegExp(this.imghead, "g")
+          return content.replace(imgPrefixReg, "").replace(/max-width/g, "width");
+      },
+      appendImgPrefix(content){
+          // 追加图片前缀
+          return content.replace(/src=\"/g, "src=\"" + this.imghead);
+      },
     fetchData() {
       // 列表数据加载
       const params = new URLSearchParams()
@@ -143,15 +148,10 @@ export default {
         }
       })
     },
-    // addUser() { // 添加按钮
-    //   this.dialogVisible = true;
-    // },
-    change(val) {
-      // console.log(val)
-    },
     addBenefit() {
       const params = new URLSearchParams()
-      params.append('commonwealArticle', this.detail)
+        debugger
+      params.append('commonwealArticle', this.cleanImgPrefix(this.detail))
       ArticleAdd(params).then(res => {
         if (res.code === 200) {
 
@@ -161,16 +161,16 @@ export default {
     handleEdit(index, row) { // 查看详情
       this.form = row
       this.checkModle = true
-      this.details = row.commonwealArticle
+        debugger
+      this.details = this.appendImgPrefix(row.commonwealArticle)
       // console.log(this.details)
     },
     amend() {
-      const params = new URLSearchParams()
-      params.append('commonwealArticle', this.details)
-      modify(params).then(res => {
+      modify(this.cleanImgPrefix(this.details)).then(res => {
         console.log(res)
         if (res.code === 200) {
-
+           this.fetchData()
+            this.checkModle = false
         }
       })
     }
