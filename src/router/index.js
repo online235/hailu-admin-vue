@@ -251,10 +251,15 @@ export const asyncRoutes = [
         name: 'serviceProvidersOrder',
         component: () => import('@/views/serviceProviders/serviceProvidersOrder'),
         meta: { title: '城市合伙人订单' }
+      },
+      {
+        path: 'withdrawalExamine',
+        name: 'withdrawalExamine',
+        component: () => import('@/views/serviceProviders/withdrawalExamine'),
+        meta: { title: '提现管理' }
       }
     ]
   },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

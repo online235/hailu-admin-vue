@@ -15,9 +15,11 @@
           />
         </el-select>
       </div>
-      <el-button type = "primary" icon="el-icon-search" @click="sreach"
-      >搜索</el-button
-      >
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="sreach"
+      >搜索</el-button>
     </div>
     <el-table
       border
@@ -59,7 +61,7 @@
       <el-table-column label="收件人">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
-              scope.row.recipient
+            scope.row.recipient
           }}</span>
         </template>
       </el-table-column>
@@ -73,22 +75,22 @@
       <el-table-column label="收货地址" width="240">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <span style="margin-left: 12px">{{  scope.row.provinceStr + scope.row.cityStr + scope.row.areaStr + scope.row.address }}</span>
+            <span style="margin-left: 12px">{{ scope.row.provinceStr + scope.row.cityStr + scope.row.areaStr + scope.row.address }}</span>
           </div>
         </template>
       </el-table-column>
       <el-table-column label="订单状态">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
-              scope.row.orderStatus == 1
-                ? "待支付"
+            scope.row.orderStatus == 1
+              ? "待支付"
               : scope.row.orderStatus == 2
                 ? "待发货"
-              : scope.row.orderStatus == 3
-                ? "已发货"
-              : scope.row.orderStatus == 4
-                ? "已完成"
-              : ""
+                : scope.row.orderStatus == 3
+                  ? "已发货"
+                  : scope.row.orderStatus == 4
+                    ? "已完成"
+                    : ""
           }}</span>
         </template>
       </el-table-column>
@@ -110,13 +112,12 @@
     </el-table>
     <div class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        @current-change="handleCurrentChange"
+      />
     </div>
 
     <el-dialog
@@ -152,13 +153,13 @@
             <el-form-item label="支付方式：">
               <div>{{
                 hlOrder.payType == 1
-                ? "支付宝"
-                : hlOrder.payType == 2
-                ? "微信"
-                : hlOrder.payType == 3
-                ? "微信H5"
-                : ""
-                }}</div>
+                  ? "支付宝"
+                  : hlOrder.payType == 2
+                    ? "微信"
+                    : hlOrder.payType == 3
+                      ? "微信H5"
+                      : ""
+              }}</div>
             </el-form-item>
           </div></el-col>
         </el-row>
@@ -179,28 +180,28 @@
             <el-form-item label="订单状态：">
               <div>{{
                 hlOrder.orderStatus == 1
-                ? "待支付"
-                : hlOrder.orderStatus == 2
-                ? "待发货"
-                : hlOrder.orderStatus == 3
-                ? "已发货"
-                : hlOrder.orderStatus == 4
-                ? "已完成"
-                : ""
-                }}</div>
+                  ? "待支付"
+                  : hlOrder.orderStatus == 2
+                    ? "待发货"
+                    : hlOrder.orderStatus == 3
+                      ? "已发货"
+                      : hlOrder.orderStatus == 4
+                        ? "已完成"
+                        : ""
+              }}</div>
             </el-form-item>
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light">
             <el-form-item label="物流状态：">
               <div>{{
                 hlOrder.logisticsStatus == 1
-                ? "已发货"
-                : hlOrder.logisticsStatus == 2
-                ? "待接收"
-                : hlOrder.logisticsStatus == 3
-                ? "已完成"
-                : ""
-                }}</div>
+                  ? "已发货"
+                  : hlOrder.logisticsStatus == 2
+                    ? "待接收"
+                    : hlOrder.logisticsStatus == 3
+                      ? "已完成"
+                      : ""
+              }}</div>
             </el-form-item>
           </div></el-col>
         </el-row>
@@ -209,14 +210,14 @@
             <el-form-item label="快递公司：">
               <div>{{
                 hlOrder.courierCompany
-                }}</div>
+              }}</div>
             </el-form-item>
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light">
             <el-form-item label="快递单号：">
               <div>{{
                 hlOrder.courierNumber
-                }}</div>
+              }}</div>
             </el-form-item>
           </div></el-col>
         </el-row>
@@ -225,26 +226,26 @@
             <el-form-item label="收件人：">
               <div>{{
                 hlOrder.recipient
-                }}</div>
+              }}</div>
             </el-form-item>
           </div></el-col>
           <el-col :span="12"><div class="grid-content bg-purple-light">
             <el-form-item label="联系方式：">
               <div>{{
                 hlOrder.recipientPhone
-                }}</div>
+              }}</div>
             </el-form-item>
           </div></el-col>
         </el-row>
         <el-form-item label="收货地址：">
           <div>{{
             hlOrder.provinceStr + hlOrder.cityStr + hlOrder.areaStr + hlOrder.address
-            }}</div>
+          }}</div>
         </el-form-item>
         <el-form-item label="买家留言：">
           <div>{{
             hlOrder.remark
-            }}</div>
+          }}</div>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -255,12 +256,12 @@
       :before-close="handleClose"
       class="amendcss"
     >
-      <el-form :model="hlOrder" :rules="orderRules" ref="orderForm" label-width="100px" class="demo-ruleForm">
+      <el-form ref="orderForm" :model="hlOrder" :rules="orderRules" label-width="100px" class="demo-ruleForm">
         <el-form-item label="快递公司" prop="courierCompany">
-          <el-input v-model="hlOrder.courierCompany"></el-input>
+          <el-input v-model="hlOrder.courierCompany" />
         </el-form-item>
         <el-form-item label="快递单号" prop="courierNumber">
-          <el-input v-model="hlOrder.courierNumber"></el-input>
+          <el-input v-model="hlOrder.courierNumber" />
         </el-form-item>
         <el-form-item label="物流状态" prop="logisticsStatus">
           <el-select v-model="hlOrder.logisticsStatus" placeholder="物流状态">
@@ -272,44 +273,47 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="收货地址" >
+        <el-form-item label="收货地址">
           <div class="linkage">
             <el-select
               v-model="hlOrder.provinceId"
+              placeholder="省级地区"
               @change="choseProvince"
-              placeholder="省级地区">
+            >
               <el-option
                 v-for="item in ProvinceList"
                 :key="item.adCode"
                 :label="item.name"
-                :value="item.adCode">
-              </el-option>
+                :value="item.adCode"
+              />
             </el-select>
             <el-select
               v-model="hlOrder.cityId"
+              placeholder="市级地区"
               @change="choseCity"
-              placeholder="市级地区">
+            >
               <el-option
                 v-for="item in cityList"
                 :key="item.adCode"
                 :label="item.name"
-                :value="item.adCode">
-              </el-option>
+                :value="item.adCode"
+              />
             </el-select>
             <el-select
               v-model="hlOrder.areaId"
-              placeholder="区级地区">
+              placeholder="区级地区"
+            >
               <el-option
                 v-for="item in areaList"
                 :key="item.adCode"
                 :label="item.name"
-                :value="item.adCode">
-              </el-option>
+                :value="item.adCode"
+              />
             </el-select>
           </div>
         </el-form-item>
         <el-form-item label="详细地址" prop="name">
-          <el-input v-model="hlOrder.address"></el-input>
+          <el-input v-model="hlOrder.address" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('orderForm')">
@@ -323,8 +327,8 @@
 </template>
 
 <script>
-import { serviceProvidersOrderList,serviceProvidersOrderEdit } from '@/api/serviceProviders/serviceProvidersOrder';
-import { nationList } from '@/api/address';
+import { serviceProvidersOrderList, serviceProvidersOrderEdit } from '@/api/serviceProviders/serviceProvidersOrder'
+import { nationList } from '@/api/address'
 export default {
   data() {
     return {

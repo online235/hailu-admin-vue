@@ -44,6 +44,9 @@ service.interceptors.response.use(
      */
   response => {
     const res = response.data
+    if (res instanceof Blob) {
+      return res
+    }
     if (res.code === 200) {
       return res
     }

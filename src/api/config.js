@@ -66,6 +66,14 @@ export const serviceProvidersOrder_prefix = module_admin_prefix + '/hlOrder/find
 export const editServiceProvidersOrder_prefix = module_admin_prefix + '/hlOrder/edit'
 // endregion
 
+// 提现审核接口
+export const withdrawal_examine = module_admin_prefix + '/pc/withdrawal'
+export const withdrawal_examine_list = withdrawal_examine + '/list'
+export const withdrawal_examine_getHlIncomeTransferOutModelDetail = withdrawal_examine + '/getHlIncomeTransferOutModelDetail'
+export const withdrawal_examine_updateToExamine = withdrawal_examine + '/updateToExamine'
+export const withdrawal_examine_exportExcel = withdrawal_examine + '/exportExcel'
+// endregion
+
 // region 系统管理-管理员列表
 export const admin_prefix = module_admin_prefix + '/system/admin'
 export const admin_rescue_list = admin_prefix + '/list'// 列表

@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { serviceProvidersList } from '@/api/serviceProviders'
+import { serviceProvidersList } from '@/api/serviceProviders/serviceProviders'
 export default {
   data() {
     return {
