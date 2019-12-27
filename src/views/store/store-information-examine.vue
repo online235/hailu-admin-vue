@@ -5,7 +5,7 @@
       <div style="width:1300px">
         <el-input v-model="storeId" placeholder="店铺id" style="width:13%;" />
         <el-input v-model="storeName" placeholder="店铺名" style="width:13%;" />
-        <el-input v-model="shopPhone" type="店铺电话号码" placeholder="申请提现开始时间" style="width: 20%;" />
+        <el-input v-model="shopPhone" type="店铺电话号码" placeholder="店铺电话号码" style="width: 20%;" />
         <el-input v-model="dateTime" type="String" placeholder="提交时间（yyyy-mm-dd）" style="width: 20%;" />
         <el-select v-model="phoneToExamine" placeholder="电话审核状态" style="width:10%;min-width:20px;">
           <el-option
@@ -38,6 +38,12 @@
         @click="sreach"
       >搜索
       </el-button>
+      <el-button
+        type="default"
+        icon="el-icon-search"
+        @click="reSet"
+      >重置
+      </el-button>
     </div>
     <el-table
       border
@@ -50,19 +56,19 @@
       "
       style="width: 100%;border-top-width: 20px;"
     >
-      <el-table-column label="信息审批表id">
+      <el-table-column label="信息审批表id" width="180">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="店铺id" width="140">
+      <el-table-column label="店铺id" width="180">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.storeId }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="店铺名">
+      <el-table-column label="店铺名" width="150">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.storeName }}</span>
@@ -76,17 +82,17 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="店铺详细地址" width="100">
+      <el-table-column label="详细地址" width="200">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.shopAddressDetail }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="店铺选择" width="100">
+      <el-table-column label="店铺选择" width="120">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.areaCodeDisplay }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="店铺名凭证" width="200">
+      <el-table-column label="店铺名凭证" width="150">
         <template slot-scope="scope" class="block">
           <div slot="reference" class="name-wrapper">
             <el-image
@@ -97,7 +103,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="电话凭证" width="100">
+      <el-table-column label="电话凭证"  width="150">
         <template slot-scope="scope" class="block">
           <div slot="reference" class="name-wrapper">
             <el-image
@@ -108,7 +114,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="地址凭证" width="90">
+      <el-table-column label="地址凭证" width="150" >
         <template slot-scope="scope" class="block">
           <div slot="reference" class="name-wrapper">
             <el-image
@@ -126,21 +132,21 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="店铺名审核状态" width="140">
+      <el-table-column label="店铺名审核" width="140">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.storeNameExamineDisplay }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="电话审核状态" width="140">
+      <el-table-column label="电话审核" width="140">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.phoneToExamineDisplay }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="地区审核状态" width="200">
+      <el-table-column label="地区审核" width="140">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <span style="margin-left: 12px">{{ scope.row.addressToExamineDisplay }}</span>
@@ -175,8 +181,7 @@
     <el-dialog
       title="查看详情"
       :visible.sync="showDetailType"
-      width="50%"
-      :before-close="handleClose"
+      width="800px"
       class="amendcss"
     >
       <el-form ref="McStoreExamineModel" :model="form" label-width="100px">
@@ -188,15 +193,6 @@
               </el-form-item>
             </div>
           </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="提交时间：">
-                <div>{{ McStoreExamineModel.dateTime }}</div>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="店铺id：">
@@ -211,28 +207,24 @@
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="店铺电话号码：">
+              <el-form-item label="电话号码：">
                 <div>{{ McStoreExamineModel.shopPhone }}</div>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="店铺详细地址：">
+              <el-form-item label="详细地址：">
                 <div>{{ McStoreExamineModel.shopAddressDetail }}</div>
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="店铺地区选择Code值：">
-                <div>{{ McStoreExamineModel.areaCode }}</div>
+              <el-form-item label="提交时间：">
+                <div>{{ McStoreExamineModel.dateTime }}</div>
               </el-form-item>
             </div>
           </el-col>
@@ -243,16 +235,14 @@
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="店铺名凭证：">
-                <div slot="reference" class="name-wrapper">
+              <el-form-item label="店铺名凭证："  class="block">
+                <div class="demo-image__preview">
                   <el-image
                     style="width: 100px; height: 100px"
-                    :src="imghead + scope.row.storeNameVoucher"
-                    :fit="fill">
+                    :src="imghead + McStoreExamineModel.storeNameVoucher"
+                    :fit="contain">
                   </el-image>
                 </div>
               </el-form-item>
@@ -260,26 +250,24 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="电话凭证：">
-                <div slot="reference" class="name-wrapper">
+              <el-form-item label="电话凭证：" class="block">
+                <div class="demo-image__preview">
                   <el-image
                     style="width: 100px; height: 100px"
-                    :src="imghead + scope.row.phoneVoucher"
-                    :fit="fill">
+                    :src="imghead + McStoreExamineModel.phoneVoucher"
+                    :fit="contain">
                   </el-image>
                 </div>
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="地址凭证：">
-                <div slot="reference" class="name-wrapper">
+              <el-form-item label="地址凭证：" class="block">
+                <div  class="demo-image__preview">
                   <el-image
                     style="width: 100px; height: 100px"
-                    :src="imghead + scope.row.addressVoucher"
+                    :src="imghead + McStoreExamineModel.addressVoucher"
                     :fit="fill">
                   </el-image>
                 </div>
@@ -293,8 +281,6 @@
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="店铺名备注：">
@@ -309,8 +295,6 @@
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="店铺名审核：">
@@ -325,8 +309,6 @@
               </el-form-item>
             </div>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="地区审核：">
@@ -340,14 +322,14 @@
     <el-dialog
       title="开始审核"
       :visible.sync="McStoreExamineModelExamine"
-      width="50%"
-      :before-close="handleClose"
+      width="500px"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       class="amendcss"
     >
       <el-form
         ref="orderForm"
         :model="McStoreExamineModel"
-        :rules="McStoreExamineModelRules"
         label-width="100px"
         class="demo-ruleForm"
       >
@@ -364,8 +346,8 @@
           </div>
         </el-row>
         <el-row v-show="McStoreExamineModel.storeNameExamine === 1">
-          <el-form-item label="店铺名审核状态：">
-            <el-select v-model="storeNameExamine" placeholder="请选择店铺名审核状态">
+          <el-form-item label="店铺名审核：">
+            <el-select v-model="storeNameExamine" placeholder="请选择店铺名审核状态" style="width: 100%">
               <el-option
                 v-for="item in toExamineChoose"
                 :key="item.value"
@@ -376,8 +358,8 @@
           </el-form-item>
         </el-row>
         <el-row v-show="McStoreExamineModel.phoneToExamine === 1">
-          <el-form-item label="电话审核状态：">
-            <el-select v-model="phoneToExamine" placeholder="请选择电话审核状态">
+          <el-form-item label="电话审核：">
+            <el-select v-model="phoneToExamine" placeholder="请选择电话审核状态" style="width: 100%">
               <el-option
                 v-for="item in toExamineChoose"
                 :key="item.value"
@@ -388,8 +370,8 @@
           </el-form-item>
         </el-row>
         <el-row v-show="McStoreExamineModel.addressToExamine === 1">
-          <el-form-item label="地址审核状态：">
-            <el-select v-model="addressToExamine" placeholder="请选择地址审核状态">
+          <el-form-item label="地址审核：">
+            <el-select v-model="addressToExamine" placeholder="请选择地址审核状态" style="width: 100%">
               <el-option
                 v-for="item in toExamineChoose"
                 :key="item.value"
@@ -399,13 +381,13 @@
             </el-select>
           </el-form-item>
         </el-row>
-        <el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="cancelForm('orderForm')">取消</el-button>
           <el-button type="primary" @click="submitForm(McStoreExamineModel.id)">
             确定
           </el-button>
-          <el-button @click="cancelForm('orderForm')">取消</el-button>
-        </el-form-item>
-      </el-form>
+    </span>
     </el-dialog>
   </div>
 </template>
@@ -421,9 +403,10 @@ export default {
   data() {
     return {
       toExamineChoose: [
+        { value: '', label: '请选择状态' },
         { value: 1, label: '申请中' },
         { value: 2, label: '审核通过' },
-        { value: 2, label: '审核不通过' }
+        { value: 3, label: '审核不通过' }
       ],
       currentPage: 1,
       pageSize: 10,
@@ -464,15 +447,21 @@ export default {
         this.tableData = res.data.datas
       })
     },
-    handleClose(done) {
-      // 关闭模态框按钮
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-          this.ruleForm.tagName = ''
-        })
-        .catch(_ => {
-        })
+    reSet() {
+      selectMcStoreExamineList({
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        storeId: '',
+        storeName: '',
+        shopPhone: '',
+        dateTime: '',
+        phoneToExamine: '',
+        addressToExamine: '',
+        storeNameExamine: ''
+      }).then(res => {
+        this.total = res.data.total
+        this.tableData = res.data.datas
+      })
     },
     handleCurrentChange(val) {
       // 分页
@@ -525,7 +514,6 @@ export default {
     display: flex;
     align-items: center;
   }
-
   .treeHead > div {
     margin-right: 20px;
   }
