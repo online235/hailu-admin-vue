@@ -37,12 +37,11 @@
           </div>
         </template>
       </el-table-column>
+
       <el-table-column label="状态">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
-            scope.row.state == 1
-              ? "正常"
-              : '禁用'
+            scope.row.stateDisplay
           }}</span>
         </template>
       </el-table-column>
@@ -54,11 +53,21 @@
             type="primary"
             @click="handleEdit(scope.$index, scope.row)"
           >修改</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-          >删除</el-button>
+
+          <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定删除吗？"
+            @onConfirm="handleDelete(scope.$index, scope.row)"
+          >
+            <el-button
+              slot="reference"
+              type="danger"
+              size="mini"
+            >删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -81,6 +90,30 @@
         <el-form-item label="标签名称" prop="tagName">
           <el-input v-model="ruleForm.tagName" />
         </el-form-item>
+
+        <el-form-item label="标签类型：">
+          <el-select v-model="ruleForm.tagType" placeholder="请选择标签类型">
+            <el-option
+              v-for="(item, index) in tagTypeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+
+
+        <el-form-item label="状态：" v-if="decide == true">
+          <el-select v-model="ruleForm.state" placeholder="请选择状态">
+            <el-option
+              v-for="(item, index) in choose"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">{{ decide == false? '立即添加' : '立即修改' }}</el-button>
           <el-button @click="resetForm('ruleForm')">{{ decide == false? '重置' : '取消' }}</el-button>
@@ -102,11 +135,16 @@ export default {
       ruleForm: {
         id: '',
         tagName: '',
-        state: ''
+        state: '',
+        tagType: '',
+        stateDisplay: ''
       },
       rules: {
         tagName: [
           { required: true, message: '请输入标签名称', trigger: 'blur' }
+        ],
+        state: [
+          { required: true, message: '请选择状态', trigger: 'blur' }
         ]
       },
       currentPage: 1,
@@ -115,7 +153,19 @@ export default {
       tableData: [],
       search: '',
       checkModle: false,
-      decide: false // 判断插入还是修改
+      decide: false, // 判断插入还是修改
+
+      choose: [
+        { id: 0, name: '禁用' },
+        { id: 1, name: '启用' }
+      ],
+      tagTypeList: [
+        { id: 1, name: '停车信息' },
+        { id: 2, name: '免费wifi' },
+        { id: 3, name: '环境信息' },
+        { id: 4, name: '其他' },
+      ],
+
     }
   },
   created() {
@@ -146,7 +196,7 @@ export default {
       const params = new URLSearchParams()
       params.append('deleteType', '2')
       params.append('id', row.id)
-      TagDetails(params).then(res => {
+      TagDel(params).then(res => {
         if (res.code === 200) {
           this.$message({
             message: '操作成功',
@@ -162,13 +212,15 @@ export default {
       // 审核按钮
       const params = new URLSearchParams()
       params.append('id', row.id)
-      TagDel(params).then(res => {
+      TagDetails(params).then(res => {
         if (res.code === 200) {
           // this.form = res.data;
           this.checkModle = true
           this.decide = true
           this.ruleForm.tagName = res.data.tagName
           this.ruleForm.id = res.data.id
+          this.ruleForm.state = res.data.state
+          this.ruleForm.tagType = res.data.tagType
         }
       })
     },
@@ -177,7 +229,10 @@ export default {
       this.$confirm('确认关闭？')
         .then(_ => {
           done()
-          this.ruleForm.tagName = ''
+          this.ruleForm.id = '';
+          this.ruleForm.tagName = '';
+          this.ruleForm.state = '';
+          this.ruleForm.tagType = '';
         })
         .catch(_ => {})
     },
@@ -187,8 +242,13 @@ export default {
           if (this.decide == false) {
             const params = new URLSearchParams()
             params.append('tagName', this.ruleForm.tagName)
+            params.append('tagType', this.ruleForm.tagType)
             TagAdd(params).then(res => {
               if (res.code === 200) {
+                this.ruleForm.id = '';
+                this.ruleForm.tagName = '';
+                this.ruleForm.state = '';
+                this.ruleForm.tagType = '';
                 this.$message({
                   message: '操作成功',
                   type: 'success'
@@ -219,10 +279,14 @@ export default {
     resetForm(formName) {
       if (this.decide == false) {
         this.$refs[formName].resetFields()
+        this.ruleForm.tagName = '';
+        this.ruleForm.tagType = '';
       } else {
         this.$refs[formName].resetFields()
-        this.checkModle = false
-        this.ruleForm.tagName = ''
+        this.checkModle = false;
+        this.ruleForm.tagName = '';
+        this.ruleForm.state = '';
+        this.ruleForm.tagType = '';
       }
     },
     confirm() {

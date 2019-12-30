@@ -9,11 +9,11 @@ export function TagList(data) {
   })
 }
 
-// 根据编号查询一个标签
+// 删除标签
 export function TagDel(data) {
   return request({
     url: config.Tag_del,
-    method: 'get',
+    method: 'post',
     params: data
   })
 }
@@ -35,11 +35,11 @@ export function TagAdd(data) {
   })
 }
 
-// 删除标签
+// 根据编号查询一个标签
 export function TagDetails(data) {
   return request({
     url: config.Tag_Details,
-    method: 'post',
+    method: 'get',
     params: data
   })
 }

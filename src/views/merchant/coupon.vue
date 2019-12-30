@@ -17,6 +17,19 @@
         >
           <i slot="prefix" class="el-input__icon el-icon-search" />
         </el-input>
+
+        <el-select
+          style="width:20%;min-width:150px;"
+          ref="major" v-model="toExamines" filterable placeholder="请选择审核状态">
+          <el-option v-for="(major,index) in choose" :key="index" :label="major.name" :value="major.id" />
+        </el-select>
+
+        <el-select
+          style="width:20%;min-width:150px;"
+          ref="major" v-model="shelfState" filterable placeholder="请选择上架状态">
+          <el-option v-for="(major,index) in shelfStateList" :key="index" :label="major.name" :value="major.id" />
+        </el-select>
+
         <el-button
           type="primary"
           icon="el-icon-search"
@@ -29,6 +42,7 @@
       border
       :data="couponList"
       style="width: 100%"
+      v-loading="loading"
     >
       <el-table-column label="日期">
         <template slot-scope="scope">
@@ -71,7 +85,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="250">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -110,9 +124,10 @@
     <el-dialog
       title="详情审核"
       :visible.sync="checkModel"
-      width="1000px"
+      width="1100px"
       :close-on-press-escape="false"
       :close-on-click-modal="false"
+      :before-close="handleClose"
     >
       <el-form ref="form" :model="couponDetail" label-width="200px">
         <el-form-item label="编号：">
@@ -190,8 +205,8 @@
           <div>{{ couponDetail.dateTime }}</div>
         </el-form-item>
 
-        <el-form-item :index="(index+'')" v-for="(item,index) in this.pictureDataList" :key="index" v-if = "item.pictureType == 1" label="主图">
-          <div class="demo-image__preview" >
+        <el-form-item label="主图">
+          <div class="demo-image__preview"  :index="(index+'')" v-for="(item,index) in this.pictureDataList" :key="index" v-if = "item.pictureType == 1" >
             <el-tooltip content="点击删除" placement="bottom" effect="light">
             <el-image
               style="width: 200px; height: 150px"
@@ -203,8 +218,8 @@
           </div>
         </el-form-item>
 
-        <el-form-item :index="(index+'')" v-for="(item,index) in this.pictureDataList" :key="index"  v-if = "item.pictureType == 2" label="特色">
-          <div class="demo-image__preview">
+        <el-form-item label="特色">
+          <div class="demo-image__preview" :index="(index+'')" v-for="(item,index) in this.pictureDataList" :key="index"  v-if = "item.pictureType == 2" >
             <el-tooltip content="点击删除" placement="bottom" effect="light">
               <el-image
                         style="width: 200px; height: 150px"
@@ -260,7 +275,9 @@ import { module_basic_prefix } from '@/api/config'
             couponDetail: '',                   // 到店卷详情
             region: 0,                          // 审核(审核中-1,审核通过-2,审核不通过-3)
             imgHead: '',                        // 图片请求头
-            reset: false,                          // 重置按钮
+            reset: false,                       // 重置按钮
+            loading: true,                      // 加载等待
+            toExamines: '',                      // 审核
 
             srcList: [                          // 默认图片
               'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg'
@@ -272,6 +289,11 @@ import { module_basic_prefix } from '@/api/config'
               { id: 2, name: '审核通过' },
               { id: 3, name: '审核不通过' }
             ],
+            shelfStateList: [
+              { id: 1, name: '未上架' },
+              { id: 2, name: '已上架' },
+              { id: 3, name: '已下架' }
+            ],
 
             // 卷字段
             id: '',                             // 编号
@@ -279,13 +301,13 @@ import { module_basic_prefix } from '@/api/config'
             suitAge: '',                        // 适用年龄
             dateTime: '',                       // 创建时间
             numberId: '',                       // 商家编号
-            toExamine: 0,                       // 审核(审核中-1,审核通过-2,审核不通过-3)
+            toExamine: '',                       // 审核(审核中-1,审核通过-2,审核不通过-3)
             startTime: '',                      // 开始时间
             bookValue: '',                      // 到店卷面值(元)
             timeLimit: 0,                       // 是否时间限制（1-是、2-否）
             volumeName: '',                     // 卷名称
             salesPrice: '',                     // 到店卷售价(元)
-            shelfState: 0,                      // 上架状态(未上架-1、已上架-2、已下架-3)
+            shelfState: '',                      // 上架状态(未上架-1、已上架-2、已下架-3)
             shopNumberId: '',                   // 门店编号（1-为全部）
             timeAfterOrder: '',                 // 下单后有效时间（天）
             universalField: 0,                  // 到店卷是否全场通用(1-是、2-否)
@@ -353,29 +375,47 @@ import { module_basic_prefix } from '@/api/config'
 
         //卷列表
         listData() {
+          this.loading = true;
           const params = new URLSearchParams();
           params.append("page", this.page);
           params.append("size", this.size);
+
           if (!this.isItEmpty(this.storeTotalType)){
             params.append("storeTotalType", this.storeTotalType)
           }
           if (!this.isItEmpty(this.volumeName)){
             params.append("volumeName", this.volumeName)
           }
+          if (!this.isItEmpty(this.toExamines)){
+            params.append("toExamine", this.toExamines)
+          }
+          if (!this.isItEmpty(this.shelfState)){
+            params.append("shelfState", this.shelfState)
+          }
+
           couponList(params).then(res => {
             if (res.code == 200){
               this.couponList = res.data.datas;
               this.total = res.data.total;
               this.totalPage = res.data.totalPage;
-
+              this.loading = false;
             }
+          }).catch(res => {
+            this.loading = false;
           })
+        },
+
+        handleClose() {
+          // 关闭模态框按钮
+          this.toExamine = '';
         },
 
         // 重置
         cancel(){
           this.storeTotalType = null;
           this.volumeName = null;
+          this.toExamines = null;
+          this.shelfState = null;
           this.listData();
           this.reset = false;
         },
@@ -494,5 +534,8 @@ import { module_basic_prefix } from '@/api/config'
 </script>
 
 <style>
-
+.demo-image__preview {
+  float : left;
+  margin-left: 9px;
+}
 </style>
