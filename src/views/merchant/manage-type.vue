@@ -11,6 +11,7 @@
           tableData.filter(
             data =>
               !search ||
+
               data.managementName.toLowerCase().includes(search.toLowerCase())
           )"
         style="width: 100%"
