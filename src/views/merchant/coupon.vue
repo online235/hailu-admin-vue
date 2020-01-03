@@ -337,6 +337,7 @@ import { module_basic_prefix } from '@/api/config'
             picturePathList: [],                // 路径数组
 
 
+            mcLevel: '',                        // 层级
             managementId: '',                   // 经营编号
             managementName: '',                 // 经营名称
             managementListData: [],             // 经营行业
@@ -365,10 +366,11 @@ import { module_basic_prefix } from '@/api/config'
 
         managementList() {
           ManageList({
-            parentId: 0
+            parentId: 0,
+            mcLevel: 1,
           }).then(res => {
             if (res.code == 200) {
-              this.managementListData = res.data
+              this.managementListData = res.data.datas
             }
           })
         },

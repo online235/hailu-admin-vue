@@ -32,7 +32,7 @@ export default {
     cityCodeNameLoad() {
       const params = new URLSearchParams()
       this.cityCode = getCityCode()
-      if (this.cityCode !== undefined) {
+      if (!this.isItEmpty(this.cityCode)) {
         params.append('code', getCityCode())
         cityCodeName(params).then(res => {
           if (res.code === 200) {
@@ -43,7 +43,16 @@ export default {
           this.$message.error('服务器有点累了！查询城市失败')
         })
       }
-    }
+    },
+
+    isItEmpty(obj){
+      if(typeof obj == 'undefined' || obj == null || obj == '' || obj == undefined){
+        return true;
+      }else{
+        return false;
+      }
+    },
+
   }
 }
 </script>
