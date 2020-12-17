@@ -410,6 +410,7 @@ import { module_basic_prefix } from '@/api/config'
         handleClose() {
           // 关闭模态框按钮
           this.toExamine = '';
+          this.checkModel = false;
         },
 
         // 重置
